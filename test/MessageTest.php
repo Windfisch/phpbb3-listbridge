@@ -1,16 +1,16 @@
 <?php
 
 require_once('PHPUnit/Framework.php');
+require_once('src/Message.php');
 
-require_once('src/EmailMessage.php');
-
-class EmailMessageTest extends PHPUnit_Framework_TestCase {
+class MessageTest extends PHPUnit_Framework_TestCase {
 
   public function provider() {
     return array(
       array(array(
-        'file'        => file_get_contents(__DIR__ . '/1'),
-        'source'      => '',
+        'class'       => 'MailmanMessage',
+        'data'        => file_get_contents(__DIR__ . '/1'),
+        'source'      => 'messages@forums.vassalengine.org',
         'post_id'     => '',
         'from'        => 'uckelman@nomic.net',
         'subject'     => 'Re: [Developers]Re: Adding developers?',
@@ -20,6 +20,12 @@ class EmailMessageTest extends PHPUnit_Framework_TestCase {
         'body'        => ''
       ))  
     );
+  }
+
+  protected function buildMessage($params) {
+    require_once('src/' . $params['class'] . '.php');
+    $cl = new ReflectionClass($params['class']);
+    return $cl->newInstance($params['data']);
   }
 
   /**
@@ -40,7 +46,7 @@ class EmailMessageTest extends PHPUnit_Framework_TestCase {
    * @dataProvider provider
    */
   public function testGetFrom($expected) {
-    $msg = new EmailMessage($expected['file']);
+    $msg = $this->buildMessage($expected);
     $this->assertEquals($expected['from'], $msg->getFrom());
   }
 
@@ -48,7 +54,7 @@ class EmailMessageTest extends PHPUnit_Framework_TestCase {
    * @dataProvider provider
    */
   public function testGetSubject($expected) {
-    $msg = new EmailMessage($expected['file']);
+    $msg = $this->buildMessage($expected);
     $this->assertEquals($expected['subject'], $msg->getSubject());
   }
   
@@ -56,7 +62,7 @@ class EmailMessageTest extends PHPUnit_Framework_TestCase {
    * @dataProvider provider
    */
   public function testGetMessageId($expected) {
-    $msg = new EmailMessage($expected['file']);
+    $msg = $this->buildMessage($expected);
     $this->assertEquals($expected['message_id'], $msg->getMessageId());
   }
 
@@ -64,7 +70,7 @@ class EmailMessageTest extends PHPUnit_Framework_TestCase {
    * @dataProvider provider
    */
   public function testGetInReplyTo($expected) {
-    $msg = new EmailMessage($expected['file']);
+    $msg = $this->buildMessage($expected);
     $this->assertEquals($expected['in_reply_to'], $msg->getInReplyTo());
   }
 
@@ -72,7 +78,7 @@ class EmailMessageTest extends PHPUnit_Framework_TestCase {
    * @dataProvider provider
    */
   public function testGetReferences($expected) {
-    $msg = new EmailMessage($expected['file']);
+    $msg = $this->buildMessage($expected);
     $this->assertEquals($expected['references'], $msg->getReferences());
   }
 

@@ -5,26 +5,22 @@ require_once('Mail/RFC822.php');
 
 require_once('Message.php');
 
-class EMailMessage implements Message {
+abstract class EmailMessage implements Message {
 
   protected $msg;
 
   public function __construct($input) {
-    $this->msg = EMailMessage::decode_raw_message($input);
+    $this->msg = self::decode_raw_message($input);
   }
 
-  public function getSource() {
-# FIXME: fill in!
-    return null;
-  }
+  public abstract function getSource();
 
   public function getPostId() {
-# FIXME: get from message-id to post-id database
     return null;
   }
 
   public function getFrom() {
-    return EMailMessage::parse_addr($this->msg->headers['from']);
+    return self::parse_addr($this->msg->headers['from']);
   }
 
   public function getSubject() {

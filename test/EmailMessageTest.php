@@ -9,7 +9,7 @@ class EmailMessageTest extends PHPUnit_Framework_TestCase {
   public function provider() {
     return array(
       array(array(
-        'file'        => __DIR__ . '/1',
+        'file'        => file_get_contents(__DIR__ . '/1'),
         'source'      => '',
         'post_id'     => '',
         'from'        => 'uckelman@nomic.net',
@@ -40,7 +40,7 @@ class EmailMessageTest extends PHPUnit_Framework_TestCase {
    * @dataProvider provider
    */
   public function testGetFrom($expected) {
-    $msg = new EmailMessage(file_get_contents($expected['file']));
+    $msg = new EmailMessage($expected['file']);
     $this->assertEquals($expected['from'], $msg->getFrom());
   }
 
@@ -48,7 +48,7 @@ class EmailMessageTest extends PHPUnit_Framework_TestCase {
    * @dataProvider provider
    */
   public function testGetSubject($expected) {
-    $msg = new EmailMessage(file_get_contents($expected['file']));
+    $msg = new EmailMessage($expected['file']);
     $this->assertEquals($expected['subject'], $msg->getSubject());
   }
   
@@ -56,7 +56,7 @@ class EmailMessageTest extends PHPUnit_Framework_TestCase {
    * @dataProvider provider
    */
   public function testGetMessageId($expected) {
-    $msg = new EmailMessage(file_get_contents($expected['file']));
+    $msg = new EmailMessage($expected['file']);
     $this->assertEquals($expected['message_id'], $msg->getMessageId());
   }
 
@@ -64,7 +64,7 @@ class EmailMessageTest extends PHPUnit_Framework_TestCase {
    * @dataProvider provider
    */
   public function testGetInReplyTo($expected) {
-    $msg = new EmailMessage(file_get_contents($expected['file']));
+    $msg = new EmailMessage($expected['file']);
     $this->assertEquals($expected['in_reply_to'], $msg->getInReplyTo());
   }
 
@@ -72,7 +72,7 @@ class EmailMessageTest extends PHPUnit_Framework_TestCase {
    * @dataProvider provider
    */
   public function testGetReferences($expected) {
-    $msg = new EmailMessage(file_get_contents($expected['file']));
+    $msg = new EmailMessage($expected['file']);
     $this->assertEquals($expected['references'], $msg->getReferences());
   }
 

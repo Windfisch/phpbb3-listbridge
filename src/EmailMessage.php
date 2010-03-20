@@ -10,7 +10,7 @@ class EMailMessage implements Message {
   protected $msg;
 
   public function __construct($input) {
-    $this->msg = MailMessage::decode_raw_message($input);
+    $this->msg = EMailMessage::decode_raw_message($input);
   }
 
   public function getSource() {

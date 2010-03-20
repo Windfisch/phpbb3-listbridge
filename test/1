@@ -1,0 +1,84 @@
+Return-Path: <messages-bounces@forums.vassalengine.org>
+X-Original-To: uckelman@nomic.net
+Delivered-To: uckelman@nomic.net
+Received-SPF: none (charybdis.ellipsis.cx: domain of messages-bounces@forums.vassalengine.org does not designate permitted sender hosts)
+Received: from abante.lunarpages.com (abante.lunarpages.com [67.210.126.35])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by charybdis.ellipsis.cx (Postfix) with ESMTPS id 55C5910077
+	for <uckelman@nomic.net>; Tue,  2 Mar 2010 02:42:38 -0700 (MST)
+Received: from localhost ([127.0.0.1] helo=abante.lunarpages.com)
+	by abante.lunarpages.com with esmtp (Exim 4.69)
+	(envelope-from <messages-bounces@forums.vassalengine.org>)
+	id 1NmOcY-0003Wf-6c; Tue, 02 Mar 2010 01:42:30 -0800
+Received: from charybdis.ellipsis.cx ([66.253.49.165])
+	by abante.lunarpages.com with esmtp (Exim 4.69)
+	(envelope-from <uckelman@nomic.net>) id 1NmOcW-0003WM-Fi
+	for messages@forums.vassalengine.org; Tue, 02 Mar 2010 01:42:28 -0800
+Received: by charybdis.ellipsis.cx (Postfix, from userid 500)
+	id 33F0310091; Tue,  2 Mar 2010 02:42:28 -0700 (MST)
+To: VASSAL Engine Forums Mailing List <messages@forums.vassalengine.org>
+Subject: Re: [Developers]Re: Adding developers?
+In-reply-to: <1267473003.m2f.17543@www.vassalengine.org>
+References: <1267171317.m2f.17507@www.vassalengine.org>
+	<1267473003.m2f.17543@www.vassalengine.org>
+Comments: In-reply-to "wlk" <messages@forums.vassalengine.org>
+	message dated "Mon, 01 Mar 2010 11:50:03 -0800."
+From: Joel Uckelman <uckelman@nomic.net>
+Date: Tue, 02 Mar 2010 10:42:28 +0100
+Message-Id: <20100302094228.33F0310091@charybdis.ellipsis.cx>
+X-BeenThere: messages@forums.vassalengine.org
+X-Mailman-Version: 2.1.11.cp3
+Precedence: list
+Reply-To: VASSAL Engine Forums Mailing List <messages@forums.vassalengine.org>
+List-Id: VASSAL Engine Forums Mailing List
+	<messages_forums.vassalengine.org.forums.vassalengine.org>
+List-Unsubscribe: <http://forums.vassalengine.org/mailman/options/messages_forums.vassalengine.org>,
+	<mailto:messages-request@forums.vassalengine.org?subject=unsubscribe>
+List-Archive: <http://forums.vassalengine.org/pipermail/messages_forums.vassalengine.org>
+List-Post: <mailto:messages@forums.vassalengine.org>
+List-Help: <mailto:messages-request@forums.vassalengine.org?subject=help>
+List-Subscribe: <http://forums.vassalengine.org/mailman/listinfo/messages_forums.vassalengine.org>,
+	<mailto:messages-request@forums.vassalengine.org?subject=subscribe>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Sender: messages-bounces@forums.vassalengine.org
+Errors-To: messages-bounces@forums.vassalengine.org
+X-ACL-Warn: {
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - abante.lunarpages.com
+X-AntiAbuse: Original Domain - nomic.net
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - forums.vassalengine.org
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Bogosity: Unsure, tests=bogofilter, spamicity=0.500000, version=1.2.0
+
+Thus spake "wlk":
+> 
+> uckelman wrote:
+> > How close are you guys to a 3.1-compatble release, BTW? We've had at least
+> > one bug report every day since the release of 3.1.0 about VASL being
+> > incompatible with 3.1...
+> 
+> 
+> Actually, I fixed like 5 bugs now, and there's none left I am aware of, at le
+> ast the ones related to VASL binaries.
+> I'm daily using 5.9 with 3.1.13 and didn't notice anything wrong.
+> We were waiting for 3.1.14 to be released to publish VASL 5.9.
+> 
+
+Oh! I didn't know you were waiting for 3.1.14. I can put together a test
+build tonight, and if people try it out to confirm that it's ok, we can
+release tomorrow.
+ 
+-- 
+J.
+
+_______________________________________________
+Messages mailing list
+Messages@forums.vassalengine.org
+http://forums.vassalengine.org/mailman/listinfo/messages_forums.vassalengine.org
+

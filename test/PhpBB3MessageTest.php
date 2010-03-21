@@ -1,31 +1,30 @@
 <?php
 
 require_once('PHPUnit/Framework.php');
-require_once('src/Message.php');
+require_once('src/PhpBB3Message.php');
 
-class MessageTest extends PHPUnit_Framework_TestCase {
+class PhpBB3MessageTest extends PHPUnit_Framework_TestCase {
 
   public function provider() {
     return array(
+/*
       array(array(
-        'class'       => 'MailmanMessage',
-        'data'        => file_get_contents(__DIR__ . '/1'),
-        'source'      => 'messages@forums.vassalengine.org',
+        'data'        => '',
+        'source'      => '',
         'post_id'     => '',
-        'from'        => 'uckelman@nomic.net',
-        'subject'     => 'Re: [Developers]Re: Adding developers?',
-        'message_id'  => '<20100302094228.33F0310091@charybdis.ellipsis.cx>',
-        'in_reply_to' => '<1267473003.m2f.17543@www.vassalengine.org>',
-        'references'  => '<1267171317.m2f.17507@www.vassalengine.org> <1267473003.m2f.17543@www.vassalengine.org>',
+        'from'        => '',
+        'subject'     => '',
+        'message_id'  => '',
+        'in_reply_to' => '',
+        'references'  => '',
         'body'        => ''
-      ))  
+      ))
+*/
     );
   }
 
   protected function buildMessage($params) {
-    require_once('src/' . $params['class'] . '.php');
-    $cl = new ReflectionClass($params['class']);
-    return $cl->newInstance($params['data']);
+    return new PhpBB3Message();   
   }
 
   /**

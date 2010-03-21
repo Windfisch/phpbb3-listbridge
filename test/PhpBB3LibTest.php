@@ -47,4 +47,20 @@ EOF;
       array('uckelman@nomic.net', 2,    null)
     );
   }
+
+  /**
+   * @dataProvider provider_get_user_name
+   */
+  public function test_get_user_name($id, $expected, $ex) {
+    if ($ex) $this->setExpectedException($ex);
+    $run = 'get_user_name(' . $id . ')';
+    $this->assertEquals($expected, $this->exec_kludge($run));
+  }
+
+  public function provider_get_user_name() {
+    return array(
+      array(0, null,    'PHPUnit_Framework_Error'),
+      array(2, 'admin', null                     )
+    );
+  }
 }

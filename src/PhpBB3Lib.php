@@ -42,4 +42,23 @@ function get_user_name($id) {
   return $names[$id];
 }
 
+function get_topic_id($post_id) {
+  global $db;
+
+// FIXME: should get topic_id, forum_id at the same time
+  $sql = 'SELECT topic_id FROM ' . POSTS_TABLE .
+         ' WHERE post_id = "' . $db->sql_escape($post_id) . '"';
+
+  $result = $db->sql_query($sql);
+// FIXME: what to do if more than one row is returned?
+  $row = $db->sql_fetchrow($result);
+  $db->sql_freeresult($result);
+
+  if (!$row) {
+    trigger_error("Unknown post id: $post_id", E_USER_ERROR);
+  }
+
+  return $row['topic_id'];
+}
+
 ?>

@@ -63,4 +63,20 @@ EOF;
       array(2, 'admin', null                     )
     );
   }
+
+  /**
+   * @dataProvider provider_get_topic_id
+   */
+  public function test_get_topic_id($post_id, $expected, $ex) {
+    if ($ex) $this->setExpectedException($ex);
+    $run = 'get_topic_id(' . $post_id . ')';
+    $this->assertEquals($expected, $this->exec_kludge($run));
+  }
+
+  public function provider_get_topic_id() {
+    return array(
+      array(0, null,    'PHPUnit_Framework_Error'),
+      array(2, 2,       null                     )
+    );
+  }
 }

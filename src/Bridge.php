@@ -16,7 +16,7 @@ class Bridge {
     $sql = 'SELECT post_id FROM posts ' .
            'WHERE message_id = ' . $this->db->quote($messageId);
 
-    $row = get_exactly_one_row($sql);
+    $row = $this->get_exactly_one_row($sql);
     return $row['post_id'];
   }
 
@@ -24,7 +24,7 @@ class Bridge {
     $sql = 'SELECT message_id FROM posts ' .
            'WHERE post_id = ' . $this->db->quote($postId);
 
-    $row = get_exactly_one_row($sql);
+    $row = $this->get_exactly_one_row($sql);
     return $row['message_id'];
   }
 
@@ -49,7 +49,7 @@ class Bridge {
     $sql = 'SELECT forum_id FROM forums ' .
            'WHERE list_name = ' . $this->db->quote($list);
 
-    $row = get_exactly_one_row($sql);
+    $row = $this->get_exactly_one_row($sql);
     return $row['forum_id'];
   }
 

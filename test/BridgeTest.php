@@ -11,6 +11,9 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
     $this->db = new PDO('mysql:host=localhost;dbname=test');
     $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+    //
+    // Build posts table
+    //
     $this->db->exec('DROP TABLE IF EXISTS posts');
 
     $this->db->exec(
@@ -30,6 +33,26 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
         '"<20100302094228.33F0310091@charybdis.ellipsis.cx>", ' .
         '"<1267473003.m2f.17543@www.vassalengine.org>", ' .
         '"<1267171317.m2f.17507@www.vassalengine.org> <1267473003.m2f.17543@www.vassalengine.org>"' .
+      ')'
+    );
+
+    //
+    // Build forums table
+    //
+    $this->db->exec('DROP TABLE IF EXISTS forums');
+
+    $this->db->exec(
+      'CREATE TABLE forums (' .
+      'list_name VARCHAR(255) NOT NULL, ' .
+      'forum_id MEDIUMINT UNSIGNED NOT NULL, ' .
+      'PRIMARY KEY (list_name), ' .
+      'INDEX (forum_id))'
+    );
+
+    $this->db->exec(
+      'INSERT INTO forums (list_name, forum_id) ' .
+      'VALUES (' .
+        '"messages@forums.vassalengine.org", 2' .
       ')'
     );
   }
@@ -89,16 +112,15 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
    * @dataProvider providerGetDefaultForumId
    */
   public function testGetDefaultForumId($list, $expected, $ex) {
-    $this->markTestIncomplete();
-#    if ($ex) $this->setExpectedException($ex);
-#    $bridge = new Bridge($this->db);
-#    $this->assertEquals($expected, $bridge->getDefaultForumId($list));
+    if ($ex) $this->setExpectedException($ex);
+    $bridge = new Bridge($this->db);
+    $this->assertEquals($expected, $bridge->getDefaultForumId($list));
   }
 
   public function providerGetDefaultForumId() {
     return array(
       array('bogus', null, 'PHPUnit_Framework_Error'), 
-#      array('messages@forums.vassalengine.org', 2, null),
+      array('messages@forums.vassalengine.org', 2, null),
     );
   }
 }

@@ -5,6 +5,7 @@ define('IN_PHPBB', true);
 require_once(__DIR__ . '/PhpBB3Conf.php');
 $phpEx = substr(strrchr(__FILE__, '.'), 1);
 require_once($phpbb_root_path . 'common.' . $phpEx);
+require_once($phpbb_root_path . 'includes/functions_posting.' . $phpEx);
 require_once($phpbb_root_path . 'includes/functions_user.' . $phpEx);
 
 
@@ -14,15 +15,7 @@ function get_user_id($from) {
   $sql = 'SELECT user_id FROM ' . USERS_TABLE .
          ' WHERE user_email = "' . $db->sql_escape($from) . '"';
 
-  $result = $db->sql_query($sql);
-// FIXME: what to do if more than one row is returned?
-  $row = $db->sql_fetchrow($result);
-  $db->sql_freeresult($result);
-
-  if (!$row) {
-    trigger_error("Unknown user email: $from", E_USER_ERROR);
-  }
-
+  $row = get_exactly_one_row($sql);
   return $row['user_id'];
 }
 
@@ -42,23 +35,36 @@ function get_user_name($id) {
   return $names[$id];
 }
 
-function get_topic_id($post_id) {
+function get_topic_and_forum_ids($post_id) {
   global $db;
 
-// FIXME: should get topic_id, forum_id at the same time
-  $sql = 'SELECT topic_id FROM ' . POSTS_TABLE .
+  $sql = 'SELECT topic_id, forum_id FROM ' . POSTS_TABLE .
          ' WHERE post_id = "' . $db->sql_escape($post_id) . '"';
 
+  $row = get_exactly_one_row($sql);
+  return $row; 
+}
+
+function get_exactly_one_row($sql) {
+  global $db;
+
   $result = $db->sql_query($sql);
-// FIXME: what to do if more than one row is returned?
-  $row = $db->sql_fetchrow($result);
+
+  $rows = $db->sql_fetchrowset($result);
   $db->sql_freeresult($result);
 
-  if (!$row) {
-    trigger_error("Unknown post id: $post_id", E_USER_ERROR);
-  }
+  switch (count($rows)) {
+  case 0:
+    trigger_error("No rows returned: $sql", E_USER_ERROR);
+    break;
 
-  return $row['topic_id'];
+  case 1:
+    return $rows[0];
+
+  default:
+    trigger_error("Too many rows returned: $sql", E_USER_ERROR);
+    break;
+  }
 }
 
 ?>

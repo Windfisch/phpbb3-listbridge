@@ -67,16 +67,16 @@ EOF;
   /**
    * @dataProvider provider_get_topic_id
    */
-  public function test_get_topic_id($post_id, $expected, $ex) {
+  public function test_get_topic_and_forum_ids($post_id, $expected, $ex) {
     if ($ex) $this->setExpectedException($ex);
-    $run = 'get_topic_id(' . $post_id . ')';
+    $run = 'get_topic_and_forum_ids(' . $post_id . ')';
     $this->assertEquals($expected, $this->exec_kludge($run));
   }
 
   public function provider_get_topic_id() {
     return array(
-      array(0, null,    'PHPUnit_Framework_Error'),
-      array(2, 2,       null                     )
+      array(0, null, 'PHPUnit_Framework_Error'),
+      array(2, array('topic_id' => 2, 'forum_id' => 2), null)
     );
   }
 }

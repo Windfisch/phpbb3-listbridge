@@ -96,15 +96,33 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
   /**
    * @dataProvider providerRegisterMessage
    */
-  public function testRegisterMessage($msg, $expected, $ex) {
-    $this->markTestIncomplete();
-#    $bridge = new Bridge($this->db);
-#    if ($ex) $this->setExpectedException($ex);
-#    $this->assertEquals($expected, $bridge->registerMessage($msg));
+  public function testRegisterMessage($postId, $messageId, $inReplyTo, $refs,
+                                      $expected, $ex) {
+    if ($ex) $this->setExpectedException($ex);
+    $bridge = new Bridge($this->db);
+    $bridge->registerMessage($postId, $messageId, $inReplyTo, $refs);
   }
 
   public function providerRegisterMessage() {
     return array(
+      array('bogus', null, null, null, null, 'PDOException'),
+      array(1, '', '', '', null, 'PDOException'),
+      array(
+        2,
+        '<20100302094228.33F0310091@charybdis.ellipsis.cx>',
+        null,
+        null,
+        null,
+        'PDOException'
+      ),
+      array(
+        2,
+        '<10100302094228.33F0310091@charybdis.ellipsis.cx>',
+        null,
+        null,
+        null,
+        null,
+      )    
     );
   }
 

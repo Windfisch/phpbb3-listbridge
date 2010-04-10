@@ -28,19 +28,19 @@ class Bridge {
     return $row['message_id'];
   }
 
-  public function registerMessage($msg, $parentId) {
+  public function registerMessage($postId, $messageId, $inReplyTo, $refs) {
     $sql = 'INSERT INTO posts ' .
            '(post_id, message_id, in_reply_to, refs) ' .
-           'VALUES (' . $msg->getPostId()                       . ', '
-                      . $this->db->quote($msg->getMessageId())  . ', '
-                      . $this->db->quote()                      . ', '
-                      . $this->db->quote($msg->getReferences()) . ')'; 
+           'VALUES (' . $postId                      . ', '
+                      . $this->db->quote($messageId) . ', '
+                      . $this->db->quote($inReplyTo) . ', '
+                      . $this->db->quote($refs)      . ')'; 
 
     $count = $this->db->exec($sql);
 
     if ($count != 1) {
       trigger_error(
-        'Failed to register message: ' . $msg->getMessageId(), E_USER_ERROR
+        'Failed to register message: ' . $messageId, E_USER_ERROR
       );
     }
   }

@@ -29,7 +29,7 @@ function send_to_lists($user, $data, $post_data) {
 
   $time = $phpbb->getPostTime($postId);
   $date = date(DATE_RFC2822, $time);
-  $messageId = mbuild_message_id($time, $postId, $_SERVER['SERVER_NAME']);
+  $messageId = build_message_id($time, $postId, $_SERVER['SERVER_NAME']);
  
   $forumURL = 'http://' . $_SERVER['SERVER_NAME'] .
               substr($_SERVER['SCRIPT_NAME'], 0, -strlen('/posting.php'));

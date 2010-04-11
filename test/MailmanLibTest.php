@@ -15,8 +15,8 @@ class MailmanLibTest extends PHPUnit_Framework_TestCase {
 
   public function provider_read_raw_message() {
     return array(
-      array(__DIR__ . '/empty', null, 'PHPUnit_Framework_Error'),
-      array(__DIR__ . '/bougs', null, 'PHPUnit_Framework_Error'),
+      array(__DIR__ . '/empty', null, 'Exception'),
+      array(__DIR__ . '/bougs', null, 'Exception'),
       array(__DIR__ . '/1',     file_get_contents(__DIR__ . '/1'), null),
     );
   }

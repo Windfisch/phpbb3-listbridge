@@ -72,7 +72,7 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
 
   public function providerGetPostId() {
     return array(
-      array('bogus', null, 'PHPUnit_Framework_Error'), 
+      array('bogus', null, 'Exception'), 
       array('<20100302094228.33F0310091@charybdis.ellipsis.cx>', 1, null),
     );
   }
@@ -88,7 +88,7 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
 
   public function providerGetMessageId() {
     return array(
-      array('bogus', null, 'PHPUnit_Framework_Error'), 
+      array('bogus', null, 'Exception'), 
       array(1, '<20100302094228.33F0310091@charybdis.ellipsis.cx>', null),
     );
   }
@@ -108,7 +108,7 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
 
   public function providerRegisterMessage() {
     return array(
-      array(null, null, null, null, 'PHPUnit_Framework_Error'),
+      array(null, null, null, null, 'Exception'),
       array(
         '<20100302094228.33F0310091@charybdis.ellipsis.cx>',
         null,
@@ -137,7 +137,7 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
 
   public function providerGetDefaultForumId() {
     return array(
-      array('bogus', null, 'PHPUnit_Framework_Error'), 
+      array('bogus', null, 'Exception'), 
       array('messages@forums.vassalengine.org', 2, null),
     );
   }
@@ -155,8 +155,8 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
 
   public function providerSetPostId() {
     return array(
-      array(null, 1, 'PHPUnit_Framework_Error'),
-      array('<10100302094228.33F0310091@charybdis.ellipsis.cx>', null, 'PHPUnit_Framework_Error'),
+      array(null, 1, 'Exception'),
+      array('<10100302094228.33F0310091@charybdis.ellipsis.cx>', null, 'Exception'),
       array('<20100302094228.33F0310091@charybdis.ellipsis.cx>', 2, null),
       array('<20100302094228.33F0310091@charybdis.ellipsis.cx>', 3, null),
     );

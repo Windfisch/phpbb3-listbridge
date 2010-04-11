@@ -44,7 +44,7 @@ EOF;
 
   public function providerGetUserId() {
     return array(
-      array('bogus', null, 'PHPUnit_Framework_Error'),
+      array('bogus', null, 'Exception'),
       array('uckelman@nomic.net', 2,    null)
     );
   }
@@ -60,7 +60,7 @@ EOF;
 
   public function providerGetUserName() {
     return array(
-      array(0, null, 'PHPUnit_Framework_Error'),
+      array(0, null, 'Exception'),
       array(2, 'admin', null                     )
     );
   }
@@ -76,7 +76,7 @@ EOF;
 
   public function providerGetTopicAndForumIds() {
     return array(
-      array('bogus', null, 'PHPUnit_Framework_Error'),
+      array('bogus', null, 'Exception'),
       array(2, array('topic_id' => 2, 'forum_id' => 2), null)
     );
   }
@@ -92,7 +92,7 @@ EOF;
 
   public function providerForumExists() {
     return array(
-      array('bogus', null, 'PHPUnit_Framework_Error'),
+      array('bogus', null, 'Exception'),
       array(0, false, null),
       array(2, true, null)
     );
@@ -109,7 +109,7 @@ EOF;
 
   public function providerTopicExists() {
     return array(
-      array('bogus', null, 'PHPUnit_Framework_Error'),
+      array('bogus', null, 'Exception'),
       array(0, false, null),
       array(1, true, null)
     );

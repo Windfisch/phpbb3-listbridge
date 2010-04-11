@@ -44,7 +44,7 @@ class PhpBB3 {
     $sql = 'SELECT topic_id, forum_id FROM ' . POSTS_TABLE .
            ' WHERE post_id = "' . $db->sql_escape($post_id) . '"';
 
-    $row = get_exactly_one_row($sql);
+    $row = $this->get_exactly_one_row($sql);
     return $row; 
   }
 

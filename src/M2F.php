@@ -19,7 +19,7 @@ $seen = !$bridge->registerMessage($msg->getMessageId(),
 
 if ($seen) {
   # This message has already been processed.
-  print "Message id already seen, skipping.\n";
+  print "Message id already seen, skipping: $messageId\n";
   exit;
 }
 

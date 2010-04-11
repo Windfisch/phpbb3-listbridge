@@ -51,14 +51,6 @@ class PhpBB3 {
   public function forumExists($forumId) {
     global $db;
 
-    if (!is_int($forumId)) {
-      trigger_error('forum id is not an integer', E_USER_ERROR);
-    }
-
-    if ($forumId < 0) {
-      trigger_error('forum id is negative', E_USER_ERROR);
-    }
-
     $sql = 'SELECT 1 FROM ' . FORUMS_TABLE . ' ' .
            'WHERE forum_id = ' . $forumId . ' LIMIT 1';
 
@@ -83,14 +75,6 @@ class PhpBB3 {
 
   public function topicExists($topicId) {
     global $db;
-
-    if (!is_int($topicId)) {
-      trigger_error('topic id is not an integer', E_USER_ERROR);
-    }
-
-    if ($topicId < 0) {
-      trigger_error('topic id is negative', E_USER_ERROR);
-    }
 
     $sql = 'SELECT 1 FROM ' . TOPICS_TABLE . ' ' .
            'WHERE topic_id = ' . $topicId . ' LIMIT 1';

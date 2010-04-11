@@ -26,7 +26,7 @@ function send_to_lists($user, $data, $post_data) {
   $userEmail = $user->data['user_email'];
  
   $subject = $post_data['post_subject'];
-  $date = $phpbb->getPostTime($postId);
+  $date = date(DATE_RFC2822, $phpbb->getPostTime($postId));
 
   $body = $data['message'];
 

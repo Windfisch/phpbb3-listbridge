@@ -12,44 +12,61 @@ try {
   $input = read_raw_message($url);
   $msg = new MailmanMessage($input);
   
-  $bridge = new Bridge();
-  
   $messageId = $msg->getMessageId();
   $inReplyTo = $msg->getInReplyTo();
   $rererences = $msg->getReferences();
   
+  $bridge = new Bridge();
   $seen = !$bridge->registerMessage($messageId, $inReplyTo, $references);
   
-  if ($seen) {
-    # This message has already been processed.
-    print 'Message id already seen, skipping: ' . $messageId . "\n";
-    exit;
+  try {
+    if ($seen) {
+      # This message has already been processed, bail out
+      print 'Message id already seen, skipping: ' . $messageId . "\n";
+      exit;
+    }
+  
+    $phpbb = new PhpBB3();
+  
+    $forumId = $topicId = -1;
+    $postType = null;
+  
+    if ($inReplyTo) { 
+      # Possibly a reply to an existing topic
+      $parentId = $bridge->getPostId($inReplyTo);
+      if ($parentId === false) {
+        throw new Exception('unrecognized reply-to: ' . $inReplyTo);
+      }
+
+      $ids = $phpbb->getTopicAndForumIds($parentId);
+      if ($ids === false) {
+        throw new Exception('unrecognized parent id: ' . $parentId);
+      }
+
+      # Found the parent's forum and topic, post to those
+      $forumId = $ids['forum_id'];
+      $topicId = $ids['topic_id'];
+      $postType = 'reply';
+    }
+    else {
+      # A message starting a new topic, post to default forum for its source
+      $forumId = $bridge->getDefaultForumId($msg->getSource());
+      if ($forumId === false) {
+        throw new Exception('unrecognized source: ' . $msg->getSource());  
+      }
+
+      $postType = 'post';
+    }
+  
+    # Post the message to the forum
+    $postId = $phpbb->postMessage($postType, $forumId, $topicId, $msg);
+    $bridge->setPostId($messageId, $postId);
   }
-  
-  $phpbb = new PhpBB3();
-  
-  $forumId = $topicId = -1;
-  $postType = null;
-  
-  if ($inReplyTo) { 
-    # A reply to an existing topic
-  # FIXME: we don't want exceptions here?
-    $parentId = $bridge->getPostId($inReplyTo);
-    $ids = $phpbb->getTopicAndForumIds($parentId);
-    $forumId = $ids['forum_id'];
-    $topicId = $ids['topic_id'];
-    $postType = 'reply';
+  catch (Exception $e) {
+    # Bridging failed, unregister message.
+    $bridge->unregisterMessage($messageId);
+    throw $e; 
   }
-  else {
-    # A message starting a new topic
-    $forumId = $bridge->getDefaultForumId($msg->getSource());
-    $postType = 'post';
-  }
-  
-  # Post the message to the forum
-  $postId = $phpbb->postMessage($postType, $forumId, $topicId, $msg);
-  
-  $bridge->setPostId($messageId, $postId);
 }
 catch (Exception $e) {
   print "$e\n";

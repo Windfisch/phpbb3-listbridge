@@ -26,18 +26,21 @@ function send_to_lists($user, $data, $post_data) {
   $userEmail = $user->data['user_email'];
  
   $subject = $post_data['post_subject'];
+
   $time = $phpbb->getPostTime($postId);
   $date = date(DATE_RFC2822, $time);
-
-#  $messageId = mbuild_message_id($time, $postId, $forumHost);
+  $messageId = mbuild_message_id($time, $postId, $_SERVER['SERVER_NAME']);
+ 
+  $forumURL = 'http://' . $_SERVER['SERVER_NAME'] .
+              substr($_SERVER['SCRIPT_NAME'], 0, -strlen('/posting.php'));
 
   $body = $data['message'];
 
   print '<p>';
   var_dump($data);
   var_dump($post_data);
-  var_dump($date);
-  var_dump($_SERVER);
+  var_dump($messageId);
+  var_dump($forumURL);
   print '</p>';
 
 /*

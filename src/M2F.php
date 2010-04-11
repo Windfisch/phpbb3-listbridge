@@ -47,7 +47,7 @@ try {
   }
   
   # Post the message to the forum
-  $phpbb->postMessage($postType, $forumId, $topicId, $msg);
+  $postId = $phpbb->postMessage($postType, $forumId, $topicId, $msg);
   
   $bridge->setPostId($messageId, $postId);
 }

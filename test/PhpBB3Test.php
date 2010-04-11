@@ -2,7 +2,7 @@
 
 require_once('PHPUnit/Framework.php');
 
-class PhpBB3LibTest extends PHPUnit_Framework_TestCase {
+class PhpBB3Test extends PHPUnit_Framework_TestCase {
 
   /**
    * phpBB3 uses many globals; due to the way tests are run, we cannot
@@ -13,8 +13,9 @@ class PhpBB3LibTest extends PHPUnit_Framework_TestCase {
   protected function exec_kludge($run) {
     $prog = <<<EOF
 try {
-  require_once("src/PhpBB3Lib.php");
-  \$result = serialize($run);
+  require_once("src/PhpBB3.php");
+  \$phpBB = new PhpBB3();
+  \$result = serialize(\$phpBB->$run);
 }
 catch (Exception \$e) {
   \$result = serialize(\$e);
@@ -33,47 +34,47 @@ EOF;
   }
 
   /**
-   * @dataProvider provider_get_user_id
+   * @dataProvider provider_GetUserId
    */
-  public function test_get_user_id($from, $expected, $ex) {
+  public function testGetUserId($from, $expected, $ex) {
     if ($ex) $this->setExpectedException($ex);
-    $run = 'get_user_id("' . $from . '")';
+    $run = 'getUserId("' . $from . '")';
     $this->assertEquals($expected, $this->exec_kludge($run));
   }
 
-  public function provider_get_user_id() {
+  public function providerGetUserId() {
     return array(
-      array('bogus',              null, 'PHPUnit_Framework_Error'),
+      array('bogus', null, 'PHPUnit_Framework_Error'),
       array('uckelman@nomic.net', 2,    null)
     );
   }
 
   /**
-   * @dataProvider provider_get_user_name
+   * @dataProvider providerGetUserName
    */
-  public function test_get_user_name($id, $expected, $ex) {
+  public function testGetUserName($id, $expected, $ex) {
     if ($ex) $this->setExpectedException($ex);
-    $run = 'get_user_name(' . $id . ')';
+    $run = 'getUserName(' . $id . ')';
     $this->assertEquals($expected, $this->exec_kludge($run));
   }
 
-  public function provider_get_user_name() {
+  public function providerGetUserName() {
     return array(
-      array(0, null,    'PHPUnit_Framework_Error'),
+      array(0, null, 'PHPUnit_Framework_Error'),
       array(2, 'admin', null                     )
     );
   }
 
   /**
-   * @dataProvider provider_get_topic_id
+   * @dataProvider providerGetTopicAndForumIds
    */
-  public function test_get_topic_and_forum_ids($post_id, $expected, $ex) {
+  public function testGetTopicAndForumIds($post_id, $expected, $ex) {
     if ($ex) $this->setExpectedException($ex);
-    $run = 'get_topic_and_forum_ids(' . $post_id . ')';
+    $run = 'getTopicAndForumIds(' . $post_id . ')';
     $this->assertEquals($expected, $this->exec_kludge($run));
   }
 
-  public function provider_get_topic_id() {
+  public function providerGetTopicAndForumIds() {
     return array(
       array(0, null, 'PHPUnit_Framework_Error'),
       array(2, array('topic_id' => 2, 'forum_id' => 2), null)

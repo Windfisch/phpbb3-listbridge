@@ -72,6 +72,17 @@ class Bridge {
     return $count == 1;
   }
 
+  public function unregisterMessage($messageId) {
+    throw_if_null($messageId);
+
+    $sql = 'DELETE FROM posts WHERE message_id = ' .
+           $this->db->quote($messageId);
+
+    $coult = $this->db->exec($sql);
+
+    return $count == 1;
+  }
+
   protected function get_exactly_one_row($sql) {
     $result = $this->db->query($sql);
 

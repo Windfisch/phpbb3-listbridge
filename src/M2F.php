@@ -13,19 +13,19 @@ $msg = new MailmanMessage($input);
 
 $bridge = new Bridge();
 
-$seen = !$bridge->registerMessage($msg->getMessageId(),
-                                  $msg->getInReplyTo(),
-                                  $msg->getReferences());
+$messageId = $msg->getMessageId();
+$inReplyTo = $msg->getInReplyTo();
+$rererences = $msg->getReferences();
+
+$seen = !$bridge->registerMessage($messageId, $inReplyTo, $references);
 
 if ($seen) {
   # This message has already been processed.
-  print 'Message id already seen, skipping: ' . $msg->getMessageId() . "\n";
+  print 'Message id already seen, skipping: ' . $messageId . "\n";
   exit;
 }
 
 $phpbb = new PhpBB3();
-
-$inReplyTo = $msg->getInReplyTo();
 
 $forumId = $topicId = -1;
 $postType = null;

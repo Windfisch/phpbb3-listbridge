@@ -44,7 +44,8 @@ EOF;
 
   public function providerGetUserId() {
     return array(
-      array('bogus', null, 'Exception'),
+      array(null, null, 'Exception'),
+      array('bogus', false, null),
       array('uckelman@nomic.net', 2,    null)
     );
   }
@@ -76,7 +77,8 @@ EOF;
 
   public function providerGetTopicAndForumIds() {
     return array(
-      array('bogus', null, 'Exception'),
+      array(null, null, 'Exception'),
+      array('bogus', false, null),
       array(2, array('topic_id' => 2, 'forum_id' => 2), null)
     );
   }

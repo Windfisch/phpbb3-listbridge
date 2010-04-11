@@ -82,29 +82,21 @@ class PhpBB3 {
   }
 
   public function postMessage($postType, $forumId, $topicId, $msg) {
-    if ($postType === null) {
-      trigger_error('post type is null', E_USER_ERROR);
+    if ($postType != 'post' && $postType != 'reply') {
+      trigger_error('bad post type: ' . $postType, E_USER_ERROR);
     }
 
-    if (!is_int($forumId)) {
-      trigger_error('forum id is not an integer', E_USER_ERROR);
-    }
-
-    if ($forumId < 0) {
-      trigger_error('forum id is negative', E_USER_ERROR);
+    if (!is_int($forumId) || $forumId < 0) {
+      trigger_error('bad forum id: ' . $forumId, E_USER_ERROR);
     }
 
     if (!$this->forumExists($forumId)) {
       trigger_error('forum does not exist: ' . $forumId, E_USER_ERROR);
     } 
 
-    if ($topicId != null) {
-      if (!is_int($topicId)) {
-        trigger_error('topic id is not an integer', E_USER_ERROR);
-      }
-
-      if ($topicId < 0) {
-        trigger_error('topic id is negative', E_USER_ERROR);
+    if ($topicId !== null) {
+      if (!is_int($topicId) || $topicId < 0) {
+        trigger_error('bad topic id: ' . $topicId, E_USER_ERROR);
       }
     }
 
@@ -115,11 +107,27 @@ class PhpBB3 {
     $subject = $msg->getSubject(); 
     $message = 'foo'; # FIXME: fill in with acutal message contents
 
-    $userId = $phpbb->getUserId($msg->getFrom());
-    $userName = $phpbb->getUserName($userId);
+    $userId = $this->getUserId($msg->getFrom());
+    $userName = $this->getUserName($userId);
 
-    $poll = $uid = $bitfield = '';
-    $topicId = -1;
+    # authenticate ourselves
+    global $phpEx, $phpbb_root_path, $user, $auth;
+    $user->session_create($userId);
+    $auth->acl($user->data);
+
+    $subject = utf8_normalize_nfc($subject);
+    $message = utf8_normalize_nfc($message);
+
+    $uid = $bitfield = $options = '';
+
+    generate_text_for_storage(
+      $subject, $uid, $bitfield, $options, false, false, false
+    );
+
+    generate_text_for_storage(
+      $message, $uid, $bitfield, $options, true, true, true
+    );
+
     $postId = null;
 
     $data = array(
@@ -147,6 +155,8 @@ class PhpBB3 {
       'forum_name'       => '',
       'enable_indexing'  => true,
     );
+
+    $poll = '';
 
     submit_post($postType, $subject, $userName, POST_NORMAL, $poll, $data);
 

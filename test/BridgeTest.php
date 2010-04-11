@@ -108,20 +108,20 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
 
   public function providerRegisterMessage() {
     return array(
-      array('bogus', null, null, null, null, 'PDOException'),
+      array(null, null, null, null, null, 'PDOException'),
       array(
         '<20100302094228.33F0310091@charybdis.ellipsis.cx>',
         null,
         null,
-        null,
-        'PDOException'
+        false,
+        null
       ),
       array(
         '<10100302094228.33F0310091@charybdis.ellipsis.cx>',
         null,
         null,
         true,
-        null,
+        null
       )    
     );
   }

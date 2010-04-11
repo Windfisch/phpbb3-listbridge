@@ -15,8 +15,8 @@ class PhpBB3 {
   public function getUserId($from) {
     global $db;
 
-    $sql = 'SELECT user_id FROM ' . USERS_TABLE .
-           ' WHERE user_email = "' . $db->sql_escape($from) . '"';
+    $sql = 'SELECT user_id FROM ' . USERS_TABLE . ' ' .
+           'WHERE user_email = "' . $db->sql_escape($from) . '"';
 
     $row = $this->get_exactly_one_row($sql);
     return $row['user_id'];
@@ -41,8 +41,8 @@ class PhpBB3 {
   public function getTopicAndForumIds($post_id) {
     global $db;
 
-    $sql = 'SELECT topic_id, forum_id FROM ' . POSTS_TABLE .
-           ' WHERE post_id = "' . $db->sql_escape($post_id) . '"';
+    $sql = 'SELECT topic_id, forum_id FROM ' . POSTS_TABLE . ' ' .
+           'WHERE post_id = "' . $db->sql_escape($post_id) . '"';
 
     $row = $this->get_exactly_one_row($sql);
     return $row; 

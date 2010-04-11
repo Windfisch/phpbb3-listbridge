@@ -81,6 +81,39 @@ class PhpBB3 {
     }
   }
 
+  public function topicExists($topicId) {
+    global $db;
+
+    if (!is_int($topicId)) {
+      trigger_error('topic id is not an integer', E_USER_ERROR);
+    }
+
+    if ($topicId < 0) {
+      trigger_error('topic id is negative', E_USER_ERROR);
+    }
+
+    $sql = 'SELECT 1 FROM ' . TOPICS_TABLE . ' ' .
+           'WHERE topic_id = ' . $topicId . ' LIMIT 1';
+
+    $result = $db->sql_query($sql);
+  
+    $rows = $db->sql_fetchrowset($result);
+    $db->sql_freeresult($result);
+
+    switch (count($rows)) {
+    case 0:
+      return false;
+    
+    case 1:
+      return true;
+    
+    default:
+      # Should be impossible due to LIMIT 1.
+      trigger_error("Too many rows returned: $sql", E_USER_ERROR);
+      break;
+    }
+  }
+
   public function postMessage($postType, $forumId, $topicId, $msg) {
     if ($postType != 'post' && $postType != 'reply') {
       trigger_error('bad post type: ' . $postType, E_USER_ERROR);
@@ -94,10 +127,12 @@ class PhpBB3 {
       trigger_error('forum does not exist: ' . $forumId, E_USER_ERROR);
     } 
 
-    if ($topicId !== null) {
-      if (!is_int($topicId) || $topicId < 0) {
-        trigger_error('bad topic id: ' . $topicId, E_USER_ERROR);
-      }
+    if (!is_int($topicId)) {
+      trigger_error('bad topic id: ' . $topicId, E_USER_ERROR);
+    }
+
+    if ($postType == 'reply' && !$this->topicExists($topicId)) {
+      trigger_error('topic does not exist: ' . $topicId, E_USER_ERROR);
     }
 
     if ($msg === null) {

@@ -32,7 +32,7 @@ function send_to_lists($user, $data, $post_data) {
   $messageId = build_message_id($time, $postId, $_SERVER['SERVER_NAME']);
  
   $forumURL = 'http://' . $_SERVER['SERVER_NAME'] .
-              substr($_SERVER['SCRIPT_NAME'], 0, -strlen('/posting.php'));
+                  dirname($_SERVER['SCRIPT_NAME']);
 
   $body = $data['message'];
 
@@ -40,7 +40,6 @@ function send_to_lists($user, $data, $post_data) {
   var_dump($data);
   var_dump($post_data);
   var_dump($messageId);
-  var_dump($forumURL);
   print '</p>';
 
 /*

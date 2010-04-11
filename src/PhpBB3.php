@@ -145,8 +145,11 @@ class PhpBB3 {
     $userId = $this->getUserId($msg->getFrom());
     $userName = $this->getUserName($userId);
 
+    # bring in the PhpBB globals
+    global $phpEx, $phpbb_root_path, $user, $auth,
+           $template, $cache, $db, $config;
+
     # authenticate ourselves
-    global $phpEx, $phpbb_root_path, $user, $auth;
     $user->session_create($userId);
     $auth->acl($user->data);
 

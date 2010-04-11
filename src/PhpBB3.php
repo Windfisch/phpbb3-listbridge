@@ -119,17 +119,9 @@ class PhpBB3 {
       trigger_error('bad post type: ' . $postType, E_USER_ERROR);
     }
 
-    if (!is_int($forumId) || $forumId < 0) {
-      trigger_error('bad forum id: ' . $forumId, E_USER_ERROR);
-    }
-
     if (!$this->forumExists($forumId)) {
       trigger_error('forum does not exist: ' . $forumId, E_USER_ERROR);
     } 
-
-    if (!is_int($topicId)) {
-      trigger_error('bad topic id: ' . $topicId, E_USER_ERROR);
-    }
 
     if ($postType == 'reply' && !$this->topicExists($topicId)) {
       trigger_error('topic does not exist: ' . $topicId, E_USER_ERROR);

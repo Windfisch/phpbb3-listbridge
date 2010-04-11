@@ -33,6 +33,10 @@ class Bridge {
       trigger_error('message id is null', E_USER_ERROR);
     } 
 
+    if ($postId === null) {
+      trigger_error('post id is null', E_USER_ERROR);
+    } 
+
     $sql = 'UPDATE posts SET ' .
            'post_id = ' . $postId . ' ' . 
            'WHERE message_id = ' . $this->db->quote($messageId);

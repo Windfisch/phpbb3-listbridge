@@ -155,8 +155,8 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
 
   public function providerSetPostId() {
     return array(
-      array(null, null, 'PHPUnit_Framework_Error'),
-      array('<10100302094228.33F0310091@charybdis.ellipsis.cx>', null, 'PDOException'),
+      array(null, 1, 'PHPUnit_Framework_Error'),
+      array('<10100302094228.33F0310091@charybdis.ellipsis.cx>', null, 'PHPUnit_Framework_Error'),
       array('<20100302094228.33F0310091@charybdis.ellipsis.cx>', 2, null),
       array('<20100302094228.33F0310091@charybdis.ellipsis.cx>', 3, null),
     );

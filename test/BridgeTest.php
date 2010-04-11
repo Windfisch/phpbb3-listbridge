@@ -96,19 +96,20 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
   /**
    * @dataProvider providerRegisterMessage
    */
-  public function testRegisterMessage($postId, $messageId, $inReplyTo, $refs,
+  public function testRegisterMessage($messageId, $inReplyTo, $refs,
                                       $expected, $ex) {
     if ($ex) $this->setExpectedException($ex);
     $bridge = new Bridge($this->db);
-    $bridge->registerMessage($postId, $messageId, $inReplyTo, $refs);
+    $this->assertEquals(
+      $expected,
+      $bridge->registerMessage($messageId, $inReplyTo, $refs)
+    );
   }
 
   public function providerRegisterMessage() {
     return array(
       array('bogus', null, null, null, null, 'PDOException'),
-      array(1, '', '', '', null, 'PDOException'),
       array(
-        2,
         '<20100302094228.33F0310091@charybdis.ellipsis.cx>',
         null,
         null,
@@ -116,11 +117,10 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
         'PDOException'
       ),
       array(
-        2,
         '<10100302094228.33F0310091@charybdis.ellipsis.cx>',
         null,
         null,
-        null,
+        true,
         null,
       )    
     );
@@ -143,19 +143,22 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
-   * @dataProvider providerSetMessageIdIfAbsent
+   * @dataProvider providerSetPostId
    */
-  public function testSetMessageIdIfAbsent($messageId, $expected, $ex) {
+  public function testSetPostId($messageId, $postId, $ex) {
     if ($ex) $this->setExpectedException($ex);
     $bridge = new Bridge($this->db);
-    $this->assertEquals($expected, $bridge->setMessageIdIfAbsent($messageId));
+
+    $bridge->setPostId($messageId, $postId);
+    $this->assertEquals($bridge->getPostId($messageId), $postId);
   }
 
-  public function providerSetMessageIdIfAbsent() {
+  public function providerSetPostId() {
     return array(
       array(null, null, 'PHPUnit_Framework_Error'),
-      array('<20100302094228.33F0310091@charybdis.ellipsis.cx>', false, null),
-      array('<10100302094228.33F0310091@charybdis.ellipsis.cx>', true,  null),
+      array('<10100302094228.33F0310091@charybdis.ellipsis.cx>', null, 'PDOException'),
+      array('<20100302094228.33F0310091@charybdis.ellipsis.cx>', 2, null),
+      array('<20100302094228.33F0310091@charybdis.ellipsis.cx>', 3, null),
     );
   }
 }

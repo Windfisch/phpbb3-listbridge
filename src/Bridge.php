@@ -28,19 +28,16 @@ class Bridge {
     return $row['message_id'];
   }
 
-  public function registerMessage($postId, $messageId, $inReplyTo, $refs) {
-    $sql = 'INSERT INTO posts ' .
-           '(post_id, message_id, in_reply_to, refs) ' .
-           'VALUES (' . $postId                      . ', '
-                      . $this->db->quote($messageId) . ', '
-                      . $this->db->quote($inReplyTo) . ', '
-                      . $this->db->quote($refs)      . ')'; 
+  public function setPostId($messageId, $postId) {
+    $sql = 'UPDATE posts SET ' .
+           'post_id = ' . $postId . 
+           'WHERE message_id = ' . $this->db->quote($messageId);
 
     $count = $this->db->exec($sql);
 
     if ($count != 1) {
       trigger_error(
-        'Failed to register message: ' . $messageId, E_USER_ERROR
+        'Failed to set post id: ' . $messageId, E_USER_ERROR
       );
     }
   }
@@ -53,15 +50,19 @@ class Bridge {
     return $row['forum_id'];
   }
 
-  public function setMessageIdIfAbsent($messageId) {
+  public function registerMessage($messageId, $inReplyTo, $refs) {
     if ($messageId === null) {
-      trigger_error('messageId === null', E_USER_ERROR);
-    }
+      trigger_error('message id is null', E_USER_ERROR);
+    } 
 
-    $sql = 'INSERT IGNORE INTO posts (message_id) VALUES (' .
-            $this->db->quote($messageId) . ')';
+    $sql = 'INSERT IGNORE INTO posts ' .
+           '(message_id, in_reply_to, refs) ' .
+           'VALUES (' . $this->db->quote($messageId) . ', '
+                      . $this->db->quote($inReplyTo) . ', '
+                      . $this->db->quote($refs)      . ')'; 
 
     $count = $this->db->exec($sql);
+
     return $count == 1;
   }
 

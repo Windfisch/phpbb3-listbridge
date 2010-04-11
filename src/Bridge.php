@@ -53,6 +53,14 @@ class Bridge {
     return $row['forum_id'];
   }
 
+  public function setMessageIdIfAbsent($messageId) {
+    $sql = 'INSERT IGNORE INTO posts (message_id) VALUES (' .
+            $this->db->quote($messageId) . ')';
+
+    $count = $this->db->exec($sql);
+    return $count == 1;
+  }
+
   protected function get_exactly_one_row($sql) {
     $result = $this->db->query($sql);
 

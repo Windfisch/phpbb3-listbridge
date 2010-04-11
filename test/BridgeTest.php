@@ -18,11 +18,11 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
 
     $this->db->exec(
       'CREATE TABLE posts (' .
-      'post_id MEDIUMINT UNSIGNED NOT NULL, ' .
+      'post_id MEDIUMINT UNSIGNED, ' .
       'message_id VARCHAR(255) NOT NULL, ' .
       'in_reply_to VARCHAR(255), ' .
       'refs BLOB, ' .
-      'PRIMARY KEY (post_id), ' .
+      'UNIQUE KEY (post_id), ' .
       'UNIQUE KEY (message_id))'
     );
 
@@ -139,6 +139,23 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
     return array(
       array('bogus', null, 'PHPUnit_Framework_Error'), 
       array('messages@forums.vassalengine.org', 2, null),
+    );
+  }
+
+  /**
+   * @dataProvider providerSetMessageIdIfAbsent
+   */
+  public function testSetMessageIdIfAbsent($messageId, $expected, $ex) {
+    if ($ex) $this->setExpectedException($ex);
+    $bridge = new Bridge($this->db);
+    $this->assertEquals($expected, $bridge->setMessageIdIfAbsent($messageId));
+  }
+
+  public function providerSetMessageIdIfAbsent() {
+    return array(
+      array(null, null, 'PHPUnit_Framework_Error'),
+      array('<20100302094228.33F0310091@charybdis.ellipsis.cx>', false, null),
+      array('<10100302094228.33F0310091@charybdis.ellipsis.cx>', true,  null),
     );
   }
 }

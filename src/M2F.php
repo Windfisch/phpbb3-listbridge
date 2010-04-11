@@ -52,7 +52,7 @@ try {
   $bridge->setPostId($messageId, $postId);
 }
 catch (Exception $e) {
-  print $e->getMessage() . "\n" . $e->getTraceAsString() . "\n";
+  print $e;
 }
 
 ?>

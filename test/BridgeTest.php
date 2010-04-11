@@ -90,7 +90,7 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
   public function providerGetMessageId() {
     return array(
       array(null, null, 'Exception'), 
-      array('bogus', false, 'Exception'), 
+      array('bogus', false, null), 
       array(1, '<20100302094228.33F0310091@charybdis.ellipsis.cx>', null),
     );
   }
@@ -140,7 +140,7 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
   public function providerGetDefaultForumId() {
     return array(
       array(null, null, 'Exception'),
-      array('bogus', false, 'Exception'),
+      array('bogus', false, null),
       array('messages@forums.vassalengine.org', 2, null),
     );
   }

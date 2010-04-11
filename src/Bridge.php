@@ -68,7 +68,6 @@ class Bridge {
                       . $this->quote($references) . ')'; 
 
     $count = $this->db->exec($sql);
-
     return $count == 1;
   }
 
@@ -78,9 +77,11 @@ class Bridge {
     $sql = 'DELETE FROM posts WHERE message_id = ' .
            $this->db->quote($messageId);
 
-    $coult = $this->db->exec($sql);
+    $count = $this->db->exec($sql);
 
-    return $count == 1;
+    if ($count != 1) {
+      throw new Exception('Failed to delete message id: ' . $messageId);
+    }
   }
 
   protected function get_exactly_one_row($sql) {

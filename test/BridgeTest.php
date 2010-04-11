@@ -175,7 +175,7 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
   public function providerGetLists() {
     return array(
       array(null, null, 'Exception'),
-      array('bogus', false, null),
+      array(1, false, null),
       array(2, array('messages@forums.vassalengine.org'), null)
     );
   }

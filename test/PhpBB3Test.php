@@ -116,4 +116,20 @@ EOF;
       array(1, true, null)
     );
   }
+
+  /**
+   * @dataProvider providerGetPostTime
+   */
+  public function testGetPostTime($post_id, $expected, $ex) {
+    $this->markTestIncomplete();
+
+    if ($ex) $this->setExpectedException($ex);
+    $run = 'getPostTime(' . $post_id . ')';
+    $this->assertEquals($expected, $this->exec_kludge($run));
+  }
+
+  public function providerGetPostTime() {
+    return array(
+    );
+  }
 }

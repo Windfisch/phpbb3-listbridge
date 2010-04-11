@@ -9,6 +9,10 @@ catch (Exception $e) {
 
 function send_to_lists($user, $data, $post_data) {
 
+  require_once(__DIR__ . '/PhpBB3.php');
+
+  $phpbb = new PhpBB3();
+
 /*
   require_once('Mail.php');
 
@@ -21,14 +25,15 @@ function send_to_lists($user, $data, $post_data) {
   $userName = $user->data['username'];
   $userEmail = $user->data['user_email'];
  
-  $date = $data['post_time']; 
   $subject = $post_data['post_subject'];
+  $date = $phpbb->getPostTime($postId);
 
   $body = $data['message'];
 
   print '<p>';
   var_dump($data);
   var_dump($post_data);
+  var_dump($date);
   print '</p>';
 
 /*
@@ -55,6 +60,18 @@ function send_to_lists($user, $data, $post_data) {
   $mailer->send($to, $headers, $body);
 */
 
+}
+
+function get_post_time($postId) {
+  throw_if_null($postId);
+
+  global $db;
+
+  $sql = 'SELECT post_time FROM ' . POSTS_TABLE . ' ' .
+         'WHERE post_id = ' . $postId;
+
+  $row = $this->get_exactly_one_row($sql);
+  return $row ? $row['user_id'] : false;
 }
 
 ?>

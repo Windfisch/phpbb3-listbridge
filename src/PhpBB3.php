@@ -108,6 +108,18 @@ class PhpBB3 {
     }
   }
 
+  public function getPostTime($postId) {
+    throw_if_null($postId);
+
+    global $db;
+
+    $sql = 'SELECT post_time FROM ' . POSTS_TABLE . ' ' .
+           'WHERE post_id = ' . $postId;
+
+    $row = $this->get_exactly_one_row($sql);
+    return $row ? $row['post_time'] : false;
+  }
+
   public function postMessage($postType, $forumId, $topicId, $msg) {
     throw_if_null($msg);
 

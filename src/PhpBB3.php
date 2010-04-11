@@ -48,6 +48,111 @@ class PhpBB3 {
     return $row; 
   }
 
+  public function forumExists($forumId) {
+    global $db;
+
+    if (!is_int($forumId)) {
+      trigger_error('forum id is not an integer', E_USER_ERROR);
+    }
+
+    if ($forumId < 0) {
+      trigger_error('forum id is negative', E_USER_ERROR);
+    }
+
+    $sql = 'SELECT 1 FROM ' . FORUMS_TABLE . ' ' .
+           'WHERE forum_id = ' . $forumId . ' LIMIT 1';
+
+    $result = $db->sql_query($sql);
+  
+    $rows = $db->sql_fetchrowset($result);
+    $db->sql_freeresult($result);
+
+    switch (count($rows)) {
+    case 0:
+      return false;
+    
+    case 1:
+      return true;
+    
+    default:
+      # Should be impossible due to LIMIT 1.
+      trigger_error("Too many rows returned: $sql", E_USER_ERROR);
+      break;
+    }
+  }
+
+  public function postMessage($postType, $forumId, $topicId, $msg) {
+    if ($postType === null) {
+      trigger_error('post type is null', E_USER_ERROR);
+    }
+
+    if (!is_int($forumId)) {
+      trigger_error('forum id is not an integer', E_USER_ERROR);
+    }
+
+    if ($forumId < 0) {
+      trigger_error('forum id is negative', E_USER_ERROR);
+    }
+
+    if (!$this->forumExists($forumId)) {
+      trigger_error('forum does not exist: ' . $forumId, E_USER_ERROR);
+    } 
+
+    if ($topicId != null) {
+      if (!is_int($topicId)) {
+        trigger_error('topic id is not an integer', E_USER_ERROR);
+      }
+
+      if ($topicId < 0) {
+        trigger_error('topic id is negative', E_USER_ERROR);
+      }
+    }
+
+    if ($msg === null) {
+      trigger_error('message is null', E_USER_ERROR);
+    }
+
+    $subject = $msg->getSubject(); 
+    $message = 'foo'; # FIXME: fill in with acutal message contents
+
+    $userId = $phpbb->getUserId($msg->getFrom());
+    $userName = $phpbb->getUserName($userId);
+
+    $poll = $uid = $bitfield = '';
+    $topicId = -1;
+    $postId = null;
+
+    $data = array(
+      'forum_id'         => $forumId,
+      'topic_id'         => &$topicId,
+      'post_id'          => &$postId,
+      'icon_id'          => false,
+
+      'enable_bbcode'    => true,
+      'enable_smilies'   => true,
+      'enable_urls'      => true,
+      'enable_sig'       => true,
+
+      'message'          => $message,
+      'message_md5'      => md5($message),
+
+      'bbcode_bitfield'  => $bitfield,  # ?
+      'bbcode_uid'       => $uid,       # ?
+
+      'post_edit_locked' => 0,
+      'topic_title'      => $subject,
+      'notify_set'       => false,
+      'notify'           => false,
+      'post_time'        => 0,
+      'forum_name'       => '',
+      'enable_indexing'  => true,
+    );
+
+    submit_post($postType, $subject, $userName, POST_NORMAL, $poll, $data);
+
+    return $postId;
+  }
+
   protected function get_exactly_one_row($sql) {
     global $db;
 

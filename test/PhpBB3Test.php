@@ -76,8 +76,27 @@ EOF;
 
   public function providerGetTopicAndForumIds() {
     return array(
-      array(0, null, 'PHPUnit_Framework_Error'),
+      array('bogus', null, 'PHPUnit_Framework_Error'),
       array(2, array('topic_id' => 2, 'forum_id' => 2), null)
+    );
+  }
+
+  /**
+   * @dataProvider providerForumExists
+   */
+  public function testForumExists($forum_id, $expected, $ex) {
+    if ($ex) $this->setExpectedException($ex);
+    $run = 'forumExists(' . $forum_id . ')';
+    $this->assertEquals($expected, $this->exec_kludge($run));
+  }
+
+  public function providerForumExists() {
+    return array(
+      array('bogus', null, 'PHPUnit_Framework_Error'),
+      array(3.5, null 'PHPUnit_Framework_Error'),
+      array(-1, null 'PHPUnit_Framework_Error'),
+      array(1, false, null),
+      array(2, true, null)
     );
   }
 }

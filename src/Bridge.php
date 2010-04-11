@@ -30,11 +30,11 @@ class Bridge {
 
   public function setPostId($messageId, $postId) {
     if ($messageId === null) {
-      trigger_error('message id is null', E_USER_ERROR);
+      throw new Exception('message id is null');
     } 
 
     if ($postId === null) {
-      trigger_error('post id is null', E_USER_ERROR);
+      throw new Exception('post id is null');
     } 
 
     $sql = 'UPDATE posts SET ' .
@@ -44,9 +44,7 @@ class Bridge {
     $count = $this->db->exec($sql);
 
     if ($count != 1) {
-      trigger_error(
-        'Failed to set post id: ' . $messageId, E_USER_ERROR
-      );
+      throw new Exception('Failed to set post id: ' . $messageId);
     }
   }
 
@@ -60,7 +58,7 @@ class Bridge {
 
   public function registerMessage($messageId, $inReplyTo, $refs) {
     if ($messageId === null) {
-      trigger_error('message id is null', E_USER_ERROR);
+      throw new Exception('message id is null');
     } 
 
     $sql = 'INSERT IGNORE INTO posts ' .
@@ -82,14 +80,14 @@ class Bridge {
     
     switch (count($rows)) {
     case 0:
-      trigger_error("No rows returned: $sql", E_USER_ERROR);
+      throw new Exception("No rows returned: $sql");
       break;
 
     case 1:
       return $rows[0];
 
     default:
-      trigger_error("Too many rows returned: $sql", E_USER_ERROR);
+      throw new Exception("Too many rows returned: $sql");
       break;
     }
   }

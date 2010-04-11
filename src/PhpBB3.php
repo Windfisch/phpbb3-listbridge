@@ -28,11 +28,11 @@ class PhpBB3 {
     $ids = array($id);
     $err = user_get_id_name($ids, $names);
     if ($err) {
-      trigger_error("Could not resolve user id $id: $err", E_USER_ERROR);
+      throw new Exception("Could not resolve user id $id: $err");
     }
 
     if (!array_key_exists($id, $names)) {
-      trigger_error("Unknown user id: $id", E_USER_ERROR);
+      throw new Exception("Unknown user id: $id");
     }
 
     return $names[$id];
@@ -68,8 +68,7 @@ class PhpBB3 {
     
     default:
       # Should be impossible due to LIMIT 1.
-      trigger_error("Too many rows returned: $sql", E_USER_ERROR);
-      break;
+      throw new Exception("Too many rows returned: $sql");
     }
   }
 
@@ -93,26 +92,25 @@ class PhpBB3 {
     
     default:
       # Should be impossible due to LIMIT 1.
-      trigger_error("Too many rows returned: $sql", E_USER_ERROR);
-      break;
+      throw new Exception("Too many rows returned: $sql");
     }
   }
 
   public function postMessage($postType, $forumId, $topicId, $msg) {
     if ($postType != 'post' && $postType != 'reply') {
-      trigger_error('bad post type: ' . $postType, E_USER_ERROR);
+      throw new Exception('bad post type: ' . $postType);
     }
 
     if (!$this->forumExists($forumId)) {
-      trigger_error('forum does not exist: ' . $forumId, E_USER_ERROR);
+      throw new Exception('forum does not exist: ' . $forumId);
     } 
 
     if ($postType == 'reply' && !$this->topicExists($topicId)) {
-      trigger_error('topic does not exist: ' . $topicId, E_USER_ERROR);
+      throw new Exception('topic does not exist: ' . $topicId);
     }
 
     if ($msg === null) {
-      trigger_error('message is null', E_USER_ERROR);
+      throw new Exception('message is null');
     }
 
     $subject = $msg->getSubject(); 
@@ -187,15 +185,13 @@ class PhpBB3 {
 
     switch (count($rows)) {
     case 0:
-      trigger_error("No rows returned: $sql", E_USER_ERROR);
-      break;
+      throw new Exception("No rows returned: $sql");
 
     case 1:
       return $rows[0];
 
     default:
-      trigger_error("Too many rows returned: $sql", E_USER_ERROR);
-      break;
+      throw new Exception("Too many rows returned: $sql");
     }
   }
 }

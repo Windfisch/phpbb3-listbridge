@@ -52,7 +52,7 @@ abstract class EmailMessage implements Message {
 
     if (count($msg->headers) == 1 && array_key_exists(null, $msg->headers)) {
       # An empty message has one null header.
-      trigger_error('No message', E_USER_ERROR);
+      throw new Exception('No message');
     }
 
     return $msg;

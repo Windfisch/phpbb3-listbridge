@@ -34,7 +34,7 @@ EOF;
   }
 
   /**
-   * @dataProvider provider_GetUserId
+   * @dataProvider providerGetUserId
    */
   public function testGetUserId($from, $expected, $ex) {
     if ($ex) $this->setExpectedException($ex);

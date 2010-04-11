@@ -93,8 +93,8 @@ EOF;
   public function providerForumExists() {
     return array(
       array('bogus', null, 'PHPUnit_Framework_Error'),
-      array(3.5, null 'PHPUnit_Framework_Error'),
-      array(-1, null 'PHPUnit_Framework_Error'),
+      array(3.5, null, 'PHPUnit_Framework_Error'),
+      array(-1, null, 'PHPUnit_Framework_Error'),
       array(1, false, null),
       array(2, true, null)
     );

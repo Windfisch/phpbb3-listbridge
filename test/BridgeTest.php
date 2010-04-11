@@ -164,6 +164,23 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * @dataProvider providerGetLists
+   */
+  public function testGetLists($forumId, $expected, $ex) {
+    if ($ex) $this->setExpectedException($ex);
+    $bridge = new Bridge($this->db);
+    $this->assertEquals($expected, $bridge->getLists($forumId));
+  }
+
+  public function providerGetLists() {
+    return array(
+      array(null, null, 'Exception'),
+      array('bogus', false, null),
+      array(2, array('messages@forums.vassalengine.org'), null)
+    );
+  }
+
+  /**
    * @dataProvider providerSetPostId
    */
   public function testSetPostId($messageId, $postId, $ex) {

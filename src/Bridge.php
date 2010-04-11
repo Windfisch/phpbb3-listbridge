@@ -58,6 +58,19 @@ class Bridge {
     return $row ? $row['forum_id'] : false;
   }
 
+  public function getLists($forumId) {
+    throw_if_null($forumId);
+
+    $sql = 'SELECT list_name FROM forums ' .
+           'WHERE forum_id = ' . $forumId;
+
+    $result = $this->db->query($sql);
+
+    $rows = $result->fetchAll(PDO::FETCH_COLUMN);
+    $result->closeCursor();
+    return $rows;
+  }
+
   public function registerMessage($messageId, $inReplyTo, $references) {
     throw_if_null($messageId);
 

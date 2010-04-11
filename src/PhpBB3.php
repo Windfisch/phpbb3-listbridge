@@ -179,8 +179,8 @@ class PhpBB3 {
       'message'          => $message,
       'message_md5'      => md5($message),
 
-      'bbcode_bitfield'  => $bitfield,  # ?
-      'bbcode_uid'       => $uid,       # ?
+      'bbcode_bitfield'  => $bitfield,
+      'bbcode_uid'       => $uid,
 
       'post_edit_locked' => 0,
       'topic_title'      => $subject,

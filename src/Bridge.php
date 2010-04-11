@@ -1,6 +1,7 @@
 <?php
 
 require_once(__DIR__ . '/BridgeConf.php');
+require_once(__DIR__ . '/Util.php');
 
 class Bridge {
   protected $db;
@@ -13,29 +14,28 @@ class Bridge {
   }
 
   public function getPostId($messageId) {
+    throw_if_null($messageId);
+
     $sql = 'SELECT post_id FROM posts ' .
            'WHERE message_id = ' . $this->db->quote($messageId);
 
     $row = $this->get_exactly_one_row($sql);
-    return $row['post_id'];
+    return $row ? $row['post_id'] : false;
   }
 
   public function getMessageId($postId) {
+    throw_if_null($postId);
+
     $sql = 'SELECT message_id FROM posts ' .
            'WHERE post_id = ' . $this->db->quote($postId);
 
     $row = $this->get_exactly_one_row($sql);
-    return $row['message_id'];
+    return $row ? $row['message_id'] : false;
   }
 
   public function setPostId($messageId, $postId) {
-    if ($messageId === null) {
-      throw new Exception('message id is null');
-    } 
-
-    if ($postId === null) {
-      throw new Exception('post id is null');
-    } 
+    throw_if_null($messageId);
+    throw_if_null($postId);
 
     $sql = 'UPDATE posts SET ' .
            'post_id = ' . $postId . ' ' . 
@@ -49,23 +49,23 @@ class Bridge {
   }
 
   public function getDefaultForumId($list) {
+    throw_if_null($list);
+
     $sql = 'SELECT forum_id FROM forums ' .
            'WHERE list_name = ' . $this->db->quote($list);
 
     $row = $this->get_exactly_one_row($sql);
-    return $row['forum_id'];
+    return $row ? $row['forum_id'] : false;
   }
 
-  public function registerMessage($messageId, $inReplyTo, $refs) {
-    if ($messageId === null) {
-      throw new Exception('message id is null');
-    } 
+  public function registerMessage($messageId, $inReplyTo, $references) {
+    throw_if_null($messageId);
 
     $sql = 'INSERT IGNORE INTO posts ' .
            '(message_id, in_reply_to, refs) ' .
            'VALUES (' . $this->db->quote($messageId) . ', '
-                      . $this->db->quote($inReplyTo) . ', '
-                      . $this->db->quote($refs)      . ')'; 
+                      . $this->quote($inReplyTo) . ', '
+                      . $this->quote($references) . ')'; 
 
     $count = $this->db->exec($sql);
 
@@ -80,16 +80,18 @@ class Bridge {
     
     switch (count($rows)) {
     case 0:
-      throw new Exception("No rows returned: $sql");
-      break;
+      return false;
 
     case 1:
       return $rows[0];
 
     default:
       throw new Exception("Too many rows returned: $sql");
-      break;
     }
+  }
+
+  protected function quote($arg) {
+    return $arg === null ? 'NULL' : $this->db->quote($arg);
   }
 }
 

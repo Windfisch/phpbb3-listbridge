@@ -1,5 +1,7 @@
 <?php
 
+require_once(__DIR__ . '/Util.php');
+
 # phpBB setup
 define('IN_PHPBB', true);
 require_once(__DIR__ . '/PhpBB3Conf.php');
@@ -13,16 +15,20 @@ class PhpBB3 {
   }
 
   public function getUserId($from) {
+    throw_if_null($from);
+
     global $db;
 
     $sql = 'SELECT user_id FROM ' . USERS_TABLE . ' ' .
            'WHERE user_email = "' . $db->sql_escape($from) . '"';
 
     $row = $this->get_exactly_one_row($sql);
-    return $row['user_id'];
+    return $row ? $row['user_id'] : false;
   }
 
   public function getUserName($id) {
+    throw_if_null($id);
+
     # NB: user_get_id_name is pass-by-reference; we copy $id to prevent
     # it from being modified, as we might need it for error messages
     $ids = array($id);
@@ -39,16 +45,20 @@ class PhpBB3 {
   }
 
   public function getTopicAndForumIds($post_id) {
+    throw_if_null($post_id);
+
     global $db;
 
     $sql = 'SELECT topic_id, forum_id FROM ' . POSTS_TABLE . ' ' .
            'WHERE post_id = "' . $db->sql_escape($post_id) . '"';
 
     $row = $this->get_exactly_one_row($sql);
-    return $row; 
+    return $row;
   }
 
   public function forumExists($forumId) {
+    throw_if_null($forumId);
+
     global $db;
 
     $sql = 'SELECT 1 FROM ' . FORUMS_TABLE . ' ' .
@@ -73,6 +83,8 @@ class PhpBB3 {
   }
 
   public function topicExists($topicId) {
+    throw_if_null($topicId);
+
     global $db;
 
     $sql = 'SELECT 1 FROM ' . TOPICS_TABLE . ' ' .
@@ -97,6 +109,8 @@ class PhpBB3 {
   }
 
   public function postMessage($postType, $forumId, $topicId, $msg) {
+    throw_if_null($msg);
+
     if ($postType != 'post' && $postType != 'reply') {
       throw new Exception('bad post type: ' . $postType);
     }
@@ -109,15 +123,18 @@ class PhpBB3 {
       throw new Exception('topic does not exist: ' . $topicId);
     }
 
-    if ($msg === null) {
-      throw new Exception('message is null');
+    $userId = $this->getUserId($msg->getFrom());
+    if ($userId === false) {
+      throw new Exception('unrecognized email address: ' . $msg->getFrom());
+    }
+
+    $userName = $this->getUserName($userId);
+    if ($userName === false) {
+      throw new Exception('unrecognized user id: ' . $userId);
     }
 
     $subject = $msg->getSubject(); 
     $message = 'foo'; # FIXME: fill in with acutal message contents
-
-    $userId = $this->getUserId($msg->getFrom());
-    $userName = $this->getUserName($userId);
 
     # bring in the PhpBB globals
     global $phpEx, $phpbb_root_path, $user, $auth,
@@ -185,7 +202,7 @@ class PhpBB3 {
 
     switch (count($rows)) {
     case 0:
-      throw new Exception("No rows returned: $sql");
+      return false;
 
     case 1:
       return $rows[0];

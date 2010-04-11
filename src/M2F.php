@@ -13,9 +13,9 @@ $msg = new MailmanMessage($input);
 
 $bridge = new Bridge();
 
-$seen = $bridge->registerMessage($msg->getMessageId(),
-                                 $msg->getInReplyTo(),
-                                 $msg->getReferences());
+$seen = !$bridge->registerMessage($msg->getMessageId(),
+                                  $msg->getInReplyTo(),
+                                  $msg->getReferences());
 
 if ($seen) {
   # This message has already been processed.

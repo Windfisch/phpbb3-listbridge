@@ -19,6 +19,7 @@ $seen = $bridge->registerMessage($msg->getMessageId(),
 
 if ($seen) {
   # This message has already been processed.
+  print "Message id already seen, skipping.\n";
   exit;
 }
 
@@ -46,6 +47,7 @@ else {
 
 # Post the message to the forum
 $phpbb->postMessage($postType, $forumId, $topicId, $msg);
+
 $bridge->setPostId($messageId, $postId);
 
 ?>

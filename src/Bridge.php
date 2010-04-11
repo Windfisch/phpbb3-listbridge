@@ -66,7 +66,7 @@ class Bridge {
 
     $result = $this->db->query($sql);
 
-    $rows = $result->fetchAll(PDO::FETCH_COLUMN, 0);
+    $rows = $result->fetchAll(PDO::FETCH_COLUMN);
     $result->closeCursor();
     return $rows;
   }

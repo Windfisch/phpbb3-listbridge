@@ -54,6 +54,10 @@ class Bridge {
   }
 
   public function setMessageIdIfAbsent($messageId) {
+    if ($messageId === null) {
+      trigger_error('messageId === null', E_USER_ERROR);
+    }
+
     $sql = 'INSERT IGNORE INTO posts (message_id) VALUES (' .
             $this->db->quote($messageId) . ')';
 

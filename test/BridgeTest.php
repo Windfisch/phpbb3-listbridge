@@ -96,9 +96,9 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
-   * @dataProvider providerRegisterMessage
+   * @dataProvider providerRegisterMessage3
    */
-  public function testRegisterMessage($messageId, $inReplyTo, $refs,
+  public function testRegisterMessage3($messageId, $inReplyTo, $refs,
                                       $expected, $ex) {
     if ($ex) $this->setExpectedException($ex);
     $bridge = new Bridge($this->db);
@@ -108,7 +108,7 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
     );
   }
 
-  public function providerRegisterMessage() {
+  public function providerRegisterMessage3() {
     return array(
       array(null, null, null, null, 'Exception'),
       array(
@@ -119,6 +119,41 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
         null
       ),
       array(
+        '<10100302094228.33F0310091@charybdis.ellipsis.cx>',
+        null,
+        null,
+        true,
+        null
+      )    
+    );
+  }
+
+  /**
+   * @dataProvider providerRegisterMessage4
+   */
+  public function testRegisterMessage4($postId, $messageId, $inReplyTo, $refs,
+                                       $expected, $ex) {
+    if ($ex) $this->setExpectedException($ex);
+    $bridge = new Bridge($this->db);
+    $this->assertEquals(
+      $expected,
+      $bridge->registerMessage($postId, $messageId, $inReplyTo, $refs)
+    );
+  }
+
+  public function providerRegisterMessage4() {
+    return array(
+      array(null, null, null, null, 'Exception'),
+      array(
+        2,
+        '<20100302094228.33F0310091@charybdis.ellipsis.cx>',
+        null,
+        null,
+        false,
+        null
+      ),
+      array(
+        2,
         '<10100302094228.33F0310091@charybdis.ellipsis.cx>',
         null,
         null,

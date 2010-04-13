@@ -84,6 +84,22 @@ class Bridge {
     return $count == 1;
   }
 
+  public function registerMessage($postId, $messageId,
+                                  $inReplyTo, $references) {
+    throw_if_null($postId);
+    throw_if_null($messageId);
+
+    $sql = 'INSERT IGNORE INTO posts ' .
+           '(post_id, message_id, in_reply_to, refs) ' .
+           'VALUES (' . $postId . ', '
+                      . $this->db->quote($messageId) . ', '
+                      . $this->quote($inReplyTo) . ', '
+                      . $this->quote($references) . ')'; 
+
+    $count = $this->db->exec($sql);
+    return $count == 1;
+  }
+
   public function unregisterMessage($messageId) {
     throw_if_null($messageId);
 

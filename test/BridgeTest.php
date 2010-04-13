@@ -110,7 +110,7 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
 
   public function providerRegisterMessage() {
     return array(
-      array(null, null, null, null, 'Exception'),
+      array(null, null, null, null, null, 'Exception'),
       array(
         null,
         '<20100302094228.33F0310091@charybdis.ellipsis.cx>',

@@ -17,7 +17,6 @@ function send_to_lists($user, $mode, $data, $post_data) {
 
   $postId = $data['post_id'];
   $forumId = $data['forum_id'];
-  $topidId = $post_data['topic_id']; 
  
   $bridge = new Bridge();
 
@@ -49,6 +48,11 @@ function send_to_lists($user, $mode, $data, $post_data) {
   $references = null;
   
   if ($mode == 'reply') {
+    $topicId = $phpbb->getTopicId($postId);
+    if ($topicId === false) {
+      throw new Exception('unrecognized post id: ' . $postId);
+    }
+
     $firstId = $phpbb->getFirstPostId($topicId);
     if ($firstId === false) {
       throw new Exception('topic has no first post: ' . $topicId);

@@ -24,10 +24,16 @@ function send_to_lists($user, $data, $post_data) {
 
   $userName = $user->data['username'];
   $userEmail = $user->data['user_email'];
- 
-  $subject = $post_data['post_subject'];
+
+  $from = utf8_quote($userName) . ' <' . $userEmail . '>';
+  $sender = 'forum@test.nomic.net';
+  $subject = utf8_quote($post_data['post_subject']);
 
   $time = $phpbb->getPostTime($postId);
+  if ($time === false) {
+    throw new Exception('no post time: ' . $postId);
+  }
+
   $date = date(DATE_RFC2822, $time);
   $messageId = build_message_id($time, $postId, $_SERVER['SERVER_NAME']);
  
@@ -36,18 +42,16 @@ function send_to_lists($user, $data, $post_data) {
 
   $body = $data['message'];
 
-/*
   print '<p>';
   var_dump($data);
   var_dump($post_data);
-  var_dump($messageId);
   print '</p>';
-*/
 
 /*
   $bridge = new Bridge();
 
   $to = $bridge->getLists($forumId);
+  if ($to == false) {
 
   $headers = array(
     'To'           => implode(', ', $to),

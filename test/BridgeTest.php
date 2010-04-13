@@ -94,45 +94,12 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
       array(1, '<20100302094228.33F0310091@charybdis.ellipsis.cx>', null),
     );
   }
-
+ 
   /**
-   * @dataProvider providerRegisterMessage3
+   * @dataProvider providerRegisterMessage
    */
-  public function testRegisterMessage3($messageId, $inReplyTo, $refs,
+  public function testRegisterMessage($postId, $messageId, $inReplyTo, $refs,
                                       $expected, $ex) {
-    if ($ex) $this->setExpectedException($ex);
-    $bridge = new Bridge($this->db);
-    $this->assertEquals(
-      $expected,
-      $bridge->registerMessage($messageId, $inReplyTo, $refs)
-    );
-  }
-
-  public function providerRegisterMessage3() {
-    return array(
-      array(null, null, null, null, 'Exception'),
-      array(
-        '<20100302094228.33F0310091@charybdis.ellipsis.cx>',
-        null,
-        null,
-        false,
-        null
-      ),
-      array(
-        '<10100302094228.33F0310091@charybdis.ellipsis.cx>',
-        null,
-        null,
-        true,
-        null
-      )    
-    );
-  }
-
-  /**
-   * @dataProvider providerRegisterMessage4
-   */
-  public function testRegisterMessage4($postId, $messageId, $inReplyTo, $refs,
-                                       $expected, $ex) {
     if ($ex) $this->setExpectedException($ex);
     $bridge = new Bridge($this->db);
     $this->assertEquals(
@@ -141,9 +108,17 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
     );
   }
 
-  public function providerRegisterMessage4() {
+  public function providerRegisterMessage() {
     return array(
       array(null, null, null, null, 'Exception'),
+      array(
+        null,
+        '<20100302094228.33F0310091@charybdis.ellipsis.cx>',
+        null,
+        null,
+        false,
+        null
+      ),
       array(
         2,
         '<20100302094228.33F0310091@charybdis.ellipsis.cx>',
@@ -159,7 +134,15 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
         null,
         true,
         null
-      )    
+      ),
+      array(
+        null,
+        '<10100302094228.33F0310091@charybdis.ellipsis.cx>',
+        null,
+        null,
+        true,
+        null
+      )
     );
   }
 

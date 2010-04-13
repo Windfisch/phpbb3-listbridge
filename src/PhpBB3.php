@@ -44,13 +44,25 @@ class PhpBB3 {
     return $names[$id];
   }
 
+  public function getTopicId($postId) {
+    throw_if_null($post_id);
+
+    global $db;
+
+    $sql = 'SELECT topic_id FROM ' . POSTS_TABLE . ' ' .
+           'WHERE post_id = ' . $post_id;
+
+    $row = $this->get_exactly_one_row($sql);
+    return $row ? $row['topic_id'] : false;
+  }
+
   public function getTopicAndForumIds($post_id) {
     throw_if_null($post_id);
 
     global $db;
 
     $sql = 'SELECT topic_id, forum_id FROM ' . POSTS_TABLE . ' ' .
-           'WHERE post_id = "' . $db->sql_escape($post_id) . '"';
+           'WHERE post_id = ' . $post_id;
 
     $row = $this->get_exactly_one_row($sql);
     return $row;

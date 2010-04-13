@@ -67,6 +67,23 @@ EOF;
   }
 
   /**
+   * @dataProvider providerGetTopicId
+   */
+  public function testGetTopicId($post_id, $expected, $ex) {
+    if ($ex) $this->setExpectedException($ex);
+    $run = 'getTopicId(' . $post_id . ')';
+    $this->assertEquals($expected, $this->exec_kludge($run));
+  }
+
+  public function providerGetTopicId() {
+    return array(
+      array(null, null, 'Exception'),
+      array('bogus', false, null),
+      array(2, 2, null)
+    );
+  }
+
+  /**
    * @dataProvider providerGetTopicAndForumIds
    */
   public function testGetTopicAndForumIds($post_id, $expected, $ex) {

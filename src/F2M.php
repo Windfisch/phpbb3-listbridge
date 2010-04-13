@@ -1,13 +1,13 @@
 <?php
 
 try {
-  send_to_lists($user, $data, $post_data);
+  send_to_lists($user, $mode, $data, $post_data);
 }
 catch (Exception $e) {
   print "<p>$e</p>\n";
 }
 
-function send_to_lists($user, $data, $post_data) {
+function send_to_lists($user, $mode, $data, $post_data) {
 
   require_once('Mail.php');
 
@@ -44,22 +44,37 @@ function send_to_lists($user, $data, $post_data) {
 
   $date = date(DATE_RFC2822, $time);
   $messageId = build_message_id($time, $postId, $_SERVER['SERVER_NAME']);
- 
+
   $inReplyTo = null;
   $references = null;
+  
+  if ($mode == 'reply') {
+    $firstId = $phpbb->getFirstPostId($topicId);
+    if ($firstId === false) {
+      throw new Exception('topic has no first post: ' . $topicId);
+    }
+
+    $firstMessageId = $bridge->getMessageId($firstId);
+    if ($firstMessageId === null) {
+      throw new Exception('unrecognized post id: ' . $firstId);
+    }
+
+# FIXME: try to build better References by matching, maybe?
+    $inReplyTo = $references = $firstMessageId;
+  }
 
   $forumURL = 'http://' . $_SERVER['SERVER_NAME'] .
                   dirname($_SERVER['SCRIPT_NAME']);
 
   $body = $data['message'];
 
-
+/*
   print '<p>';
   var_dump($data);
   var_dump($post_data);
   print '</p>';
+*/
 
-/*
   # Assemble the message headers
   $headers = array(
     'To'          => $to,
@@ -98,7 +113,6 @@ function send_to_lists($user, $data, $post_data) {
     $bridge->unregisterMessage($messageId);
     throw $e;
   }
-*/
 }
 
 ?>

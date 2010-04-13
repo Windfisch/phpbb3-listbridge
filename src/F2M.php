@@ -4,7 +4,7 @@ try {
   send_to_lists($user, $mode, $data, $post_data);
 }
 catch (Exception $e) {
-  print "<p>$e</p>\n";
+  trigger_error($e, E_USER_ERROR);
 }
 
 function send_to_lists($user, $mode, $data, $post_data) {

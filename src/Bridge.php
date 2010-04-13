@@ -27,7 +27,7 @@ class Bridge {
     throw_if_null($postId);
 
     $sql = 'SELECT message_id FROM posts ' .
-           'WHERE post_id = ' . $this->db->quote($postId);
+           'WHERE post_id = ' . $postId;
 
     $row = $this->get_exactly_one_row($sql);
     return $row ? $row['message_id'] : false;

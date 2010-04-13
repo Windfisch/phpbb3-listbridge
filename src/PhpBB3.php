@@ -120,6 +120,18 @@ class PhpBB3 {
     return $row ? $row['post_time'] : false;
   }
 
+  public function getFirstPostId($topicId) {
+    throw_if_null($topicId);
+
+    global $db;
+
+    $sql = 'SELECT topic_first_post_id FROM ' . TOPICS_TABLE . ' ' .
+           'WHERE topic_id = ' . $topicId;
+
+    $row = $this->get_exactly_one_row($sql);
+    return $row ? $row['topic_first_post_id'] : false;
+  }
+
   public function postMessage($postType, $forumId, $topicId, $msg) {
     throw_if_null($msg);
 

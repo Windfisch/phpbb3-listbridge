@@ -132,4 +132,20 @@ EOF;
     return array(
     );
   }
+
+  /**
+   * @dataProvider providerGetFirstPostId
+   */
+  public function testGetFirstPostId($topic_id, $expected, $ex) {
+    $this->markTestIncomplete();
+
+    if ($ex) $this->setExpectedException($ex);
+    $run = 'getFirstPostId(' . $topic_id . ')';
+    $this->assertEquals($expected, $this->exec_kludge($run));
+  }
+
+  public function providerGetFirstPostId() {
+    return array(
+    );
+  }
 }

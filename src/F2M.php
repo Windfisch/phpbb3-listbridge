@@ -58,12 +58,12 @@ function send_to_lists($user, $data, $post_data) {
 
   # assemble the message headers
   $headers = array(
-    'To'           => $to,
-    'From'         => $from,
-    'Subject'      => $subject,
-    'Date',        => $date,
-    'Message-Id',  => $messageId,
-    'X-BeenThere'  => $forumURL,
+    'To'          => $to,
+    'From'        => $from,
+    'Subject'     => $subject,
+    'Date'        => $date,
+    'Message-Id'  => $messageId,
+    'X-BeenThere' => $forumURL,
   );
 
   # send the message

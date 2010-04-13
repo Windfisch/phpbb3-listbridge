@@ -52,7 +52,7 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
     $this->db->exec(
       'INSERT INTO forums (list_name, forum_id) ' .
       'VALUES (' .
-        '"messages@forums.vassalengine.org", 2' .
+        '"messages@test.nomic.net", 2' .
       ')'
     );
   }
@@ -159,7 +159,7 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
     return array(
       array(null, null, 'Exception'),
       array('bogus', false, null),
-      array('messages@forums.vassalengine.org', 2, null),
+      array('messages@test.nomic.net', 2, null),
     );
   }
 
@@ -176,7 +176,7 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
     return array(
       array(null, null, 'Exception'),
       array(1, array(), null),
-      array(2, array('messages@forums.vassalengine.org'), null)
+      array(2, array('messages@test.nomic.net'), null)
     );
   }
 

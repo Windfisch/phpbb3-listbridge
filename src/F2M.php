@@ -17,7 +17,7 @@ function send_to_lists($user, $mode, $data, $post_data) {
 
   $postId = $data['post_id'];
   $forumId = $data['forum_id'];
-  $topidId = $data['topic_id']; 
+  $topidId = $post_data['topic_id']; 
  
   $bridge = new Bridge();
 

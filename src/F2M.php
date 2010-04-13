@@ -48,16 +48,7 @@ function send_to_lists($user, $mode, $data, $post_data) {
   $references = null;
   
   if ($mode == 'reply') {
-    $topicId = $phpbb->getTopicId($postId);
-    if ($topicId === false) {
-      throw new Exception('unrecognized post id: ' . $postId);
-    }
-
-    $firstId = $phpbb->getFirstPostId($topicId);
-    if ($firstId === false) {
-      throw new Exception('topic has no first post: ' . $topicId);
-    }
-
+    $firstId = $post['topic_first_post_id']; 
     $firstMessageId = $bridge->getMessageId($firstId);
     if ($firstMessageId === null) {
       throw new Exception('unrecognized post id: ' . $firstId);

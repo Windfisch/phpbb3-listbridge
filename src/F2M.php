@@ -17,7 +17,8 @@ function send_to_lists($user, $data, $post_data) {
 
   $postId = $data['post_id'];
   $forumId = $data['forum_id'];
-  
+  $topidId = $data['topic_id']; 
+ 
   $bridge = new Bridge();
 
   $to = $bridge->getLists($forumId);
@@ -44,19 +45,22 @@ function send_to_lists($user, $data, $post_data) {
   $date = date(DATE_RFC2822, $time);
   $messageId = build_message_id($time, $postId, $_SERVER['SERVER_NAME']);
  
+  $inReplyTo = null;
+  $references = null;
+
   $forumURL = 'http://' . $_SERVER['SERVER_NAME'] .
                   dirname($_SERVER['SCRIPT_NAME']);
 
   $body = $data['message'];
 
-/*
+
   print '<p>';
   var_dump($data);
   var_dump($post_data);
   print '</p>';
-*/
 
-  # assemble the message headers
+/*
+  # Assemble the message headers
   $headers = array(
     'To'          => $to,
     'From'        => $from,
@@ -66,12 +70,35 @@ function send_to_lists($user, $data, $post_data) {
     'X-BeenThere' => $forumURL,
   );
 
-  # send the message
-  $mailer = Mail::factory('sendmail');
-  $err = $mailer->send($to, $headers, $body);
-  if (PEAR::isError($err)) {
-    throw new Exception('Mail::send error: ' . $err->toString());
+  if ($inReplyTo !== null) {
+    $headers['In-Reply-To'] = $inReplyTo;
   }
+  
+  if ($references !== null) {
+    $headers['References'] = $references;
+  }
+
+  $mailer = Mail::factory('sendmail');
+
+  $seen = !$bridge->registerMessage($postId, $messageId,
+                                    $inReplyTo, $references);
+  if ($seen) {
+    throw new Exception('message id already seen: ' . $messageId);
+  }
+
+  try {
+    # Send the message
+    $err = $mailer->send($to, $headers, $body);
+    if (PEAR::isError($err)) {
+      throw new Exception('Mail::send error: ' . $err->toString());
+    }
+  }
+  catch (Exception $e) {
+    # Bridging failed, unregister message.
+    $bridge->unregisterMessage($messageId);
+    throw $e;
+  }
+*/
 }
 
 ?>

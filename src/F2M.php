@@ -7,6 +7,9 @@ catch (Exception $e) {
   trigger_error($e, E_USER_ERROR);
 }
 
+# TODO: wrap long lines
+# TODO: handle attachments
+
 function send_to_lists($user, $mode, $data, $post_data) {
 
 /*
@@ -14,6 +17,14 @@ function send_to_lists($user, $mode, $data, $post_data) {
   var_dump($data);
   var_dump($post_data);
   print '</p>';
+*/
+
+/*
+  $text = nl2br($data['message']);
+  $bbcode = new bbcode(base64_encode($data['bbcode_bitfield']));         
+  $bbcode->bbcode_second_pass($text, $data['bbcode_uid'], $data['bbcode_bitfield']);
+
+  print $text;
 */
 
   require_once('Mail.php');

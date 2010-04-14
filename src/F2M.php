@@ -9,6 +9,13 @@ catch (Exception $e) {
 
 function send_to_lists($user, $mode, $data, $post_data) {
 
+/*
+  print '<p>';
+  var_dump($data);
+  var_dump($post_data);
+  print '</p>';
+*/
+
   require_once('Mail.php');
 
   require_once(__DIR__ . '/Bridge.php');
@@ -48,7 +55,7 @@ function send_to_lists($user, $mode, $data, $post_data) {
   $references = null;
   
   if ($mode == 'reply') {
-    $firstId = $post['topic_first_post_id']; 
+    $firstId = $data['topic_first_post_id']; 
     $firstMessageId = $bridge->getMessageId($firstId);
     if ($firstMessageId === null) {
       throw new Exception('unrecognized post id: ' . $firstId);
@@ -62,13 +69,6 @@ function send_to_lists($user, $mode, $data, $post_data) {
                   dirname($_SERVER['SCRIPT_NAME']);
 
   $body = $data['message'];
-
-/*
-  print '<p>';
-  var_dump($data);
-  var_dump($post_data);
-  print '</p>';
-*/
 
   # Assemble the message headers
   $headers = array(

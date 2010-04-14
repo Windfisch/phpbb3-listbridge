@@ -72,12 +72,15 @@ function send_to_lists($user, $mode, $data, $post_data) {
 
   # Assemble the message headers
   $headers = array(
-    'To'          => $to,
-    'From'        => $from,
-    'Subject'     => $subject,
-    'Date'        => $date,
-    'Message-Id'  => $messageId,
-    'X-BeenThere' => $forumURL,
+    'To'                       => $to,
+    'From'                     => $from,
+    'Subject'                  => $subject,
+    'Date'                     => $date,
+    'Message-Id'               => $messageId,
+    'X-BeenThere'              => $forumURL,
+    'Content-Type'             => 'text/plain; charset=UTF-8; format=flowed',
+    'MIME-Version'             => '1.0',
+    'Conten-Transfer-Encoding' => '8bit'
   );
 
   if ($inReplyTo !== null) {

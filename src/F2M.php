@@ -19,24 +19,11 @@ function send_to_lists($user, $mode, $data, $post_data) {
   print '</p>';
 */
 
-  require_once(__DIR__ . '/../HTML/BBCodeParser.php');
-
-  $text = nl2br($data['message']);
-  $parser = new HTML_BBCodeParser();
-  $parser->setText($text);
-  $parser->parse();
-  $text = $parser->getParsed();
-
-  print $text;
-/*
-  $text = nl2br($data['message']);
-  $bbcode = new bbcode(base64_encode($data['bbcode_bitfield']));         
-  $bbcode->bbcode_second_pass($text, $data['bbcode_uid'], $data['bbcode_bitfield']);
-
-  print $text;
-*/
+  set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__ . '/..');
+  require_once('HTML/BBCodeParser.php');
 
   require_once('Mail.php');
+  require_once('Mail/mime.php');
 
   require_once(__DIR__ . '/Bridge.php');
   require_once(__DIR__ . '/PhpBB3.php');
@@ -88,8 +75,6 @@ function send_to_lists($user, $mode, $data, $post_data) {
   $forumURL = 'http://' . $_SERVER['SERVER_NAME'] .
                   dirname($_SERVER['SCRIPT_NAME']);
 
-  $body = $data['message'];
-
   # Assemble the message headers
   $headers = array(
     'To'                       => $to,
@@ -98,9 +83,9 @@ function send_to_lists($user, $mode, $data, $post_data) {
     'Date'                     => $date,
     'Message-Id'               => $messageId,
     'X-BeenThere'              => $forumURL,
-    'Content-Type'             => 'text/plain; charset=UTF-8; format=flowed',
-    'MIME-Version'             => '1.0',
-    'Conten-Transfer-Encoding' => '8bit'
+#    'Content-Type'             => 'text/plain; charset=UTF-8; format=flowed',
+#    'MIME-Version'             => '1.0',
+#    'Conten-Transfer-Encoding' => '8bit'
   );
 
   if ($inReplyTo !== null) {
@@ -111,8 +96,38 @@ function send_to_lists($user, $mode, $data, $post_data) {
     $headers['References'] = $references;
   }
 
+  # Build the message body
+  $text = $data['message'];
+  strip_bbcode($text, $data['bbcode_uid']);
+  $text = htmlspecialchars_decode($text);
+  $text = wordwrap($text);
+
+  $msg = $data['message'];
+  $msg = nl2br($msg);
+  $msg = str_replace(':' . $data['bbcode_uid'], '', $msg);
+
+  $parser = new HTML_BBCodeParser();
+  $parser->setText($msg);
+  $parser->parse();
+  $html = $parser->getParsed();
+
+  $mime = new Mail_mime("\n");
+  $mime->setTXTBody($text);
+  $mime->setHTMLBody($html);
+
+  $body = $mime->get(array(
+    'text_encoding' => '8bit',
+    'html_encoding' => 'quoted-printable',
+    'head_charset'  => 'iso-8859-1',
+    'text_charset'  => 'utf-8',
+    'html_charset'  => 'iso-8859-1'
+  ));
+
+  $headers = $mime->headers($headers);
+
   $mailer = Mail::factory('sendmail');
 
+  # Register the message
   $seen = !$bridge->registerMessage($postId, $messageId,
                                     $inReplyTo, $references);
   if ($seen) {

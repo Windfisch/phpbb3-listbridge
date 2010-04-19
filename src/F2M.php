@@ -19,6 +19,15 @@ function send_to_lists($user, $mode, $data, $post_data) {
   print '</p>';
 */
 
+  require_once(__DIR__ . '/../HTML/BBCodeParser.php');
+
+  $text = nl2br($data['message']);
+  $parser = new HTML_BBCodeParser();
+  $parser->setText($text);
+  $parser->parse();
+  $text = $parser->getParsed();
+
+  print $text;
 /*
   $text = nl2br($data['message']);
   $bbcode = new bbcode(base64_encode($data['bbcode_bitfield']));         

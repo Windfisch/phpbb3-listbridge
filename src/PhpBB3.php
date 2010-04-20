@@ -126,7 +126,7 @@ class PhpBB3 {
     global $db;
   
     $sql = 'SELECT physical_filename, real_filename, mimetype ' .
-           'FROM ' . ATTACHMENTS_TABLE .
+           'FROM ' . ATTACHMENTS_TABLE . ' ' .
            'WHERE attach_id = ' . $attachId;
 
     $row = $this->get_exactly_one_row($sql);

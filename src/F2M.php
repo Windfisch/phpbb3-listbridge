@@ -7,23 +7,17 @@ catch (Exception $e) {
   trigger_error($e, E_USER_ERROR);
 }
 
-# TODO: wrap long lines
 # TODO: handle attachments
 
 function send_to_lists($user, $mode, $data, $post_data) {
 
-/*
   print '<p>';
   var_dump($data);
   var_dump($post_data);
   print '</p>';
-*/
-
-  set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__ . '/..');
-  require_once('HTML/BBCodeParser.php');
 
   require_once('Mail.php');
-  require_once('Mail/mime.php');
+#  require_once('Mail/mime.php');
 
   require_once(__DIR__ . '/Bridge.php');
   require_once(__DIR__ . '/PhpBB3.php');
@@ -83,9 +77,9 @@ function send_to_lists($user, $mode, $data, $post_data) {
     'Date'                     => $date,
     'Message-Id'               => $messageId,
     'X-BeenThere'              => $forumURL,
-#    'Content-Type'             => 'text/plain; charset=UTF-8; format=flowed',
-#    'MIME-Version'             => '1.0',
-#    'Conten-Transfer-Encoding' => '8bit'
+    'Content-Type'             => 'text/plain; charset=UTF-8; format=flowed',
+    'MIME-Version'             => '1.0',
+    'Conten-Transfer-Encoding' => '8bit'
   );
 
   if ($inReplyTo !== null) {
@@ -100,8 +94,22 @@ function send_to_lists($user, $mode, $data, $post_data) {
   $text = $data['message'];
   strip_bbcode($text, $data['bbcode_uid']);
   $text = htmlspecialchars_decode($text);
-  $text = wordwrap($text);
+  $text = wordwrap($text, 72);
 
+  # Add the bridge footer
+  $postURL = "$forumURL/viewtopic.php?p=$postId#p$postId";
+
+  $footer = <<<EOF
+
+
+_______________________________________________
+Read this topic online here:
+$postURL
+EOF;
+
+  $body = $text . $footer;
+
+/*
   $msg = $data['message'];
   $msg = nl2br($msg);
   $msg = str_replace(':' . $data['bbcode_uid'], '', $msg);
@@ -124,6 +132,7 @@ function send_to_lists($user, $mode, $data, $post_data) {
   ));
 
   $headers = $mime->headers($headers);
+*/
 
   $mailer = Mail::factory('sendmail');
 

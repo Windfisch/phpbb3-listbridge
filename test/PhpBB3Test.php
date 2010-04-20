@@ -78,7 +78,7 @@ EOF;
   public function providerGetTopicAndForumIds() {
     return array(
       array(null, null, 'Exception'),
-      array('bogus', false, null),
+      array(0, false, null),
       array(2, array('topic_id' => 2, 'forum_id' => 2), null)
     );
   }

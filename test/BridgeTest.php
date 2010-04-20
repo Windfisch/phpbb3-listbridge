@@ -90,7 +90,7 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
   public function providerGetMessageId() {
     return array(
       array(null, null, 'Exception'), 
-      array('bogus', false, null), 
+      array(0, false, null), 
       array(1, '<20100302094228.33F0310091@charybdis.ellipsis.cx>', null),
     );
   }

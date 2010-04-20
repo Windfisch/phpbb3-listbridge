@@ -120,6 +120,20 @@ class PhpBB3 {
     return $row ? $row['post_time'] : false;
   }
 
+  public function getAttachmentData($attachId) {
+    throw_if_null($attachId);
+
+    global $db;
+  
+    $sql = 'SELECT physical_filename, real_filename, ' .
+                  'attach_comment, mimetype, filesize ' .
+           'FROM ' . ATTACHMENTS_TABLE .
+           'WHERE attach_id = ' . $attachId;
+
+    $row = $this->get_exactly_one_row($sql);
+    return $row;
+  }
+
   public function postMessage($postType, $forumId, $topicId, $msg) {
     throw_if_null($msg);
 

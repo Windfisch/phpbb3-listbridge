@@ -132,4 +132,20 @@ EOF;
     return array(
     );
   }
+
+  /**
+   * @dataProvider providerGetAttachmentData
+   */
+  public function testGetAttachmentData($attach_id, $expected, $ex) {
+    $this->markTestIncomplete();
+
+    if ($ex) $this->setExpectedException($ex);
+    $run = 'getAttachmentData(' . $attach_id . ')';
+    $this->assertEquals($expected, $this->exec_kludge($run));
+  }
+
+  public function providerGetAttachmentData() {
+    return array(
+    );
+  }
 }

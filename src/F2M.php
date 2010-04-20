@@ -1,15 +1,13 @@
 <?php
 
 try {
-  send_to_lists($user, $mode, $data, $post_data);
+  send_to_lists($config, $user, $mode, $data, $post_data);
 }
 catch (Exception $e) {
   trigger_error($e, E_USER_ERROR);
 }
 
-# TODO: handle attachments
-
-function send_to_lists($user, $mode, $data, $post_data) {
+function send_to_lists($config, $user, $mode, $data, $post_data) {
 
   print '<p>';
   var_dump($data);
@@ -17,7 +15,6 @@ function send_to_lists($user, $mode, $data, $post_data) {
   print '</p>';
 
   require_once('Mail.php');
-#  require_once('Mail/mime.php');
 
   require_once(__DIR__ . '/Bridge.php');
   require_once(__DIR__ . '/PhpBB3.php');
@@ -58,7 +55,7 @@ function send_to_lists($user, $mode, $data, $post_data) {
   if ($mode == 'reply') {
     $firstId = $data['topic_first_post_id']; 
     $firstMessageId = $bridge->getMessageId($firstId);
-    if ($firstMessageId === null) {
+    if ($firstMessageId === false) {
       throw new Exception('unrecognized post id: ' . $firstId);
     }
 
@@ -76,10 +73,7 @@ function send_to_lists($user, $mode, $data, $post_data) {
     'Subject'                  => $subject,
     'Date'                     => $date,
     'Message-Id'               => $messageId,
-    'X-BeenThere'              => $forumURL,
-    'Content-Type'             => 'text/plain; charset=UTF-8; format=flowed',
-    'MIME-Version'             => '1.0',
-    'Conten-Transfer-Encoding' => '8bit'
+    'X-BeenThere'              => $forumURL
   );
 
   if ($inReplyTo !== null) {
@@ -96,43 +90,84 @@ function send_to_lists($user, $mode, $data, $post_data) {
   $text = htmlspecialchars_decode($text);
   $text = wordwrap($text, 72);
 
-  # Add the bridge footer
+# TODO: BBCode to Markdown (?)
+
+  # Build the bridge footer
   $postURL = "$forumURL/viewtopic.php?p=$postId#p$postId";
-
   $footer = <<<EOF
-
 
 _______________________________________________
 Read this topic online here:
 $postURL
 EOF;
 
-  $body = $text . $footer;
+  $body = null;
 
-/*
-  $msg = $data['message'];
-  $msg = nl2br($msg);
-  $msg = str_replace(':' . $data['bbcode_uid'], '', $msg);
+  # Handle attachements, if any
+  if (empty($data['attachment_data'])) {
+    # No attachments, send a plain email
+    $body = $text . "\n" . $footer;
+    $headers['Content-Type'] = 'text/plain; charset=UTF-8; format=flowed';
+    $headers['Content-Transfer-Encoding'] = '8bit';
+  }
+  else {
+    # Attachments, build a MIME email
+    require_once('Mail/mimePart.php');
 
-  $parser = new HTML_BBCodeParser();
-  $parser->setText($msg);
-  $parser->parse();
-  $html = $parser->getParsed();
+    $headers['MIME-Version'] = '1.0';
 
-  $mime = new Mail_mime("\n");
-  $mime->setTXTBody($text);
-  $mime->setHTMLBody($html);
+    $params = array('content_type' => 'multipart/mixed');
+    $mime = new Mail_mimePart('', $params);
 
-  $body = $mime->get(array(
-    'text_encoding' => '8bit',
-    'html_encoding' => 'quoted-printable',
-    'head_charset'  => 'iso-8859-1',
-    'text_charset'  => 'utf-8',
-    'html_charset'  => 'iso-8859-1'
-  ));
+    # Build the main body
+    $params = array(
+      'content_type' => 'text/plain',
+      'charset'      => 'utf-8',
+      'encoding'     => '8bit',
+      'disposition'  => 'inline'
+    );
+    $mime->addSubPart($text, $params);
 
-  $headers = $mime->headers($headers);
-*/
+    # Build each attachment
+    foreach ($data['attachment_data'] as $a) {
+      $attachId = $a['attach_id'];
+      $adata = $phpbb->getAttachmentData($attachId);
+      if ($adata === false) {
+        throw new Exception('unrecognized attachment id: ' . $attachId);
+      }
+
+      $afile = $phpbb_root_path . $config['upload_path'] . '/' .
+               utf8_basename($adata['physical_filename']); 
+
+      $bytes = file_get_contents($afile);
+      if ($bytes === false) {
+        throw new Exception('failed to read file: ' . $afile);
+      }
+
+      $params = array( 
+        'content_type' => $adata['mimetype'],
+        'encoding'     => 'base64',
+        'disposition'  => 'attachment',
+        'dfilename'    => $adata['real_filename'],
+        'description'  => $adata['attach_comment']
+      );
+      $mime->addSubPart($bytes, $params);
+    }
+
+    # Build footer
+    $params = array(
+      'content_type' => 'text/plain',
+      'charset'      => 'utf-8',
+      'encoding'     => '8bit',
+      'disposition'  => 'inline'
+    );
+    $mime->addSubPart($footer, $params);
+
+    # Encode the message
+    $msg = $mime->encode();
+    $headers = array_merge($headers, $msg['headers']);
+    $body = $msg['body'];
+  }
 
   $mailer = Mail::factory('sendmail');
 

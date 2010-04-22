@@ -107,7 +107,7 @@ class Bridge {
     $count = $this->db->exec($sql);
 
     if ($count != 1) {
-      throw new Exception('Failed to delete message id: ' . $messageId);
+      throw new Exception('Failed to delete post id: ' . $postId);
     }
   }
 

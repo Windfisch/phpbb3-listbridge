@@ -177,8 +177,8 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
   public function providerUnregisterPost() {
     return array(
       array(null, 'Exception'),
-      array(1, 'Exception'),
-      array(2, null),
+      array(0, 'Exception'),
+      array(1, null),
     );
   }
 

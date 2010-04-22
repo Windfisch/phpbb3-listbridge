@@ -99,6 +99,18 @@ class Bridge {
     }
   }
 
+  public function unregisterPost($postId) {
+    throw_if_null($postId);
+
+    $sql = 'DELETE FROM posts WHERE post_id = ' . $postId;
+
+    $count = $this->db->exec($sql);
+
+    if ($count != 1) {
+      throw new Exception('Failed to delete message id: ' . $messageId);
+    }
+  }
+
   protected function get_exactly_one_row($sql) {
     $result = $this->db->query($sql);
 

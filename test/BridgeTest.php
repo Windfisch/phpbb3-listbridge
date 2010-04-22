@@ -165,6 +165,24 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * @dataProvider providerUnregisterPost
+   */
+  public function testUnregisterPost($postId, $ex) {
+    if ($ex) $this->setExpectedException($ex);
+    $bridge = new Bridge($this->db);
+    $bridge->unregisterPost($postId);
+    $this->assertEquals(false, $bridge->getMessageId($postId));
+  }
+
+  public function providerUnregisterMessage() {
+    return array(
+      array(null, 'Exception'),
+      array(1, 'Exception'),
+      array(2, null),
+    );
+  }
+
+  /**
    * @dataProvider providerGetDefaultForumId
    */
   public function testGetDefaultForumId($list, $expected, $ex) {

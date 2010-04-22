@@ -1,29 +1,21 @@
 <?php
 
 try {
-  send_to_lists($config, $user, $mode, $data, $post_data);
+  send_post_to_lists($config, $user, $mode, $data, $post_data);
 }
 catch (Exception $e) {
   trigger_error($e, E_USER_ERROR);
 }
 
-function send_to_lists($config, $user, $mode, $data, $post_data) {
+function send_post_to_lists($config, $user, $mode, $data, $post_data) {
 
   print '<p>';
   var_dump($data);
   var_dump($post_data);
   print '</p>';
 
-  # Check the mode
-  switch ($mode) {
-  case 'post':
-  case 'reply':
-  case 'quote':
-    break;  # Mail this post
-  case 'edit':  # TODO
-  case 'delete': # TODO
-    return;
-  default:
+  # Sanity check
+  if (!in_array($mode, array('post', 'reply', 'quote', 'edit'))) {
     throw new Exception('unrecognized mode: ' . $mode);
   }
 
@@ -84,12 +76,12 @@ function send_to_lists($config, $user, $mode, $data, $post_data) {
 
   # Assemble the message headers
   $headers = array(
-    'To'                       => $to,
-    'From'                     => $from,
-    'Subject'                  => $subject,
-    'Date'                     => $date,
-    'Message-Id'               => $messageId,
-    'X-BeenThere'              => $forumURL
+    'To'          => $to,
+    'From'        => $from,
+    'Subject'     => $subject,
+    'Date'        => $date,
+    'Message-Id'  => $messageId,
+    'X-BeenThere' => $forumURL
   );
 
   if ($inReplyTo !== null) {
@@ -148,13 +140,7 @@ EOF;
     $mime = new Mail_mimePart('', $params);
 
     # Build the main body
-    $params = array(
-      'content_type' => 'text/plain',
-      'charset'      => 'utf-8',
-      'encoding'     => '8bit',
-      'disposition'  => 'inline'
-    );
-    $mime->addSubPart($text, $params);
+    build_text_part($mime, $text);
 
     # Build each attachment
     foreach ($data['attachment_data'] as $a) {
@@ -172,24 +158,17 @@ EOF;
         throw new Exception('failed to read file: ' . $afile);
       }
 
-      $params = array( 
-        'content_type' => $adata['mimetype'],
-        'encoding'     => 'base64',
-        'disposition'  => 'attachment',
-        'dfilename'    => $adata['real_filename'],
-        'description'  => $adata['attach_comment']
+      build_attachment(
+        $mime,
+        $adata['mimetype'],
+        $adata['real_filename'],
+        $adata['attach_comment'],
+        $bytes
       );
-      $mime->addSubPart($bytes, $params);
     }
 
     # Build footer
-    $params = array(
-      'content_type' => 'text/plain',
-      'charset'      => 'utf-8',
-      'encoding'     => '8bit',
-      'disposition'  => 'inline'
-    );
-    $mime->addSubPart($footer, $params);
+    build_text_part($mime, $footer);
 
     # Encode the message
     $msg = $mime->encode();
@@ -220,6 +199,35 @@ EOF;
     $bridge->unregisterMessage($messageId);
     throw $e;
   }
+}
+
+# TODO: call this from handle_post_delete in posting.php
+function remove_post($postId) {
+  require_once(__DIR__ . '/Bridge.php');
+
+  $bridge = new Bridge();
+  $bridge->unregisterPost($postId);
+}
+
+function build_text_part($mime, $text) {
+  $params = array(
+    'content_type' => 'text/plain',
+    'charset'      => 'utf-8',
+    'encoding'     => '8bit',
+    'disposition'  => 'inline'
+  );
+  $mime->addSubPart($text, $params);
+}
+
+function build_attachment($mime, $type, $filename, $descr, $data) {
+  $params = array( 
+    'content_type' => $type,
+    'encoding'     => 'base64',
+    'disposition'  => 'attachment',
+    'dfilename'    => $filename,
+    'description'  => $descr
+  );
+  $mime->addSubPart($data, $params);
 }
 
 ?>

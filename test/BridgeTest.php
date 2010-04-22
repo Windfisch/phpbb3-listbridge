@@ -174,7 +174,7 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
     $this->assertEquals(false, $bridge->getMessageId($postId));
   }
 
-  public function providerUnregisterMessage() {
+  public function providerUnregisterPost() {
     return array(
       array(null, 'Exception'),
       array(1, 'Exception'),

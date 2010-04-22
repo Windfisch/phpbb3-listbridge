@@ -14,6 +14,19 @@ function send_to_lists($config, $user, $mode, $data, $post_data) {
   var_dump($post_data);
   print '</p>';
 
+  # Check the mode
+  switch ($mode) {
+  case 'post':
+  case 'reply':
+  case 'quote':
+    break;  # Mail this post
+  case 'edit':  # TODO
+  case 'delete': # TODO
+    return;
+  default:
+    throw new Exception('unrecognized mode: ' . $mode);
+  }
+
   require_once('Mail.php');
 
   require_once(__DIR__ . '/Bridge.php');
@@ -52,15 +65,18 @@ function send_to_lists($config, $user, $mode, $data, $post_data) {
   $inReplyTo = null;
   $references = null;
   
-  if ($mode == 'reply') {
-    $firstId = $data['topic_first_post_id']; 
+  if ($mode == 'reply' || $mode == 'quote') {
+    $firstId = $data['topic_first_post_id'];
     $firstMessageId = $bridge->getMessageId($firstId);
     if ($firstMessageId === false) {
       throw new Exception('unrecognized post id: ' . $firstId);
     }
 
-# FIXME: try to build better References by matching, maybe?
+# TODO: try to build better References by matching, maybe?
     $inReplyTo = $references = $firstMessageId;
+  }
+  else if ($mode == 'edit') {
+    $inReplyTo = $bridge->getMessageId($postId);
   }
 
   $forumURL = 'http://' . $_SERVER['SERVER_NAME'] .
@@ -89,6 +105,18 @@ function send_to_lists($config, $user, $mode, $data, $post_data) {
   strip_bbcode($text, $data['bbcode_uid']);
   $text = htmlspecialchars_decode($text);
   $text = wordwrap($text, 72);
+
+  if ($mode == 'edit') {
+    $edit_notice = <<<EOF
+[This message has been edited.]
+
+EOF;
+
+    $edit_header = 'Edit: ';
+
+    $text = $edit_notice . $text;
+    $headers['Subject'] = $edit_header . $headers['Subject'];
+  }
 
 # TODO: BBCode to Markdown (?)
 
@@ -170,6 +198,8 @@ EOF;
   }
 
   $mailer = Mail::factory('sendmail');
+
+# FIXME: edited messages break the bijection between post and message ids!
 
   # Register the message
   $seen = !$bridge->registerMessage($postId, $messageId,

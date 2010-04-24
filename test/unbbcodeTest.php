@@ -20,9 +20,9 @@ class unbbcodeTest extends PHPUnit_Framework_TestCase {
 try {
   require_once("src/unbbcode.php");
 
-  \$msg = \\'$msg\\';
-  \$uid = \\'$uid\\';
-  \$bitfield = \\'$bitfield\\';
+  \$msg = "$msg";
+  \$uid = "$uid";
+  \$bitfield = "$bitfield";
 
   \$unbbcode = new unbbcode();
   \$unbbcode->bbcode_second_pass(\$msg, \$uid, \$bitfield);

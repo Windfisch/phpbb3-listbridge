@@ -47,4 +47,6 @@ EOF;
       array('[b]Test[/b]', '', false, '<b>Test</b>', null)
     );
   }
+}
+
 ?>

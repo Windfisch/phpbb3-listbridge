@@ -21,6 +21,7 @@ function send_post_to_lists($config, $user, $mode, $data, $post_data) {
 
   require_once('Mail.php');
 
+  require_once(__DIR__ . '/BBCodeParser.php');
   require_once(__DIR__ . '/Bridge.php');
   require_once(__DIR__ . '/PhpBB3.php');
   require_once(__DIR__ . '/Util.php');
@@ -93,10 +94,8 @@ function send_post_to_lists($config, $user, $mode, $data, $post_data) {
   }
 
   # Build the message body
-  $text = $data['message'];
-  strip_bbcode($text, $data['bbcode_uid']);
-  $text = htmlspecialchars_decode($text);
-  $text = wordwrap($text, 72);
+  $parser = new BBCodeParser();
+  $text = $parser->parse($data['message'], $data['bbcode_uid']);
 
   if ($mode == 'edit') {
     $edit_notice = <<<EOF
@@ -109,8 +108,6 @@ EOF;
     $text = $edit_notice . $text;
     $headers['Subject'] = $edit_header . $headers['Subject'];
   }
-
-# TODO: BBCode to Markdown (?)
 
   # Build the bridge footer
   $postURL = "$forumURL/viewtopic.php?p=$postId#p$postId";

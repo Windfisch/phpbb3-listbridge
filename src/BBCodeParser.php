@@ -122,6 +122,7 @@ class BBCodeParser {
           $out = '';
           break;
         case 'attachment':
+# TODO: unimplemented
           break;
         case 'color':
         case 'size':
@@ -147,6 +148,7 @@ class BBCodeParser {
           break;
         case 'url':
         case 'email':
+# TODO: untested
           if ($arg !== false) {
             # built footnotes for links with text
             $out .= '[' . $fn_number++ .']';
@@ -161,19 +163,26 @@ class BBCodeParser {
           $out = array_pop($text_stack) . $out . "\n";
           break;
         case 'code':
+# TODO: untested
 # FIXME: don't wordwrap code!
           $out .= "\n";
           break;
         case 'list':
+        case 'list:l':
+        case 'list:u':
+# TODO: untested
           $out .= "\n";
           array_pop($list_counter_stack);
           break;
         case '*':
+        case '*:m':
+# TODO: untested
           if ($in[$i] != "\n") {
             $out .= "\n";
           }
           break;
         case 'img':
+# TODO: untested
           $fn[] = $out; 
           $out = array_pop($text_stack) . '[' . $fn_number++ . ']';
           break;

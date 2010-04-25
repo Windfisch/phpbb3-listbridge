@@ -168,7 +168,7 @@ class BBCodeParser {
           $out .= "\n";
           break;
         case 'list':
-        case 'list:l':
+        case 'list:o':
         case 'list:u':
 # TODO: untested
           $out .= "\n";

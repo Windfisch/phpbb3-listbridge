@@ -89,7 +89,6 @@ class BBCodeParser {
           $out .= "\n";
           break;
         case 'list':
-          $out .= "\n";
           
           switch ($arg) {
           case '1': $list_counter_stack[] = 1;   break;
@@ -175,19 +174,10 @@ class BBCodeParser {
         case 'list:u':
 # TODO: untested
           array_pop($list_counter_stack);
-
-          if ($in[$i] != "\n") {
-            # add newline after list only if there is not one already
-            $out .= "\n";
-          }
           break;
         case '*':
         case '*:m':
 # TODO: untested
-          if ($in[$i] != "\n") {
-            # add newline after item only if there is not one already
-            $out .= "\n";
-          }
           break;
         case 'img':
 # TODO: untested

@@ -102,9 +102,7 @@ class BBCodeParser {
           $out .= "\n" . str_repeat(' ', count($list_counter_stack));
 
           $c = array_pop($list_counter_stack);
-          if ($c == '*') {
-          }
-          else if (is_int($c)) {
+          if (is_int($c)) {
             $out .= $c . '. ';
             $list_counter_stack[] = $c + 1;
           }

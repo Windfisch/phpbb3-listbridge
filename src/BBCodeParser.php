@@ -188,6 +188,8 @@ class BBCodeParser {
       }
     }
 
+    $out = wordwrap($out, 72);
+
     if (!empty($fn)) {
       # build footnotes
       $out .= "\n";

@@ -11,8 +11,9 @@ class BBCodeParser {
 
   function parse($in, $uid) {
 
+    $quote_stack = array();
+
     $arg_stack = array();
-    $contents_stack = array();
 
     $fn_number = 1;
     $fn = array();
@@ -20,8 +21,7 @@ class BBCodeParser {
     $i = 0;
     $len = strlen($in);
 
-    $indent = '';
-    $list_conter_stack = array();
+    $list_counter_stack = array();
 
     $out = '';
 
@@ -83,12 +83,14 @@ class BBCodeParser {
           # nothing to do on opening
           break;
         case 'quote':
+          $quote_stack[] = $out;
+          $out = '';
           break;
         case 'code':
+          $out .= "\n";
           break;
         case 'list':
           $out .= "\n";
-          $indent .= ' ';
           
           switch ($arg) {
           case '1': $list_counter_stack[] = 1;   break;
@@ -98,7 +100,7 @@ class BBCodeParser {
 
           break;
         case '*':
-          $out .= "\n" . $indent;
+          $out .= "\n" . str_repeat(' ', count($list_counter_stack));
 
           $c = array_pop($list_counter_stack);
           if ($c == '*') {
@@ -151,15 +153,23 @@ class BBCodeParser {
           }
           break;
         case 'quote':
+          $level = count($quote_stack);
+          $out = wordwrap($out, 72 - 2*$level);
+          $out = str_replace("\n", "\n> ", $out);
+          $out = '> ' . $out;
+          $out = array_pop($quote_stack) . $out;
           break;
         case 'code':
+          $out .= "\n";
           break;
         case 'list':
           $out .= "\n";
-          $indent = substr($indent, -1);
           array_pop($list_counter_stack);
           break;
         case '*':
+          if ($in[$i] != "\n") {
+            $out .= "\n";
+          }
           break;
         case 'img':
           break;

@@ -103,16 +103,21 @@ class BBCodeParser {
 
           $c = array_pop($list_counter_stack);
           if (is_int($c)) {
-            $out .= $c . '. ';
+            $out .= $c . '.';
             $list_counter_stack[] = $c + 1;
           }
           else if ($c == '*') {
-            $out .= $c . ' ';
+            $out .= $c;
             $list_counter_stack[] = '*';
           }
           else {
-            $out .= $c . '. ';
+            $out .= $c . '.';
             $list_counter_stack[] = chr(ord($c)+1);
+          }
+
+          if ($in[$i] != ' ') {
+            # add space after item label only if there is not one already
+            $out .= ' ';
           }
           break;
         case 'img':
@@ -169,13 +174,18 @@ class BBCodeParser {
         case 'list:o':
         case 'list:u':
 # TODO: untested
-          $out .= "\n";
           array_pop($list_counter_stack);
+
+          if ($in[$i] != "\n") {
+            # add newline after list only if there is not one already
+            $out .= "\n";
+          }
           break;
         case '*':
         case '*:m':
 # TODO: untested
           if ($in[$i] != "\n") {
+            # add newline after item only if there is not one already
             $out .= "\n";
           }
           break;

@@ -7,12 +7,11 @@ class BBCodeParser {
   const OTAG = 2;
   const DONE = 3;
 
-
-
   function parse($in, $uid) {
+    # decode HTML entities before parsing
+    $in = html_entity_decode($in);
 
-    $quote_stack = array();
-
+    $text_stack = array();
     $arg_stack = array();
 
     $fn_number = 1;
@@ -83,7 +82,7 @@ class BBCodeParser {
           # nothing to do on opening
           break;
         case 'quote':
-          $quote_stack[] = $out . "\n";
+          $text_stack[] = $out . "\n";
           $out = '';
           break;
         case 'code':
@@ -119,6 +118,8 @@ class BBCodeParser {
           }
           break;
         case 'img':
+          $text_stack[] = $out;
+          $out = '';
           break;
         case 'attachment':
           break;
@@ -153,13 +154,14 @@ class BBCodeParser {
           }
           break;
         case 'quote':
-          $level = count($quote_stack);
+          $level = count($text_stack);
           $out = wordwrap($out, 72 - 2*$level);
           $out = str_replace("\n", "\n> ", $out);
           $out = '> ' . $out;
-          $out = array_pop($quote_stack) . $out . "\n";
+          $out = array_pop($text_stack) . $out . "\n";
           break;
         case 'code':
+# FIXME: don't wordwrap code!
           $out .= "\n";
           break;
         case 'list':
@@ -172,6 +174,8 @@ class BBCodeParser {
           }
           break;
         case 'img':
+          $fn[] = $out; 
+          $out = array_pop($text_stack) . '[' . $fn_number++ . ']';
           break;
         case 'attachment':
           break;
@@ -201,211 +205,6 @@ class BBCodeParser {
 
     return $out;
   }
-
-/*
-    $tstack = array();
-    $ctag = $otag = '';
-
-    $state = TEXT;
-
-    $i = 0;
-    $len = strlen($in);
-
-    while ($i < $len) {
-      $c = $in[$i];
-
-      switch ($state) {
-      case TEXT:
-        switch ($c) {
-        case '[':
-          # left bracket might start a tag
-          $state = LBRAC;
-          ++$i;
-          break;
-        default:
-          # otherwise copy this character to the output
-          $out .= $c;
-          ++$i;
-        }
-        break;
-
-      case LBRAC:
-        switch ($c) {
-        case '/':
-          # might be a closing tag
-          $ctag = '';
-          $state = CTAG;
-          ++$i;
-          break;
-        case ']':
-          # '[]' is not a tag, copy to output
-          $out .= '[]';
-          $state = TEXT;
-          ++$i;
-          break;
-        case '[':
-          # previous '[' did NOT start a tag, copy it to output
-          # this '[' might start a tag, don't change state
-          $out .= '[';
-          ++$i;
-          break;
-        default:
-          # might be an opening tag
-          $otag = '';
-          $state = OTAG;
-        }
-        break;
-
-      case OTAG:
-        switch ($c) {
-        case '[':
-          # '[' cannot appear in tag names, so this is not a tag,
-          # but '[' might start a real tag
-          $out .= '[' . $otag;
-          $otag = '';
-          $state = OTAG;
-          ++$i;
-          break;
-        case '=':
-          # start of a tag argument
-          $targ = '';
-          $state = TARG;
-          ++$i;
-          break;
-        case ']':
-          # end of tag
-          $state = OPEN_TAG;
-          break;
-        default:
-          # continue accumulating tag name
-          $otag .= $c;
-          ++$i;
-        }
-        break;
-
-      case TARG:
-        switch ($c) {
-        case ']':
-          # end of tag
-          $state = OPEN_TAG;
-          break;
-        case '[':
-          # '[' cannot appear in tag names, so this is not a tag,
-          # but '[' might start a real tag
-          $out .= '[' . $otag . '=' . $targ;
-          $otag = $targ = '';
-          $state = OTAG;
-          ++$i;
-          break;
-        default:
-          # continue accumulating tag argument
-          $targ .= $c;
-          ++$i;
-        }
-        break;
-
-      case CTAG:
-        switch ($c) {       
-        case '[':
-          # '[' cannot appear in tag names, so this is not a tag,
-          # but '[' might start a real tag
-          $out .= '[/' . $ctag;
-          $ctag = '';
-          $state = OTAG;
-          ++$i;
-          break;
-        case ']':
-          # end of tag
-          $state = CLOSE_TAG;
-          break;
-        default:
-          # continue accumulating tag name
-          $ctag .= $c;
-          ++$i;
-        }
-        break;
-
-      case OPEN_TAG:
-        switch ($otag) {
-        case 'b':
-        case 'u':
-        case 'i':
-          $tstack[] = $otag;
-          break;
-        case 'color':
-          break;
-        case 'size':
-          break;
-        case 'quote':
-          break;
-        case 'code':
-          break;
-        case 'list':
-          break;
-        case '*':
-          break;
-        case 'url':
-          break;
-        case 'email':
-          break;
-        case 'img':
-          break;
-        case 'attachment':
-          break;
-        default:
-          # unrecognized tag, make it text
-          $out .= '[' . $otag . ']';
-          $state = TEXT; 
-        }
-
-        ++$i;
-        break;
-
-      case CLOSE_TAG:
-        $otag = array_pop($tstack);
-        if ($ctag != $otag) {
-          # badly nested tags
-# TODO 
-        }
-
-        switch ($ctag) {
-        case 'b':
-          break;
-        case 'u':
-          break;
-        case 'i':
-          break;
-        case 'color':
-          break;
-        case 'size':
-          break;
-        case 'quote':
-          break;
-        case 'code':
-          break;
-        case 'list':
-          break;
-        case 'url':
-          break;
-        case 'email':
-          break;
-        case 'img':
-          break;
-        case 'attachment': 
-          break;
-        default:
-          # unrecognized tag, make it text
-          $out .= '[/' . $ctag . ']';
-          $state = TEXT; 
-        }
-
-        ++$i;
-        break;
-      }
-    }
-*/
-
-
 }
 
 ?>

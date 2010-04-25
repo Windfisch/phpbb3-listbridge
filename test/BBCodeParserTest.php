@@ -17,7 +17,7 @@ class BBCodeParserTest extends PHPUnit_Framework_TestCase {
   public function providerParse() {
     return array(
       array('', '3i2cqt66', '', null),
-      array('[b:3i2cqt66]This is a[/b:3i2cqt66] test of [i:3i2cqt66]the BBCode[/i:3i2cqt66] parser. Will [u:3i2cqt66][i:3i2cqt66]it[/i:3i2cqt66][/u:3i2cqt66] parse? Also, throw in some difficult characters: 1 &lt; 2 &lt; 4 &gt; 3.', '3i2cqt66', '__This is a__ test of _the BBCode_ parser. Will ___it___ parse? Also, throw in some difficult characters: 1 &lt; 2 &lt; 4 &gt; 3.', null)
+      array('[b:3i2cqt66]This is a[/b:3i2cqt66] test of [i:3i2cqt66]the BBCode[/i:3i2cqt66] parser. Will [u:3i2cqt66][i:3i2cqt66]it[/i:3i2cqt66][/u:3i2cqt66] parse? Also, throw in some difficult characters: 1 &lt; 2 &lt; 4 &gt; 3.', '3i2cqt66', '__This is a__ test of _the BBCode_ parser. Will __it__ parse? Also, throw in some difficult characters: 1 &lt; 2 &lt; 4 &gt; 3.', null)
     );
   }
 }

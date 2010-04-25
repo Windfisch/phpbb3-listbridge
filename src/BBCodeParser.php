@@ -83,7 +83,7 @@ class BBCodeParser {
           # nothing to do on opening
           break;
         case 'quote':
-          $quote_stack[] = $out;
+          $quote_stack[] = $out . "\n";
           $out = '';
           break;
         case 'code':
@@ -157,7 +157,7 @@ class BBCodeParser {
           $out = wordwrap($out, 72 - 2*$level);
           $out = str_replace("\n", "\n> ", $out);
           $out = '> ' . $out;
-          $out = array_pop($quote_stack) . $out;
+          $out = array_pop($quote_stack) . $out . "\n";
           break;
         case 'code':
           $out .= "\n";

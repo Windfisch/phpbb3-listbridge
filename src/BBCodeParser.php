@@ -3,9 +3,10 @@
 class BBCodeParser {
 
   const TEXT = 0;
-  const CTAG = 1;
-  const OTAG = 2;
-  const DONE = 3;
+  const WHSP = 1;
+  const CTAG = 2;
+  const OTAG = 3;
+  const DONE = 4;
 
   function parse($in, $uid) {
     # decode HTML entities before parsing
@@ -58,13 +59,18 @@ class BBCodeParser {
         }
         break;
 
+      case self::WHSP:
+        while ($in[$i] == "\n" || $in[$i] == "\t" || $in[$i] == ' ') ++$i;
+        $state = self::TEXT;
+        break;
+
       case self::OTAG:
         # split tag into tag name and argument, if any
-        $arg = false;
-        $epos = strpos($tag, '=');
-        if ($epos !== false) {
-          $tag = substr($tag, 0, $epos);
-          $arg = substr($tag, $epos+1);
+        if (strpos($tag, '=') !== false) {
+          list($tag, $arg) = explode('=', $tag, 2);
+        }
+        else {
+          $arg = false;
         }
 
         $arg_stack[] = $arg;
@@ -72,69 +78,76 @@ class BBCodeParser {
         switch ($tag) {
         case 'b':
           $out .= '__';
+          $state = self::TEXT;
           break;
         case 'u':
         case 'i':
           $out .= '_';
+          $state = self::TEXT;
           break;
         case 'url':
         case 'email':
           # nothing to do on opening
+          $state = self::TEXT;
           break;
         case 'quote':
           $text_stack[] = $out . "\n";
           $out = '';
+          $state = self::TEXT;
           break;
         case 'code':
           $out .= "\n";
+          $state = self::TEXT;
           break;
         case 'list':
-          
+          if ($out[strlen($out)-1] != "\n") $out .= "\n";
+
           switch ($arg) {
           case '1': $list_counter_stack[] = 1;   break;
           case 'a': $list_counter_stack[] = 'a'; break;
           default:  $list_counter_stack[] = '*'; break; 
           }
 
+          $state = self::WHSP;
           break;
         case '*':
+          if ($out[strlen($out)-1] != "\n") $out .= "\n";
           $out .= str_repeat(' ', 2*count($list_counter_stack));
 
           $c = array_pop($list_counter_stack);
           if (is_int($c)) {
-            $out .= $c . '.';
+            $out .= $c . '. ';
             $list_counter_stack[] = $c + 1;
           }
           else if ($c == '*') {
-            $out .= $c;
+            $out .= $c . ' ';
             $list_counter_stack[] = '*';
           }
           else {
-            $out .= $c . '.';
+            $out .= $c . '. ';
             $list_counter_stack[] = chr(ord($c)+1);
           }
 
-          if ($in[$i] != ' ') {
-            # add space after item label only if there is not one already
-            $out .= ' ';
-          }
+          $state = self::WHSP;
           break;
         case 'img':
           $text_stack[] = $out;
           $out = '';
+          $state = self::TEXT;
           break;
         case 'attachment':
 # TODO: unimplemented
+          $state = self::TEXT;
           break;
         case 'color':
         case 'size':
           # ignored
+          $state = self::TEXT;
           break;
         default:
           throw new Exception('Unrecognized open tag: ' . $tag);
         }
 
-        $state = self::TEXT;
         break;
 
       case self::CTAG:
@@ -143,10 +156,12 @@ class BBCodeParser {
         switch ($tag) {
         case 'b':
           $out .= '__';
+          $state = self::TEXT;
           break;
         case 'u':
         case 'i':
           $out .= '_';
+          $state = self::TEXT;
           break;
         case 'url':
         case 'email':
@@ -156,6 +171,7 @@ class BBCodeParser {
             $out .= '[' . $fn_number++ .']';
             $fn[] = $arg;
           }
+          $state = self::TEXT;
           break;
         case 'quote':
           $level = count($text_stack);
@@ -163,38 +179,44 @@ class BBCodeParser {
           $out = str_replace("\n", "\n> ", $out);
           $out = '> ' . $out;
           $out = array_pop($text_stack) . $out . "\n";
+          $state = self::TEXT;
           break;
         case 'code':
 # TODO: untested
 # FIXME: don't wordwrap code!
           $out .= "\n";
+          $state = self::TEXT;
           break;
         case 'list':
         case 'list:o':
         case 'list:u':
-# TODO: untested
           array_pop($list_counter_stack);
+          $out .= "\n\n";
+          $state = self::WHSP;
           break;
         case '*':
         case '*:m':
-# TODO: untested
+          if ($out[strlen($out)-1] == "\n") $out = substr($out, 0, -1);
+          $state = self::WHSP;
           break;
         case 'img':
 # TODO: untested
           $fn[] = $out; 
           $out = array_pop($text_stack) . '[' . $fn_number++ . ']';
+          $state = self::TEXT;
           break;
         case 'attachment':
+          $state = self::TEXT;
           break;
         case 'color':
         case 'size':
           # ignored
+          $state = self::TEXT;
           break;
         default:
           throw new Exception('Unrecognized close tag: ' . $tag);
         }
 
-        $state = self::TEXT;
         break;
       }
     }

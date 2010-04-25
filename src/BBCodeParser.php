@@ -9,7 +9,7 @@ class BBCodeParser {
 
   function parse($in, $uid) {
     # decode HTML entities before parsing
-    $in = html_entity_decode($in);
+    $in = html_entity_decode($in, 'UTF-8');
 
     $text_stack = array();
     $arg_stack = array();

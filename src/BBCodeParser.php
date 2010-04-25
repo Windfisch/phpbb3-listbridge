@@ -8,15 +8,20 @@ class BBCodeParser {
   const DONE = 3;
 
 
+
   function parse($in, $uid) {
 
     $arg_stack = array();
+    $contents_stack = array();
 
     $fn_number = 1;
     $fn = array();
 
     $i = 0;
     $len = strlen($in);
+
+    $indent = '';
+    $list_conter_stack = array();
 
     $out = '';
 
@@ -82,8 +87,34 @@ class BBCodeParser {
         case 'code':
           break;
         case 'list':
+          $out .= "\n";
+          $indent .= ' ';
+          
+          switch ($arg) {
+          case '1': $list_counter_stack[] = 1;   break;
+          case 'a': $list_counter_stack[] = 'a'; break;
+          default:  $list_counter_stack[] = '*'; break; 
+          }
+
           break;
         case '*':
+          $out .= "\n" . $indent;
+
+          $c = array_pop($list_counter_stack);
+          if ($c == '*') {
+          }
+          else if (is_int($c)) {
+            $out .= $c . '. ';
+            $list_counter_stack[] = $c + 1;
+          }
+          else if ($c == '*') {
+            $out .= $c . ' ';
+            $list_counter_stack[] = '*';
+          }
+          else {
+            $out .= $c . '. ';
+            $list_counter_stack[] = chr(ord($c)+1);
+          }
           break;
         case 'img':
           break;
@@ -124,6 +155,9 @@ class BBCodeParser {
         case 'code':
           break;
         case 'list':
+          $out .= "\n";
+          $indent = substr($indent, -1);
+          array_pop($list_counter_stack);
           break;
         case '*':
           break;

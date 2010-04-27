@@ -28,7 +28,8 @@ class Bridge {
 
     $sql = 'SELECT p1.message_id FROM posts AS p1 ' .
            'LEFT OUTER JOIN posts AS p2 ON (' .
-              'p1.post_id = p2.post_id AND ' .
+              'p1.post_id = ' . $postId . ' AND ' .
+              'p2.post_id = ' . $postId . ' AND ' .
               'p1.edit_id < p2.edit_id' .
            ') WHERE p2.post_id IS NULL';
 

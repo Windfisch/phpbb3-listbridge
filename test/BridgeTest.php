@@ -23,7 +23,7 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
       'in_reply_to VARCHAR(255), ' .
       'when TIMESTAMP, ' .
       'PRIMARY KEY (message_id)), ' .
-      'INDEX (post_id)' .
+      'INDEX (post_id)'
     );
 
     $this->db->exec(

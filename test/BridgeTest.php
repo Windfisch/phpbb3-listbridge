@@ -113,7 +113,6 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
         null,
         '<20100302094228.33F0310091@charybdis.ellipsis.cx>',
         null,
-        null,
         false,
         null
       ),
@@ -121,7 +120,6 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
         2,
         '<20100302094228.33F0310091@charybdis.ellipsis.cx>',
         null,
-        null,
         false,
         null
       ),
@@ -129,14 +127,12 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
         2,
         '<10100302094228.33F0310091@charybdis.ellipsis.cx>',
         null,
-        null,
         true,
         null
       ),
       array(
         null,
         '<10100302094228.33F0310091@charybdis.ellipsis.cx>',
-        null,
         null,
         true,
         null

@@ -21,18 +21,16 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
       'post_id MEDIUMINT UNSIGNED, ' .
       'message_id VARCHAR(255) NOT NULL, ' .
       'in_reply_to VARCHAR(255), ' .
-      'refs BLOB, ' .
       'UNIQUE KEY (post_id), ' .
       'UNIQUE KEY (message_id))'
     );
 
     $this->db->exec(
-      'INSERT INTO posts (post_id, message_id, in_reply_to, refs) ' .
+      'INSERT INTO posts (post_id, message_id, in_reply_to) ' .
       'VALUES (' .
         '1, ' .
         '"<20100302094228.33F0310091@charybdis.ellipsis.cx>", ' .
-        '"<1267473003.m2f.17543@www.vassalengine.org>", ' .
-        '"<1267171317.m2f.17507@www.vassalengine.org> <1267473003.m2f.17543@www.vassalengine.org>"' .
+        '"<1267473003.m2f.17543@www.vassalengine.org>"' .
       ')'
     );
 
@@ -98,13 +96,13 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
   /**
    * @dataProvider providerRegisterMessage
    */
-  public function testRegisterMessage($postId, $messageId, $inReplyTo, $refs,
+  public function testRegisterMessage($postId, $messageId, $inReplyTo,
                                       $expected, $ex) {
     if ($ex) $this->setExpectedException($ex);
     $bridge = new Bridge($this->db);
     $this->assertEquals(
       $expected,
-      $bridge->registerMessage($postId, $messageId, $inReplyTo, $refs)
+      $bridge->registerMessage($postId, $messageId, $inReplyTo)
     );
   }
 

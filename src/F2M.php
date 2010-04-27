@@ -178,8 +178,7 @@ EOF;
 # FIXME: edited messages break the bijection between post and message ids!
 
   # Register the message
-  $seen = !$bridge->registerMessage($postId, $messageId,
-                                    $inReplyTo, $references);
+  $seen = !$bridge->registerMessage($postId, $messageId, $inReplyTo);
   if ($seen) {
     throw new Exception('message id already seen: ' . $messageId);
   }

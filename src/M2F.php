@@ -17,7 +17,7 @@ try {
   $rererences = $msg->getReferences();
   
   $bridge = new Bridge();
-  $seen = !$bridge->registerMessage(null, $messageId, $inReplyTo, $references);
+  $seen = !$bridge->registerMessage(null, $messageId, $inReplyTo);
   
   try {
     if ($seen) {

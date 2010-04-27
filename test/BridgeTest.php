@@ -23,6 +23,7 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
       'in_reply_to VARCHAR(255), ' .
       'edit_id MEDIUMINT NOT NULL AUTO_INCREMENT, ' .
       'PRIMARY KEY (message_id), ' .
+      'UNIQUE KEY (edit_id), ' .
       'INDEX (post_id))'
     );
 

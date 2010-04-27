@@ -26,8 +26,11 @@ class Bridge {
   public function getMessageId($postId) {
     throw_if_null($postId);
 
-    $sql = 'SELECT message_id FROM posts ' .
-           'WHERE post_id = ' . $postId;
+    $sql = 'SELECT p1.message_id FROM posts AS p1 ' .
+           'LEFT OUTER JOIN posts AS p2 ON (' .
+              'p1.post_id = p2.post_id AND ' .
+              'p1.edit_id < p2.edit_id' .
+           ') WHERE p2.post_id IS NULL';
 
     $row = $this->get_exactly_one_row($sql);
     return $row ? $row['message_id'] : false;
@@ -100,6 +103,8 @@ class Bridge {
   public function unregisterPost($postId) {
     throw_if_null($postId);
 
+# FIXME: this might need adjusting now that there can be more than one
+# message id per post id.
     $sql = 'DELETE FROM posts WHERE post_id = ' . $postId;
 
     $count = $this->db->exec($sql);

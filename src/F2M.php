@@ -65,7 +65,6 @@ function send_post_to_lists($config, $user, $mode, $data, $post_data) {
       throw new Exception('unrecognized post id: ' . $firstId);
     }
 
-# TODO: try to build better References by matching, maybe?
     $inReplyTo = $references = $firstMessageId;
   }
   else if ($mode == 'edit') {

@@ -21,7 +21,7 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
       'post_id MEDIUMINT UNSIGNED, ' .
       'message_id VARCHAR(255) NOT NULL, ' .
       'in_reply_to VARCHAR(255), ' .
-      'time_stamp TIMESTAMP, ' .
+      'edit_id MEDIUMINT NOT NULL AUTO_INCREMENT, ' .
       'PRIMARY KEY (message_id), ' .
       'INDEX (post_id))'
     );

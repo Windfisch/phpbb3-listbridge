@@ -91,16 +91,21 @@ class BBCodeParser {
           $state = self::TEXT;
           break;
         case 'quote':
-          $text_stack[] = $out . "\n";
+          if ($arg !== false) {
+            $text_stack[] = $out . "\n$arg wrote:\n";
+          }
+          else {
+            $text_stack[] = $out . "\n";
+          }
           $out = '';
           $state = self::TEXT;
           break;
         case 'code':
-          $out .= "\n";
+          $out .= "\nCode:\n";
           $state = self::TEXT;
           break;
         case 'list':
-          if ($out[strlen($out)-1] != "\n") $out .= "\n";
+#          if ($out[strlen($out)-1] != "\n") $out .= "\n";
 
           switch ($arg) {
           case '1': $list_counter_stack[] = 1;   break;
@@ -108,10 +113,11 @@ class BBCodeParser {
           default:  $list_counter_stack[] = '*'; break; 
           }
 
-          $state = self::WHSP;
+          $state = self::TEXT;
+#          $state = self::WHSP;
           break;
         case '*':
-          if ($out[strlen($out)-1] != "\n") $out .= "\n";
+#          if ($out[strlen($out)-1] != "\n") $out .= "\n";
           $out .= str_repeat(' ', 2*count($list_counter_stack));
 
           $c = array_pop($list_counter_stack);
@@ -128,7 +134,8 @@ class BBCodeParser {
             $list_counter_stack[] = chr(ord($c)+1);
           }
 
-          $state = self::WHSP;
+          $state = self::TEXT;
+#          $state = self::WHSP;
           break;
         case 'img':
           $text_stack[] = $out;
@@ -184,7 +191,7 @@ class BBCodeParser {
         case 'code':
 # TODO: untested
 # FIXME: don't wordwrap code!
-          $out .= "\n";
+          $out .= "\n\n";
           $state = self::TEXT;
           break;
         case 'list':
@@ -192,12 +199,14 @@ class BBCodeParser {
         case 'list:u':
           array_pop($list_counter_stack);
           $out .= "\n\n";
-          $state = self::WHSP;
+#          $state = self::WHSP;
+          $state = self::TEXT;
           break;
         case '*':
         case '*:m':
-          if ($out[strlen($out)-1] == "\n") $out = substr($out, 0, -1);
-          $state = self::WHSP;
+#          if ($out[strlen($out)-1] == "\n") $out = substr($out, 0, -1);
+#          $state = self::WHSP;
+          $state = self::TEXT;
           break;
         case 'img':
 # TODO: untested
@@ -230,6 +239,8 @@ class BBCodeParser {
       for ($i = 0; $i < count($fn); ++$i) {
         $out .= "\n[" . ($i+1) . '] ' . $fn[$i];
       }
+
+      $out .= "\n";
     }
 
     return $out;

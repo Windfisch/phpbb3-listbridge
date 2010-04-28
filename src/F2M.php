@@ -174,8 +174,6 @@ EOF;
 
   $mailer = Mail::factory('sendmail');
 
-# FIXME: edited messages break the bijection between post and message ids!
-
   # Register the message
   $seen = !$bridge->registerMessage($postId, $messageId, $inReplyTo);
   if ($seen) {

@@ -174,6 +174,9 @@ EOF;
 
   $mailer = Mail::factory('sendmail');
 
+# FIXME: Message-id should include the edit_id. To do that, we have to
+# register BEFORE creating the Message-id
+
   # Register the message
   $seen = !$bridge->registerMessage($postId, $messageId, $inReplyTo);
   if ($seen) {

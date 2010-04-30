@@ -205,14 +205,6 @@ EOF;
   }
 }
 
-# TODO: call this from handle_post_delete in posting.php
-function remove_post($postId) {
-  require_once(__DIR__ . '/Bridge.php');
-
-  $bridge = new Bridge();
-  $bridge->removePost($postId);
-}
-
 function build_text_part($mime, $text) {
   $params = array(
     'content_type' => 'text/plain',

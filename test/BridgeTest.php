@@ -206,6 +206,23 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
+   * @dataProvider providerRemovePost
+   */
+  public function testRemovePost($postId, $ex) {
+    if ($ex) $this->setExpectedException($ex);
+    $bridge = new Bridge($this->db);
+    $bridge->removePost($postId);
+  }
+
+  public function providerRemovePost() {
+    return array(
+      array(null, 'Exception'),
+      array(1, null),
+      array(2, 'Exception')
+    );
+  }
+
+  /**
    * @dataProvider providerGetDefaultForumId
    */
   public function testGetDefaultForumId($list, $expected, $ex) {

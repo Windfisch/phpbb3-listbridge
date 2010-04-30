@@ -202,7 +202,7 @@ function remove_post($postId) {
   require_once(__DIR__ . '/Bridge.php');
 
   $bridge = new Bridge();
-  $bridge->unregisterPost($postId);
+  $bridge->removePost($postId);
 }
 
 function build_text_part($mime, $text) {

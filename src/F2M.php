@@ -99,6 +99,7 @@ function send_post_to_lists($config, $user, $mode, $data, $post_data) {
     $edit_notice = <<<EOF
 [This message has been edited.]
 
+
 EOF;
 
     $edit_header = 'Edit: ';

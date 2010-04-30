@@ -1,5 +1,11 @@
 <?php
 
+#
+# Usage: In posting.php, following submit_post():
+# 
+# require_once('/home/uckelman/site-src/bridge/src/forum_post_send.php'); 
+#
+
 try {
   send_post_to_lists($config, $user, $mode, $data, $post_data);
 }

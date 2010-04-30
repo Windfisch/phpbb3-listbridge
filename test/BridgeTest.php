@@ -107,7 +107,7 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
   public function providerReserveEditId() {
     return array(
       array(1, 2, null),
-      array(2, 3, null) 
+      array(2, 2, null) 
     );
   }
  

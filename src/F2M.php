@@ -47,9 +47,16 @@ function send_post_to_lists($config, $user, $mode, $data, $post_data) {
 
   $phpbb = new PhpBB3();
 
-  $time = $phpbb->getPostTime($postId);
-  if ($time === false) {
-    throw new Exception('no post time: ' . $postId);
+  $time = null;
+  if ($mode == 'edit') {
+    # Post time is NOT updated when posts are edited; we get the current time
+    $time = time();
+  }
+  else {
+    $time = $phpbb->getPostTime($postId);
+    if ($time === false) {
+      throw new Exception('no post time: ' . $postId);
+    }
   }
 
   $date = date(DATE_RFC2822, $time);

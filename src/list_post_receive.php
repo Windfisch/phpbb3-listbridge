@@ -1,5 +1,8 @@
 <?php
 
+# TODO: logging!
+# TODO: translation of quoting to bbcode?
+
 try {
   require_once(__DIR__ . '/Bridge.php');
   require_once(__DIR__ . '/MailmanLib.php');
@@ -17,10 +20,10 @@ try {
   $rererences = $msg->getReferences();
   
   $bridge = new Bridge();
-  $seen = !$bridge->registerMessage(null, $messageId, $inReplyTo);
+  $editId = $bridge->registerByMessageId($messageId, $inReplyTo);
   
   try {
-    if ($seen) {
+    if ($editId === false) {
       # This message has already been processed, bail out
       print 'Message id already seen, skipping: ' . $messageId . "\n";
       exit;
@@ -28,14 +31,14 @@ try {
   
     $phpbb = new PhpBB3();
   
-    $forumId = $topicId = -1;
+    $forumId = $topicId = null;
     $postType = null;
   
     if ($inReplyTo) { 
       # Possibly a reply to an existing topic
       $parentId = $bridge->getPostId($inReplyTo);
       if ($parentId === false) {
-        throw new Exception('unrecognized reply-to: ' . $inReplyTo);
+        throw new Exception('unrecognized Reply-To: ' . $inReplyTo);
       }
 
       $ids = $phpbb->getTopicAndForumIds($parentId);
@@ -67,7 +70,7 @@ try {
   }
   catch (Exception $e) {
     # Bridging failed, unregister message.
-    $bridge->unregisterMessage($messageId);
+    $bridge->unregisterMessage($editId);
     throw $e; 
   }
 }

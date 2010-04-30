@@ -106,25 +106,26 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
 
   public function providerReserveEditId() {
     return array(
+      array(null, null, 'Exception'),
       array(1, 2, null),
       array(2, 2, null) 
     );
   }
- 
+
   /**
-   * @dataProvider providerRegisterMessage
+   * @dataProvider providerRegisterByEditId
    */
-  public function testRegisterMessage($postId, $messageId, $inReplyTo,
-                                      $expected, $ex) {
+  public function testRegisterByEditId($editId, $messageId, $inReplyTo,
+                                       $expected, $ex) {
     if ($ex) $this->setExpectedException($ex);
     $bridge = new Bridge($this->db);
     $this->assertEquals(
       $expected,
-      $bridge->registerMessage($postId, $messageId, $inReplyTo)
+      $bridge->registerMessage($editId, $messageId, $inReplyTo)
     );
   }
 
-  public function providerRegisterMessage() {
+  public function providerRegisterByEditId() {
     return array(
       array(null, null, null, null, 'Exception'),
       array(
@@ -159,20 +160,62 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
   }
 
   /**
-   * @dataProvider providerUnregisterMessage
+   * @dataProvider providerRegisterByMessageId
    */
-  public function testUnregisterMessage($messageId, $ex) {
+  public function testRegisterByMessageId($messageId, $inReplyTo,
+                                          $expected, $ex) {
     if ($ex) $this->setExpectedException($ex);
     $bridge = new Bridge($this->db);
-    $bridge->unregisterMessage($messageId);
-    $this->assertEquals(false, $bridge->getPostId($messageId));
+    $this->assertEquals(
+      $expected,
+      $bridge->registerByMessageId($messageId, $inReplyTo)
+    );
+  }
+
+  public function providerRegisterMessageId() {
+    return array(
+      array(null, null, null, 'Exception'),
+      array(
+        '<20100302094228.33F0310091@charybdis.ellipsis.cx>',
+        null,
+        false,
+        null
+      ),
+      array(
+        '<20100302094228.33F0310091@charybdis.ellipsis.cx>',
+        null,
+        false,
+        null
+      ),
+      array(
+        '<10100302094228.33F0310091@charybdis.ellipsis.cx>',
+        null,
+        2,
+        null
+      ),
+      array(
+        '<10100302094228.33F0310091@charybdis.ellipsis.cx>',
+        null,
+        2,
+        null
+      )
+    );
+  }
+
+  /**
+   * @dataProvider providerUnregisterMessage
+   */
+  public function testUnregisterMessage($editId, $ex) {
+    if ($ex) $this->setExpectedException($ex);
+    $bridge = new Bridge($this->db);
+    $bridge->unregisterMessage($editId);
   }
 
   public function providerUnregisterMessage() {
     return array(
       array(null, 'Exception'),
-      array('<20100302094228.33F0310091@charybdis.ellipsis.cx>', null),
-      array('<10100302094228.33F0310091@charybdis.ellipsis.cx>', 'Exception')
+      array(1, null),
+      array(2, 'Exception')
     );
   }
 

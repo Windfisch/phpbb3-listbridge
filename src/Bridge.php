@@ -88,43 +88,41 @@ class Bridge {
     return $this->db->lastInsertId();
   }
 
-  public function registerMessage($postId, $messageId, $inReplyTo) {
+  public function registerByEditId($editId, $messageId, $inReplyTo) {
     throw_if_null($messageId);
 
-    $sql = 'INSERT IGNORE INTO posts ' .
-           '(post_id, message_id, in_reply_to) ' .
-           'VALUES (' . ($postId === null ? 'NULL' : $postId) . ', '
-                      . $this->db->quote($messageId) . ', '
-                      . $this->quote($inReplyTo) . ')';
+    $sql = 'UPDATE posts SET ' .
+              'message_id = ' . $this->db->quote($messageId) . ', ' .
+              'in_reply_to = ' . $this->quote($inReplyTo) . ') ' .
+           'WHERE edit_id = ' . $editId;
 
     $count = $this->db->exec($sql);
     return $count == 1;
   }
 
-  public function unregisterMessage($messageId) {
+  public function registerByMessageId($messageId, $inReplyTo) {
     throw_if_null($messageId);
 
-    $sql = 'DELETE FROM posts WHERE message_id = ' .
-           $this->db->quote($messageId);
+    $sql = 'INSERT IGNORE INTO posts ' .
+           '(message_id, in_reply_to) ' .
+           'VALUES (' .
+              $this->db->quote($messageId) . ', ' .
+              $this->quote($inReplyTo) .
+           ')'
 
     $count = $this->db->exec($sql);
-
-    if ($count != 1) {
-      throw new Exception('Failed to delete message id: ' . $messageId);
-    }
+    return $count == 1 ? $this->db->lastInsertId() : false;
   }
 
-  public function unregisterPost($postId) {
-    throw_if_null($postId);
+  public function unregisterMessage($editId) {
+    throw_if_null($messageId);
 
-# FIXME: this might need adjusting now that there can be more than one
-# message id per post id.
-    $sql = 'DELETE FROM posts WHERE post_id = ' . $postId;
+    $sql = 'DELETE FROM posts WHERE edit_id = ' . $editId;
 
     $count = $this->db->exec($sql);
 
     if ($count != 1) {
-      throw new Exception('Failed to delete post id: ' . $postId);
+      throw new Exception('Failed to delete edit id: ' . $editId);
     }
   }
 

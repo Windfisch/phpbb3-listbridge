@@ -53,7 +53,6 @@ function send_post_to_lists($config, $user, $mode, $data, $post_data) {
   }
 
   $date = date(DATE_RFC2822, $time);
-  $messageId = build_message_id($time, $postId, $_SERVER['SERVER_NAME']);
 
   $inReplyTo = null;
   $references = null;
@@ -172,13 +171,14 @@ EOF;
     $body = $msg['body'];
   }
 
+  $editId = $bridge->reserveEditId($postId);
+  $messageId = build_message_id($postId, $editId,
+                                $time, $_SERVER['SERVER_NAME']);
+
   $mailer = Mail::factory('sendmail');
 
-# FIXME: Message-id should include the edit_id. To do that, we have to
-# register BEFORE creating the Message-id
-
   # Register the message
-  $seen = !$bridge->registerMessage($postId, $messageId, $inReplyTo);
+  $seen = !$bridge->registerByEditId($editId, $messageId, $inReplyTo);
   if ($seen) {
     throw new Exception('message id already seen: ' . $messageId);
   }
@@ -192,7 +192,7 @@ EOF;
   }
   catch (Exception $e) {
     # Bridging failed, unregister message.
-    $bridge->unregisterMessage($messageId);
+    $bridge->unregisterMessage($editId);
     throw $e;
   }
 }

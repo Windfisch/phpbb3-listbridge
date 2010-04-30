@@ -49,7 +49,7 @@ function send_post_to_lists($config, $user, $mode, $data, $post_data) {
 
   $time = null;
   if ($mode == 'edit') {
-    # Post time is NOT updated when posts are edited; we get the current time
+    # Post time is NOT updated on edit, so we get the current time
     $time = time();
   }
   else {

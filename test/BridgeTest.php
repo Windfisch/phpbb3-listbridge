@@ -129,13 +129,6 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
     return array(
       array(null, null, null, null, 'Exception'),
       array(
-        null,
-        '<20100302094228.33F0310091@charybdis.ellipsis.cx>',
-        null,
-        false,
-        null
-      ),
-      array(
         2,
         '<20100302094228.33F0310091@charybdis.ellipsis.cx>',
         null,
@@ -149,13 +142,6 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
         true,
         null
       ),
-      array(
-        null,
-        '<10100302094228.33F0310091@charybdis.ellipsis.cx>',
-        null,
-        true,
-        null
-      )
     );
   }
 

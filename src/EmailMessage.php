@@ -1,5 +1,7 @@
 <?php
 
+# FIXME: maybe use Mailparse instead of Mail_mimeDecode
+
 require_once('Mail/mimeDecode.php');
 require_once('Mail/RFC822.php');
 

@@ -93,7 +93,7 @@ class Bridge {
 
     $sql = 'UPDATE posts SET ' .
               'message_id = ' . $this->db->quote($messageId) . ', ' .
-              'in_reply_to = ' . $this->quote($inReplyTo) . ') ' .
+              'in_reply_to = ' . $this->quote($inReplyTo) . ' ' .
            'WHERE edit_id = ' . $editId;
 
     $count = $this->db->exec($sql);

@@ -1,7 +1,7 @@
 <?php
 
 try {
-  remove_post($postId);
+  remove_post($post_id);
 }
 catch (Exception $e) {
   trigger_error($e, E_USER_ERROR);

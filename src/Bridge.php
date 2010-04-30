@@ -115,7 +115,7 @@ class Bridge {
   }
 
   public function unregisterMessage($editId) {
-    throw_if_null($messageId);
+    throw_if_null($editId);
 
     $sql = 'DELETE FROM posts WHERE edit_id = ' . $editId;
 

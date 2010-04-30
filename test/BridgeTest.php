@@ -158,7 +158,7 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
     );
   }
 
-  public function providerRegisterMessageId() {
+  public function providerRegisterByMessageId() {
     return array(
       array(null, null, null, 'Exception'),
       array(

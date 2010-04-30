@@ -75,6 +75,19 @@ class Bridge {
     return $rows;
   }
 
+  public function reserveEditId($postId) {
+    throw_if_null($postId);
+
+    $sql = 'INSERT INTO posts (post_id) VALUES (' . $postId . ')';
+
+    $count = $this->db->exec($sql);
+    if ($count != 1) {
+      throw new Exception('Failed to register post id: ' . $postId);
+    }
+
+    return $this->db->lastInsertId();
+  }
+
   public function registerMessage($postId, $messageId, $inReplyTo) {
     throw_if_null($messageId);
 

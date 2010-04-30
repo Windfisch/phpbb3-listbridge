@@ -22,8 +22,8 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
       'message_id VARCHAR(255) NOT NULL, ' .
       'in_reply_to VARCHAR(255), ' .
       'edit_id MEDIUMINT NOT NULL AUTO_INCREMENT, ' .
-      'PRIMARY KEY (message_id), ' .
-      'UNIQUE KEY (edit_id), ' .
+      'UNIQUE KEY (message_id), ' .
+      'PRIMARY KEY (edit_id), ' .
       'INDEX (post_id))'
     );
 
@@ -92,6 +92,22 @@ class BridgeTest extends PHPUnit_Framework_TestCase {
       array(null, null, 'Exception'), 
       array(0, false, null), 
       array(1, '<20100302094228.33F0310091@charybdis.ellipsis.cx>', null),
+    );
+  }
+
+  /**
+   * @dataProvider providerReserveEditId
+   */
+  public function testReserveEditId($postId, $expected, $ex) {
+    if ($ex) $this->setExpectedException($ex);
+    $bridge = new Bridge($this->db);
+    $this->assertEquals($expected, $bridge->reserveEditId($postId));
+  }
+
+  public function providerReserveEditId() {
+    return array(
+      array(1, 2, null),
+      array(2, 3, null) 
     );
   }
  

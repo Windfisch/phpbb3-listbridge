@@ -108,7 +108,7 @@ class Bridge {
            'VALUES (' .
               $this->db->quote($messageId) . ', ' .
               $this->quote($inReplyTo) .
-           ')'
+           ')';
 
     $count = $this->db->exec($sql);
     return $count == 1 ? $this->db->lastInsertId() : false;

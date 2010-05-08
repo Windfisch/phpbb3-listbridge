@@ -44,7 +44,7 @@ abstract class EmailMessage implements Message {
   }
 
   public function getParts() {
-    return $this->msg->parts();
+    return $this->msg->parts;
   }
 
   protected static function decode_raw_message($input) {

@@ -40,7 +40,7 @@ abstract class EmailMessage implements Message {
   }
 
   public function getBody() {
-    return $this->msg->body;
+    return isset($this->msg->body) ? $this->msg->body : false;
   }
 
   public function getParts() {

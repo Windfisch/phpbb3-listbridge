@@ -120,15 +120,15 @@ abstract class EmailMessage implements Message {
 
       $mimetype = $part->ctype_primary . '/' . $part->ctype_secondary;
 
+      $comment = array_key_exists('content-description', $part->headers) ?
+        $part->headers['content-description'] : '';
+
       $params = array(
         'filename' => $filename,
         'mimetype' => $mimetype,
+        'comment'  => $comment,
         'data'     => $part->body
       );
-
-      if (array_key_exists('content-description', $part->headers)) {
-        $params['comment'] = $part->headers['content-description'];
-      } 
 
       $attachments[] = $params;
     }

@@ -15,19 +15,23 @@ class HTTP_POST_multipartTest extends PHPUnit_Framework_TestCase {
   /**
    * @dataProvider providerBuildDataPart
    */
-  public function testBuildDataPart($name, $data, $expected, $ex) {
+  public function testBuildDataPart($part, $expected, $ex) {
     if ($ex) $this->setExpectedException($ex);
 
     $this->assertEquals(
       $expected,
-      self::getMethod('buildDataPart')->invokeArgs(null, array($name, $data))
+      self::getMethod('buildDataPart')->invokeArgs(null, array($part))
     );
   }
 
   public function providerBuildDataPart() {
     return array(
-      array(null, null, null, 'Exception'),
-      array('foo', 1, "Content-Disposition: form-data; name=\"foo\"\r\n\r\n1\r\n", null)
+      array(null, null, 'Exception'),
+      array(
+        array('name' => 'foo', 'data' => 1),
+        "Content-Disposition: form-data; name=\"foo\"\r\n\r\n1\r\n",
+        null
+      )
     );
   }
 

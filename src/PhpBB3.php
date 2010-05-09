@@ -178,7 +178,7 @@ class PhpBB3 {
     $attachment_data = array();
 
     foreach ($attachments as $a) {
-      $attachment_data[] = addAttachment(
+      $attachment_data[] = $this->addAttachment(
         $userId, $a['filename'], $a['comment'], $a['mimetype'], $a['data']
       );
     } 

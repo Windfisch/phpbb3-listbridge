@@ -6,15 +6,23 @@ class HTTP_POST_multipart {
 
   protected $_parts = array();
 
-  public function addData($name, $bytes) {
+  public function addData($name, $data) {
+    if ($name === null) throw new Exception('name is null');
+    if ($data === null) throw new Exception('data is null');
+
     $this->_parts[] = array(
       'name' => $name,
-      'data' => $bytes
+      'data' => $data
     );
   }
 
   public function addFile($name, $filename, $mimetype,
                           $charset, $encoding, $data) {
+    if ($name     === null) throw new Exception('name is null');
+    if ($filename === null) throw new Exception('filename is null');
+    if ($mimetype === null) throw new Exception('mimetype is null');
+    if ($data     === null) throw new Exception('data is null');
+
     $this->_parts[] = array(
       'name'     => $name,
       'filename' => $filename,

@@ -33,12 +33,12 @@ class HTTP_POST_multipart {
     );
   }
 
-  protected static buildDataPart($part) {
+  protected static function buildDataPart($part) {
     return 'Content-Disposition: form-data; name="' . $part['name'] . '"' .
            EOL . EOL . $part['data'] . EOL;
   }
 
-  protected static buildFilePart($part) {
+  protected static function buildFilePart($part) {
     # build Content-Disposition
     $p = 'Content-Disposition: form-data; name="' . $part['name'] . '"; ' .
            'filename="' . $part['filename'] . '"' . EOL;
@@ -77,7 +77,7 @@ class HTTP_POST_multipart {
     return $p;
   }
 
-  protected static buildBoundary($postParts) {
+  protected static function buildBoundary($postParts) {
     # This isn't guaranteed to terminate, but it's unlikely
     # to need more than one iteration on any real input.
     while (1) {
@@ -98,7 +98,7 @@ class HTTP_POST_multipart {
     }
   }
 
-  protected static buildPost($parts) {
+  protected static function buildPost($parts) {
     $postParts[] = array();
 
     foreach ($parts as $part) {

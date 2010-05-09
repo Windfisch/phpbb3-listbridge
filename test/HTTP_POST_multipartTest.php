@@ -120,7 +120,8 @@ class HTTP_POST_multipartTest extends PHPUnit_Framework_TestCase {
             'data'     => "blah blah blah\nblah blah blah"
           )
         ),
-        "--boundary\r\nContent-Disposition: form-data; name=\"foo\"\r\n\r\n1\r\n--boundary\r\nContent-Disposition: form-data; name=\"foo\"; filename=\"somename.txt\"\r\nContent-Type: text/plain; charset=\"utf-8\"\r\n\r\nblah blah blah\nblah blah blah\r\n--boundary--\r\n"
+        "--boundary\r\nContent-Disposition: form-data; name=\"foo\"\r\n\r\n1\r\n--boundary\r\nContent-Disposition: form-data; name=\"foo\"; filename=\"somename.txt\"\r\nContent-Type: text/plain; charset=\"utf-8\"\r\n\r\nblah blah blah\nblah blah blah\r\n--boundary--\r\n",
+        null
       )
     );
   }

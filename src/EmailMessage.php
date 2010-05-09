@@ -46,7 +46,7 @@ abstract class EmailMessage implements Message {
   public function getFlattenedParts() {
     $text = '';
     $attachments = array();
-    self::flatten_parts($text, $attachments);
+    self::flatten_parts($this->msg, $text, $attachments);
     return array($text, $attachments);
   }
 

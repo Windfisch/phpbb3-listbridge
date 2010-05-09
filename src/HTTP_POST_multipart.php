@@ -61,7 +61,7 @@ class HTTP_POST_multipart {
         $data = $part['data'];
         break;
       case 'base64':
-        $data = chunk_split(base64_encode($part['data']);
+        $data = chunk_split(base64_encode($part['data']));
         break;
       default:
         throw new Exception('unrecognized encoding: ' . $part['encoding']);

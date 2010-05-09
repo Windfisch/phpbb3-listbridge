@@ -73,7 +73,7 @@ class HTTP_POST_multipartTest extends PHPUnit_Framework_TestCase {
         ),
         "Content-Disposition: form-data; name=\"foo\"; filename=\"somename.png\"\r\nContent-Type: image/png\r\n\r\nblah blah blah\nblah blah blah\r\n",
         null
-      )
+      ),
       array(
         array(
           'name'     => 'foo',

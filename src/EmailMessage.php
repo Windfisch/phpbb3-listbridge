@@ -80,7 +80,7 @@ abstract class EmailMessage implements Message {
       }
 
       foreach ($part->parts as $subpart) {
-        flatten_parts($subpart, $text, $attachments);
+        self::flatten_parts($subpart, $text, $attachments);
       }
       break;
 

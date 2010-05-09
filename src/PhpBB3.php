@@ -265,9 +265,9 @@ class PhpBB3 {
            ') VALUES (' .
              $userId . ', ' .
              '1, ' .
-             $db->sql_escape($realFilename) . ', ' .
-             $db->sql_escape($comment) . ', ' .
-             $db->sql_escape($mimetype) . ', ' .
+             '"' . $db->sql_escape($realFilename) . '", ' .
+             '"' . $db->sql_escape($comment) . '", ' .
+             '"' . $db->sql_escape($mimetype) . '", ' .
              strlen($data) . ', ' .
              time() .
            ')';

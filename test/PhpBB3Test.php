@@ -101,19 +101,19 @@ EOF;
   }
 
   /**
-   * @dataProvider providerTopicExists
+   * @dataProvider providerTopicStatus
    */
-  public function testTopicExists($topic_id, $expected, $ex) {
+  public function testTopicStatus($topic_id, $expected, $ex) {
     if ($ex) $this->setExpectedException($ex);
-    $run = 'topicExists(' . $topic_id . ')';
+    $run = 'topicStatus(' . $topic_id . ')';
     $this->assertEquals($expected, $this->exec_kludge($run));
   }
 
-  public function providerTopicExists() {
+  public function providerTopicStatus() {
     return array(
       array('bogus', null, 'Exception'),
       array(0, false, null),
-      array(1, true, null)
+      array(1, 0, null)
     );
   }
 

@@ -83,7 +83,7 @@ class HTTP_POST_multipartTest extends PHPUnit_Framework_TestCase {
           'encoding' => 'base64',
           'data'     => "blah blah blah\nblah blah blah"
         ),
-        "Content-Disposition: form-data; name=\"foo\"; filename=\"somename.png\"\r\nContent-Type: image/png\r\n\r\nYmxhaCBibGFoIGJsYWgKYmxhaCBibGFoIGJsYWg=\r\n",
+        "Content-Disposition: form-data; name=\"foo\"; filename=\"somename.png\"\r\nContent-Type: image/png\r\nContent-Transfer-Encoding: base64\r\n\r\nYmxhaCBibGFoIGJsYWgKYmxhaCBibGFoIGJsYWg=\r\n\r\n",
         null
       )
     );

@@ -35,7 +35,35 @@ class HTTP_POST_multipartTest extends PHPUnit_Framework_TestCase {
     );
   }
 
+  /**
+   * @dataProvider providerBuildFilePart
+   */
+  public function testBuildFilePart($part, $expected, $ex) {
+    if ($ex) $this->setExpectedException($ex);
 
+    $this->assertEquals(
+      $expected,
+      self::getMethod('buildFilePart')->invokeArgs(null, array($part))
+    );
+  }
+
+  public function providerBuildFilePart() {
+    return array(
+      array(null, null, 'Exception'),
+      array(
+        array(
+          'name'     => 'foo',
+          'filename' => 'somename.txt',
+          'mimetype' => 'text/plain',
+          'charset'  => 'utf-8',
+          'encoding' => null,
+          'data'     => "blah blah blah\nblah blah blah"
+        ),
+        "Content-Disposition: form-data; name=\"foo\"; filename=\"somename.txt\"\r\nContent-Type: text/plain; charset=\"utf-8\"\r\n\r\nblah blah blah\nblah blah blah\r\n",
+        null
+      )
+    );
+  }
 }
 
 ?>

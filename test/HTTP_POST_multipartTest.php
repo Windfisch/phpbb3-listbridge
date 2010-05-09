@@ -71,7 +71,7 @@ class HTTP_POST_multipartTest extends PHPUnit_Framework_TestCase {
           'encoding' => 'binary',
           'data'     => "blah blah blah\nblah blah blah"
         ),
-        "Content-Disposition: form-data; name=\"foo\"; filename=\"somename.png\"\r\nContent-Type: image/png\r\n\r\nblah blah blah\nblah blah blah\r\n",
+        "Content-Disposition: form-data; name=\"foo\"; filename=\"somename.png\"\r\nContent-Type: image/png\r\nContent-Transfer-Encoding: binary\r\n\r\nblah blah blah\nblah blah blah\r\n",
         null
       ),
       array(

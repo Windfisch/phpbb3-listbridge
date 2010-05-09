@@ -256,18 +256,24 @@ class PhpBB3 {
 # TODO: check that attachment is a permissible type, size
 
     # lifted from include/functions_upload.php: filespec::clean_filename()
-    $realFilename = $userId . '_' . md5(unique_id()); 
+    $physicalFilename = $userId . '_' . md5(unique_id()); 
+
+    # get extension
+    $dot = strrpos($filename, '.');
+    $extension = $pos === false ? '' : substr($filename, $pos + 1);
 
     # put the attachment data into the db
     $sql = 'INSERT INTO ' . ATTACHMENTS_TABLE . ' (' .
-             'poster_id, is_orphan, physical_filename, attach_comment, ' .
-             'extension, mimetype, filesize, filetime' .
+             'poster_id, is_orphan, physical_filename, real_filename, ' .
+             'attach_comment, extension, mimetype, filesize, filetime' .
            ') VALUES (' .
              $userId . ', ' .
              '1, ' .
-             '"' . $db->sql_escape($realFilename) . '", ' .
-             '"' . $db->sql_escape($comment) . '", ' .
-             '"' . $db->sql_escape($mimetype) . '", ' .
+             '"' . $physicalFilename           . '", ' .
+             '"' . $db->sql_escape($filename)  . '", ' .
+             '"' . $db->sql_escape($comment)   . '", ' .
+             '"' . $db->sql_escape($extension) . '", ' .
+             '"' . $db->sql_escape($mimetype)  . '", ' .
              strlen($data) . ', ' .
              time() .
            ')';

@@ -88,6 +88,42 @@ class HTTP_POST_multipartTest extends PHPUnit_Framework_TestCase {
       )
     );
   }
+
+  /**
+   * @dataProvider providerBuildPost
+   */
+  public function testBuildPost($parts, $expected, $ex) {
+    if ($ex) $this->setExpectedException($ex);
+
+    list($boundary, $content) =
+      self::getMethod('buildPost')->invokeArgs(null, array($parts));
+
+    $actual = str_replace('boundary', $boundary, $content); 
+    $this->assertEquals($expected, $actual);
+  }
+
+  public function providerBuildPost() {
+    return array(
+      array(null, null, 'Exception'),
+      array(
+        array(
+          array(
+            'name' => 'foo',
+            'data' => 1
+          ),
+          array(
+            'name'     => 'foo',
+            'filename' => 'somename.txt',
+            'mimetype' => 'text/plain',
+            'charset'  => 'utf-8',
+            'encoding' => null,
+            'data'     => "blah blah blah\nblah blah blah"
+          )
+        ),
+        "--boundary\r\nContent-Disposition: form-data; name=\"foo\"\r\n\r\n1\r\n--boundary\r\nContent-Disposition: form-data; name=\"foo\"; filename=\"somename.txt\"\r\nContent-Type: text/plain; charset=\"utf-8\"\r\n\r\nblah blah blah\nblah blah blah\r\n--boundary--\r\n"
+      )
+    );
+  }
 }
 
 ?>

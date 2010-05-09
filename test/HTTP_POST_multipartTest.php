@@ -18,8 +18,10 @@ class HTTP_POST_multipartTest extends PHPUnit_Framework_TestCase {
    */
   public function testBuildDataPart($name, $data, $expected, $ex) {
     if ($ex) $this->setExpectedException($ex);
-    $poster = new HTTP_POST_multipart();
-    $this->assertEquals($expected, $poster->buildDataPart($name, $data));
+    $this->assertEquals(
+      $expected,
+      HTTP_POST_multipart::buildDataPart($name, $data)
+    );
   }
 
   public function providerBuildDataPart() {

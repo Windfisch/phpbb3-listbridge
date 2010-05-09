@@ -251,6 +251,8 @@ class PhpBB3 {
     throw_if_null($mimetype);
     throw_if_null($data);
 
+    global $db;
+
 # TODO: check that attachment is a permissible type, size
 
     # lifted from include/functions_upload.php: filespec::clean_filename()

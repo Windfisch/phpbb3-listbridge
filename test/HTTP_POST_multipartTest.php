@@ -12,7 +12,7 @@ class HTTP_POST_multipartTest extends PHPUnit_Framework_TestCase {
     if ($ex) $this->setExpectedException($ex);
 
     $class = new ReflectionClass('HTTP_POST_multipart');
-    $method = $class->getMethod('bulidDataPart');
+    $method = $class->getMethod('buildDataPart');
     $method->setAccessible(true);
 
     $this->assertEquals(

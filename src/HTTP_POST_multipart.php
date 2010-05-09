@@ -122,13 +122,12 @@ class HTTP_POST_multipart {
   }
 
   public function dump() {
-    list(/* skip */, $content) = buildPost($this->_parts);
+    list(/* skip */, $content) = self::buildPost($this->_parts);
     return $content;
   }
 
   public function post($url) {
-
-    list($boundary, $content) = buildPost($this->_parts);
+    list($boundary, $content) = self::buildPost($this->_parts);
     $ctype = 'Content-Type: multipart/form-data; boundary="' . $boundary . '"';
 
     $ctx = stream_context_create(

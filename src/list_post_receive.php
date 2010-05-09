@@ -2,6 +2,7 @@
 
 # TODO: logging!
 # TODO: translation of quoting to bbcode?
+# TODO: handle attachments
 
 try {
   require_once(__DIR__ . '/Bridge.php');
@@ -60,9 +61,6 @@ try {
 
       $postType = 'post';
     }
- 
-# FIXME: the subject and body may be charset encoded---need to decode these
-# before posting!
  
     # Post the message to the forum
     $postId = $phpbb->postMessage($postType, $forumId, $topicId, $msg);

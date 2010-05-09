@@ -15,8 +15,6 @@ interface Message {
 
   public function getReferences();
 
-  public function getBody();
-
   public function getParts();
 }
 

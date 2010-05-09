@@ -39,12 +39,8 @@ abstract class EmailMessage implements Message {
     return $this->msg->headers['references'];
   }
 
-  public function getBody() {
-    return isset($this->msg->body) ? $this->msg->body : false;
-  }
-
   public function getParts() {
-    return $this->msg->parts;
+    return $this->msg;
   }
 
   protected static function decode_raw_message($input) {

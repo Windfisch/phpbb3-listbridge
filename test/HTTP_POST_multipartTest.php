@@ -7,11 +7,13 @@ class HTTP_POST_multipartTest extends PHPUnit_Framework_TestCase {
 
   public static function setUpBeforeClass() {
     # Set all methods to be public so we can test them
-    $class = new ReflectionClass('HTTP_POST_multipart');
-    foreach ($class->getMethods() as $method) {
+    self::_class = new ReflectionClass('HTTP_POST_multipart');
+    foreach (self::_class->getMethods() as $method) {
       $method->setAccessible(true);
     }
   }
+
+  protected static $_class;
 
   /**
    * @dataProvider providerBuildDataPart
@@ -20,7 +22,7 @@ class HTTP_POST_multipartTest extends PHPUnit_Framework_TestCase {
     if ($ex) $this->setExpectedException($ex);
     $this->assertEquals(
       $expected,
-      HTTP_POST_multipart::buildDataPart($name, $data)
+      self::_class->getMethod('bulidDataPart', array($name, $data))
     );
   }
 

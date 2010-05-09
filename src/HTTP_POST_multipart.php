@@ -102,7 +102,7 @@ class HTTP_POST_multipart {
     $postParts[] = array();
 
     foreach ($parts as $part) {
-      if (array_key_exists('filename')) {
+      if (array_key_exists('filename', $part)) {
         # this is a file part
         $postParts[] = self::buildFilePart($part);
       }

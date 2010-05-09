@@ -43,6 +43,13 @@ abstract class EmailMessage implements Message {
     return $this->msg;
   }
 
+  public function getFlattenedParts() {
+    $text = '';
+    $attachments = array();
+    self::flatten_parts($text, $attachments);
+    return array($text, $attachments);
+  }
+
   protected static function decode_raw_message($input) {
     $params['include_bodies'] = true;
     $params['decode_bodies']  = true;
@@ -63,6 +70,68 @@ abstract class EmailMessage implements Message {
   protected static function parse_addr($s) {
     $addr = Mail_RFC822::parseAddressList($s);
     return strtolower($addr[0]->mailbox . '@' . $addr[0]->host);
+  }
+
+  protected static function flatten_parts($part, &$text, &$attachments) {
+    switch ($part->ctype_primary) {
+    case 'multipart':
+      if (!isset($part->parts)) {
+        throw new Exception('multipart without parts!');
+      }
+
+      foreach ($part->parts as $subpart) {
+        flatten_parts($subpart, $text, $attachments);
+      }
+      break;
+
+    case 'text':
+      # text/* parts go into the message body.
+      if (!isset($part->body)) {
+        throw new Exception('text without body!');
+      }
+
+      $text .= $part->body; 
+      break;
+
+    default:
+      # Everything else goes into phpBB as an attachment.
+      if (!isset($part->body)) {
+        throw new Exception('attachment without body!');
+      }
+
+      # try to find a filename
+      $filename = '';
+      if (isset($part->d_parameters)) {
+        if (array_key_exists('filename', $part->d_parameters)) {
+          $filename = $part->d_parameters['filename'];
+        }
+        else if (array_key_exists('name', $part->d_parameters)) {
+          $filename = $part->d_parameters['name'];
+        }
+      }
+
+      if ($filename == '') {
+        if (isset($part->ctype_parameters)) {
+          if (array_key_exists('name', $part->ctype_parameters)) {
+            $filename = $part->d_parameters['name'];
+          }
+        }
+      }
+
+      $mimetype = $part->ctype_primary . '/' . $part->ctype_secondary;
+
+      $params = array(
+        'filename' => $filename,
+        'mimetype' => $mimetype,
+        'data'     => $part->body
+      );
+
+      if (array_key_exists('content-description', $part->headers)) {
+        $params['comment'] = $part->headers['content-description'];
+      } 
+
+      $attachments[] = $params;
+    }
   }
 }
 

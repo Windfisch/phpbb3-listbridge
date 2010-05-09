@@ -125,11 +125,13 @@ class HTTP_POST_multipart {
     list($boundary, $content) = buildPost($this->_parts);
     $ctype = 'Content-Type: multipart/form-data; boundary="' . $boundary . '"';
 
-    $ctx = stream_context_create(array(
-      'http' => array(
-        'method'  => 'POST',
-        'header'  => $ctype,
-        'content' => $content
+    $ctx = stream_context_create(
+      array('http' => 
+        array(
+          'method'  => 'POST',
+          'header'  => $ctype,
+          'content' => $content
+        )
       )
     );
 

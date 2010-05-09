@@ -113,7 +113,8 @@ class HTTP_POST_multipart {
     }
 
     $boundary = self::buildBoundary($postParts);
-   
+  
+    # put it all together 
     $bd = '--' . $boundary . EOL;  
     $final_bd = '--' . $boundary . '--' . EOL;
 

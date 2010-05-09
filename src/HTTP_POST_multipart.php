@@ -121,6 +121,11 @@ class HTTP_POST_multipart {
     return array($boundary, $bd . implode($bd, $postParts) . $final_bd);
   }
 
+  public function dump() {
+    list(/* skip */, $content) = buildPost($this->_parts);
+    return $content;
+  }
+
   public function post($url) {
 
     list($boundary, $content) = buildPost($this->_parts);

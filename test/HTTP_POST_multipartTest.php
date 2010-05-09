@@ -98,8 +98,8 @@ class HTTP_POST_multipartTest extends PHPUnit_Framework_TestCase {
     list($boundary, $content) =
       self::getMethod('buildPost')->invokeArgs(null, array($parts));
 
-    $actual = str_replace('boundary', $boundary, $content); 
-    $this->assertEquals($expected, $actual);
+    $expected = str_replace('boundary', $boundary, $expected); 
+    $this->assertEquals($expected, $content);
   }
 
   public function providerBuildPost() {

@@ -99,7 +99,7 @@ class HTTP_POST_multipart {
   }
 
   protected static function buildPost($parts) {
-    $postParts[] = array();
+    $postParts = array();
 
     foreach ($parts as $part) {
       if (array_key_exists('filename', $part)) {
@@ -126,15 +126,17 @@ class HTTP_POST_multipart {
     return $content;
   }
 
-  public function post($url) {
+  public function post($url, $headers = array()) {
     list($boundary, $content) = self::buildPost($this->_parts);
     $ctype = 'Content-Type: multipart/form-data; boundary="' . $boundary . '"';
+
+    $header = implode($headers, EOL) . $ctype . EOL;
 
     $ctx = stream_context_create(
       array('http' => 
         array(
           'method'  => 'POST',
-          'header'  => $ctype,
+          'header'  => $header,
           'content' => $content
         )
       )

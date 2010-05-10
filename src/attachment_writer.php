@@ -50,6 +50,11 @@ foreach ($_FILES as $file) {
   $src = $file['tmp_name'];
   $dst = $attach_dir . '/' . $file['name'];
 
+  # Destination file should not exist, don't overwrite
+  if (file_exists($dst)) {
+    die('Destination file already exists: ' . $dst . "\n");
+  }
+
   # Move temp file to attachments dir
   if (!move_uploaded_file($src, $dst)) {
     die("Failed to move $src to $dst.\n");

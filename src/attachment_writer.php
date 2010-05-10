@@ -1,15 +1,23 @@
 <?php
 
+$password = '';
+$attach_dir = '/var/www/forum/files';
+
+# All requests should be local, since they come from the list post script.
+if ($_SERVER['SERVER_ADDR'] != $_SERVER['REMOTE_ADDR']) {
+  die('Client address is not local');
+} 
+
+# Check the password
 if (!array_key_exists('password', $_POST)) {
   die('No password given');
 }
 
-if ($_POST['password'] != 'foo') {
+if ($_POST['password'] != $password) {
   die('Incorrect password');
 }
 
-$attach_dir = '/var/www/forum/files';
-
+# Process each attachment
 foreach ($_FILES as $file) {
   # Check for errors
   switch ($file['error']) {
@@ -30,7 +38,7 @@ foreach ($_FILES as $file) {
   case UPLOAD_ERR_EXTENSION:
     die('Error UPLOAD_ERR_EXTENSION: ' . $file['name']);
   default:
-    die('Unrecognized error code: ' . $file['error'] . ' ' $file['name']);
+    die('Unrecognized error code: ' . $file['error'] . ' ' . $file['name']);
   }
 
   # Don't continue if the name isn't what phpBB expects

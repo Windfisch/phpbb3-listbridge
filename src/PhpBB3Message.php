@@ -41,7 +41,7 @@ class PhpBB3Message implements Message {
     return null;
   }
 
-  public function getBody() {
+  public function getParts() {
     return null;
   }
 }

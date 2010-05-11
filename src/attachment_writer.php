@@ -61,6 +61,7 @@ foreach ($_FILES as $file) {
   }
 }
 
-return 1;
+# Success!
+print 1;
 
 ?>

@@ -260,7 +260,7 @@ class PhpBB3 {
 
     # get extension
     $dot = strrpos($filename, '.');
-    $extension = $pos === false ? '' : substr($filename, $pos + 1);
+    $extension = $dot === false ? '' : substr($filename, $dot + 1);
 
     # put the attachment data into the db
     $sql = 'INSERT INTO ' . ATTACHMENTS_TABLE . ' (' .

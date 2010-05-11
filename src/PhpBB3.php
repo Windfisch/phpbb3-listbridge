@@ -284,25 +284,18 @@ class PhpBB3 {
       throw new Exception("Adding attachment failed: $sql");
     }
 
-    # write the attachment to disk
-    $realPath = $phpbb_root_path . $config['upload_path'] . '/' . $realFilename;
-    $count = file_put_contents($realPath, $data);
-    if ($count === false) {
-      throw new Exception('Failed to write attachment file: ' . $realPath);
-    }
+    # post the attachment data to our attachment writer shim
+    require_once(__DIR__ . '/HTTP_POST_multipart.php');
 
-# FIXME: how to get right uid, gid for file? This surely won't work.
-/*
-    $result = chown($realPath, 'apache');
-    if ($result === false) {
-      throw new Exception('Failed to chown attachment file: ' . $realPath);
-    }
+    $url = 'http://www.test.nomic.net/forum/attachment_writer.php';
+    $poster = new HTTP_POST_multipart();
+    $poster->addData('password', '5rnudbp7dLkijcwrT@sz');
+    $poster->addFile(1, $physicalFilename, $mimetype, null, 'binary', $data);
+    $result = $poster->post($url);
 
-    chgrp($realPath, 'apache');
-    if ($result === false) {
-      throw new Exception('Failed to chgrp attachment file: ' . $realPath);
-    }
-*/
+    if ($result != 1) {
+      throw new Exception('Attachment writer failed: ' . $result);
+    } 
 
     # return the attachment info needed by submit_post
     return array(

@@ -1,8 +1,7 @@
 <?php
 
 # TODO: logging!
-# TODO: translation of quoting to bbcode?
-# TODO: handle attachments
+# TODO: Refactor postMessage().
 
 try {
   require_once(__DIR__ . '/Bridge.php');

@@ -174,6 +174,9 @@ class PhpBB3 {
     $subject = $msg->getSubject(); 
     list($message, $attachments) = $msg->getFlattenedParts();
 
+# TODO: strip off list footer
+# TODO: convert > quoting into BBCode
+
     # handle attachments
     $attachment_data = array();
 

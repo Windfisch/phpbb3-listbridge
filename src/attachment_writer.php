@@ -9,7 +9,7 @@ if ($_SERVER['SERVER_ADDR'] != $_SERVER['REMOTE_ADDR']) {
 } 
 
 # Check the password
-if (!array_key_exists('password', $_POST)) {
+if (!isset($_POST['password'])) {
   die("No password given\n");
 }
 

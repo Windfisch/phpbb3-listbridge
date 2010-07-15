@@ -15,6 +15,9 @@ catch (Exception $e) {
 
 function send_post_to_lists($config, $user, $mode, $data, $post_data) {
 
+  require_once('Log.php');
+  $logger = &Log::singleton('file', '/var/log/listbridge', 'test2');
+
 /*
   print '<p>';
   var_dump($data);
@@ -37,6 +40,8 @@ function send_post_to_lists($config, $user, $mode, $data, $post_data) {
   $postId = $data['post_id'];
   $forumId = $data['forum_id'];
  
+  $logger->info($postId . ' received from phpBB forum ' . $forumId);
+
   $bridge = new Bridge();
 
   $to = $bridge->getLists($forumId);
@@ -205,6 +210,8 @@ EOF;
     if (PEAR::isError($err)) {
       throw new Exception('Mail::send error: ' . $err->toString());
     }
+
+    $logger->info($postId . ' sent to ' . $to . ' as ' . $messageId);
   }
   catch (Exception $e) {
     # Bridging failed, unregister message.

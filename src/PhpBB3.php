@@ -20,8 +20,15 @@ class PhpBB3 {
 
     global $db;
 
-    $sql = 'SELECT user_id FROM ' . USERS_TABLE . ' ' .
-           'WHERE user_email = "' . $db->sql_escape($from) . '"';
+    # NB: There might be multiple user accounts associated with one email
+    # address. We can only return one user id, so we decide in favor of
+    # the account which was most recently used to visit the forum.
+    $sql = 'SELECT u1.user_id FROM ' . USERS_TABLE . ' AS u1 ' .
+           'LEFT OUTER JOIN ' . USERS_TABLE . ' AS u2 ON (' .
+              'u1.user_email = u2.user_email AND ' .
+              'u1.user_lastvisit < u2.user_lastvisit' .
+           ') WHERE u1.user_email = "' . $db->sql_escape($from) . '" AND ' .
+           'u2.user_email IS NULL';
 
     $row = $this->get_exactly_one_row($sql);
     return $row ? $row['user_id'] : false;
@@ -38,7 +45,7 @@ class PhpBB3 {
       throw new Exception("Could not resolve user id $id: $err");
     }
 
-    if (!array_key_exists($id, $names)) {
+    if (!isset($names[$id])) {
       throw new Exception("Unknown user id: $id");
     }
 

@@ -1,0 +1,11 @@
+module local 1.0;
+
+require {
+  type postfix_local_t;
+  type usr_t;
+  class file { getattr read open ioctl };
+}
+
+#============= postfix_local_t ==============
+allow postfix_local_t usr_t:file { getattr read open ioctl };
+

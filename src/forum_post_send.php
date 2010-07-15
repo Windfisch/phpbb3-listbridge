@@ -15,10 +15,12 @@ catch (Exception $e) {
 
 function send_post_to_lists($config, $user, $mode, $data, $post_data) {
 
+/*
   print '<p>';
   var_dump($data);
   var_dump($post_data);
   print '</p>';
+*/
 
   # Sanity check
   if (!in_array($mode, array('post', 'reply', 'quote', 'edit'))) {
@@ -86,13 +88,17 @@ function send_post_to_lists($config, $user, $mode, $data, $post_data) {
   $forumURL = 'http://' . $_SERVER['SERVER_NAME'] .
                   dirname($_SERVER['SCRIPT_NAME']);
 
+  $editId = $bridge->reserveEditId($postId);
+  $messageId = build_message_id($postId, $editId,
+                                $time, $_SERVER['SERVER_NAME']);
+
   # Assemble the message headers
   $headers = array(
     'To'          => $to,
     'From'        => $from,
     'Subject'     => $subject,
     'Date'        => $date,
-    'Message-Id'  => $messageId,
+    'Message-ID'  => $messageId,
     'X-BeenThere' => $forumURL
   );
 
@@ -184,10 +190,6 @@ EOF;
     $headers = array_merge($headers, $msg['headers']);
     $body = $msg['body'];
   }
-
-  $editId = $bridge->reserveEditId($postId);
-  $messageId = build_message_id($postId, $editId,
-                                $time, $_SERVER['SERVER_NAME']);
 
   $mailer = Mail::factory('sendmail');
 

@@ -1,4 +1,3 @@
-
 CREATE TABLE posts (
   post_id MEDIUMINT UNSIGNED,
   message_id VARCHAR(255) NOT NULL,
@@ -12,7 +11,11 @@ CREATE TABLE posts (
 CREATE TABLE forums (
   list_name VARCHAR(255) NOT NULL,
   forum_id MEDIUMINT UNSIGNED NOT NULL,
-  PRIMARY KEY (list_name),
-  INDEX (forum_id)
+  PRIMARY KEY (list_name)
 );
 
+CREATE TABLE lists (
+  list_name VARCHAR(255) NOT NULL,
+  forum_id MEDIUMINT UNSIGNED NOT NULL,
+  PRIMARY KEY (forum_id)
+);

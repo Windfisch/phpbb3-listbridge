@@ -65,7 +65,7 @@ class Bridge {
   public function getLists($forumId) {
     throw_if_null($forumId);
 
-    $sql = 'SELECT list_name FROM forums ' .
+    $sql = 'SELECT list_name FROM lists ' .
            'WHERE forum_id = ' . $forumId;
 
     $result = $this->db->query($sql);
@@ -133,6 +133,7 @@ class Bridge {
     
     $count = $this->db->exec($sql);
 
+# FIXME: throwing an exception prevents us from deleting old posts
     if ($count < 1) {
       throw new Exception('Failed to delete post id: ' . $postId);
     }

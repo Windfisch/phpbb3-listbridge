@@ -55,7 +55,7 @@ function send_post_to_lists($config, $user, $mode, $data, $post_data) {
   $userEmail = $user->data['user_email'];
 
   $from = utf8_quote($userName) . ' <' . $userEmail . '>';
-  $sender = 'forum@test.nomic.net';
+  $sender = 'forum-bridge@test2.nomic.net';
   $subject = utf8_quote($post_data['post_subject']);
 
   $phpbb = new PhpBB3();
@@ -101,6 +101,7 @@ function send_post_to_lists($config, $user, $mode, $data, $post_data) {
   $headers = array(
     'To'          => $to,
     'From'        => $from,
+    'Sender'      => $sender,
     'Subject'     => $subject,
     'Date'        => $date,
     'Message-ID'  => $messageId,

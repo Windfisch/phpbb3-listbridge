@@ -12,6 +12,9 @@ class BBCodeParser {
     # decode HTML entities before parsing
     $in = html_entity_decode($in, ENT_QUOTES, 'UTF-8');
 
+    # convert smilies, which aren't in BBCode (ack!)
+    $in = preg_replace('/<!-- s(.*?) --><img src="\{SMILIES_PATH\}\/.*? \/><!-- s\1 -->/', '\1', $in);
+
     $text_stack = array();
     $arg_stack = array();
 

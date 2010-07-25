@@ -15,6 +15,9 @@ class BBCodeParser {
     # convert smilies, which aren't in BBCode (ack!)
     $in = preg_replace('/<!-- s(.*?) --><img src="\{SMILIES_PATH\}\/.*? \/><!-- s\1 -->/', '\1', $in);
 
+    # convert non-BBCode links to BBCode (ack!)
+    $in = preg_replace('/<!-- (m|w) --><a class="postlink" href="(.*?)">(.*?)<\/a><!-- \1 -->/', "[url:$uid=\\2]\\3[/url:$uid]", $in);
+
     $text_stack = array();
     $arg_stack = array();
 
@@ -41,9 +44,15 @@ class BBCodeParser {
           $state = self::DONE;
         }
         else {
-          # locate next tag
+          $ulen = strlen($uid) + 1;
+
+          # locate the start and end of next tag
           $tstart = strrpos($in, '[', $ustart-$len);
-          $tag = substr($in, $tstart+1, $ustart-$tstart-1);
+          $tend = strpos($in, ']', $ustart+$ulen);
+   
+          # slice out the uid 
+          $tag = substr($in, $tstart+1, $ustart-$tstart-1) .
+                 substr($in, $ustart+$ulen, $tend-$ustart-$ulen); 
 
           # determine whether it's an open or close tag
           if ($tag[0] == '/') {
@@ -57,8 +66,8 @@ class BBCodeParser {
           # copy leading text to output 
           $out .= substr($in, $i, $tstart-$i);
 
-          # advance past ":$uid]" to next unparsed character
-          $i = $ustart + strlen($uid) + 2;
+          # advance past the closing ']' to next unparsed character
+          $i = $tend + 1;
         }
         break;
 

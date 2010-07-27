@@ -16,7 +16,8 @@ class BBCodeParser {
     $in = preg_replace('/<!-- s(.*?) --><img src="\{SMILIES_PATH\}\/.*? \/><!-- s\1 -->/', '\1', $in);
 
     # convert non-BBCode links to BBCode (ack!)
-    $in = preg_replace('/<!-- (m|w) --><a class="postlink" href="(.*?)">(.*?)<\/a><!-- \1 -->/', "[url:$uid=\\2]\\3[/url:$uid]", $in);
+    $in = preg_replace('/<!-- ([mw]) --><a class="postlink" href="(.*?)">(.*?)<\/a><!-- \1 -->/', "[url:$uid=\\2]\\3[/url:$uid]", $in);
+    $in = preg_replace('/<!-- e --><a href="(.*?)">(.*?)<\/a><!-- e -->/', "[email:$uid=\\1]\\2[/email:$uid]", $in);
 
     $text_stack = array();
     $arg_stack = array();

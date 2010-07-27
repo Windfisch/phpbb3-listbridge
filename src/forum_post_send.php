@@ -16,7 +16,7 @@ catch (Exception $e) {
 function send_post_to_lists($config, $user, $mode, $data, $post_data) {
 
   require_once('Log.php');
-  $logger = &Log::singleton('file', '/var/log/listbridge', 'test2');
+  $logger = &Log::singleton('file', '/var/log/listbridge', 'one');
 
 /*
   print '<p>';
@@ -54,10 +54,17 @@ function send_post_to_lists($config, $user, $mode, $data, $post_data) {
   $userName = $user->data['username'];
   $userEmail = $user->data['user_email'];
 
-  $from = utf8_quote($userName) . ' <' . $userEmail . '>';
-  $sender = 'forum-bridge@test2.nomic.net';
-  $subject = utf8_quote('[' . $post_data['forum_name'] . '] '
-                            . $post_data['post_subject']);
+  # NB: Don't use utf8_quote on things which don't need it.
+  $from = (is_ascii($userName) ? $userName : utf8_quote($userName)) . 
+          ' <' . $userEmail . '>';
+
+  $sender = 'forum-bridge@vassalengine.org';
+
+  $subject = '[' . $post_data['forum_name'] . '] ' 
+                 . $post_data['post_subject'];
+  if (!is_ascii($subject)) {
+    $subject = utf8_quote($subject);
+  }
 
   $phpbb = new PhpBB3();
 
@@ -82,10 +89,12 @@ function send_post_to_lists($config, $user, $mode, $data, $post_data) {
     $firstId = $data['topic_first_post_id'];
     $firstMessageId = $bridge->getMessageId($firstId);
     if ($firstMessageId === false) {
-      throw new Exception('unrecognized post id: ' . $firstId);
+      $logger->info($postId . ' replies to an unknown message');
     }
-
-    $inReplyTo = $references = $firstMessageId;
+    else {
+      $inReplyTo = $references = $firstMessageId;
+      $logger->info($postId . ' replies to ' . $firstMessageId);
+    }
   }
   else if ($mode == 'edit') {
     $inReplyTo = $bridge->getMessageId($postId);

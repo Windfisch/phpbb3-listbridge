@@ -4,7 +4,7 @@
 # TODO: Refactor postMessage().
 
 require_once('Log.php');
-$logger = &Log::singleton('file', '/var/log/listbridge', 'test2');
+$logger = &Log::singleton('file', '/var/log/listbridge', 'one');
 
 try {
   require_once('/var/www/bridge/src/Bridge.php');

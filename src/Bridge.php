@@ -133,10 +133,7 @@ class Bridge {
     
     $count = $this->db->exec($sql);
 
-# FIXME: throwing an exception prevents us from deleting old posts
-    if ($count < 1) {
-      throw new Exception('Failed to delete post id: ' . $postId);
-    }
+    return $count > 0;
   }
 
   protected function get_exactly_one_row($sql) {

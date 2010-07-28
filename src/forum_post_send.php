@@ -60,8 +60,11 @@ function send_post_to_lists($config, $user, $mode, $data, $post_data) {
 
   $sender = 'forum-bridge@vassalengine.org';
 
-  $subject = '[' . $post_data['forum_name'] . '] ' 
-                 . $post_data['post_subject'];
+  $subject = html_entity_decode(
+    '[' . $post_data['forum_name'] . '] ' . $post_data['post_subject'],
+    ENT_QUOTES
+  );
+
   if (!is_ascii($subject)) {
     $subject = utf8_quote($subject);
   }

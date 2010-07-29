@@ -17,6 +17,7 @@ class BBCodeParser {
 
     # convert non-BBCode links to BBCode (ack!)
     $in = preg_replace('/<!-- ([mw]) --><a class="postlink" href="(.*?)">(.*?)<\/a><!-- \1 -->/', "[url:$uid=\\2]\\3[/url:$uid]", $in);
+    $in = preg_replace('/<!-- l --><a class="postlink-local" href="(.*?)">(.*?)<\/a><!-- l -->/', "[url:$uid=\\1]\\2[/url:$uid]", $in);
     $in = preg_replace('/<!-- e --><a href="(.*?)">(.*?)<\/a><!-- e -->/', "[email:$uid=\\1]\\2[/email:$uid]", $in);
 
     $text_stack = array();

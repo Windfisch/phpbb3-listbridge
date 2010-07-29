@@ -1,0 +1,8 @@
+<?php
+
+define('DB_HOST', 'localhost');
+define('DB',      'bridge');
+define('DB_USER', 'bridge');
+define('DB_PASS', 'password');
+
+?>

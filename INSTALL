@@ -1,7 +1,16 @@
 This document explains how to install the forum-list bridge. This is very
-much a work in progress.
+much a work in progress. Read *everything* before beginning the setup.
 
-1. Check out the bridge code from SourceForge:
+1. Requirements:
+
+* phpBB 3.0.70-PL1
+* MySQL
+* a mail server
+* Perl
+* PEAR modules: Mail, Mail_mimeDecode, Mail_RFC882, Log
+* Perl modules: LWP::UserAgent, HTTP::Request::Common
+
+2. Check out the bridge code from SourceForge:
 
   svn co https://vassalengine.svn.sourceforge.net/svnroot/vassalengine/site-src/trunk/bridge
 
@@ -9,14 +18,14 @@ much a work in progress.
 developed for VASSAL's forum. I will probably move it to its own repo
 at some point.)
 
-2. Two modifications need to be made to phpBB's posting.php to set up
+3. Two modifications need to be made to phpBB's posting.php to set up
 the bridge in the forum-to-list direction. You can get the changes by
 applying posting.patch to posting.php.
 
 Note that after applying the patch, you'll need to modify the path in
 each new require_once to match where you've put the bridge files.
 
-3. For the list-to-forum direction, you need to set up an alias to receive
+4. For the list-to-forum direction, you need to set up an alias to receive
 mail from your list. I'm using postfix, so I added this to my /etc/aliases:
 
 forum-bridge:          "|/usr/local/lib/bridge/postfix_handoff.pl"
@@ -28,7 +37,7 @@ as needed.
 
 Then, subscribe your bridge address to your mailing list.
 
-4. Bridge database: The bridge keeps a database which maps 
+5. Bridge database: The bridge keeps a database which maps 
 
 * Create a MySQL database, and populate it using src/schema.sql.
 * Create a user for the DB, put the database name, username, and password
@@ -61,7 +70,7 @@ Then, subscribe your bridge address to your mailing list.
   direct posts in different forums to different lists; I just happen not
   to in my current setup.)
 
-5. Other adjustments:
+6. Other adjustments:
 
 * Set $php_root_path in PhpBB3Conf.php.
 * $sender in forum_post_send.php should match the bridge address.
@@ -71,7 +80,7 @@ Then, subscribe your bridge address to your mailing list.
   for post attachments for your forum.
 * Possibly some that I'm missing? Let me know.
 
-6. TODO:
+7. TODO:
 
 * Installation could be improved somewhat, e.g., by pulling all
   configuration data into one file.

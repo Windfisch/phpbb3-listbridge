@@ -67,14 +67,17 @@ Then, subscribe your bridge address to your mailing list.
 * $sender in forum_post_send.php should match the bridge address.
 * The regex which strips the list footer in PhpBB3.php will need to be
   adjusted to match your list footer.
+* $attach_dir in attachment_writer.php should match the storage directory
+  for post attachments for your forum.
+* Possibly some that I'm missing? Let me know.
 
 6. TODO:
 
 * Installation could be improved somewhat, e.g., by pulling all
-configuration data into one file.
+  configuration data into one file.
 
 * $sender and list footer should be configured per-list and pulled from
-the lists table.
+  the lists table.
 
 * There are PHPUnit tests in test/. More tests should be written. All
   existing tests should pass, but don't at present.
@@ -86,4 +89,3 @@ the lists table.
 Joel Uckelman
 uckelman@nomic.net
 29 July 2010
-

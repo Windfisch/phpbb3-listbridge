@@ -1,5 +1,25 @@
 <?php
 
+#
+# $Id$
+#
+# forum-list bridge 
+# Copyright (C) 2010 Joel Uckelman
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+
 require_once(__DIR__ . '/Util.php');
 
 # phpBB setup
@@ -181,7 +201,10 @@ class PhpBB3 {
     $subject = $msg->getSubject(); 
     list($message, $attachments) = $msg->getFlattenedParts();
 
-# TODO: strip off list footer
+# FIXME: extract the footer pattern into a config file?
+    # strip the list footer
+    $message = preg_replace("/^_______________________________________________\nmessages mailing list\nmessages@vassalengine.org\nhttp:\/\/www.vassalengine.org\/mailman\/listinfo\/messages.*/ms", '', $message);
+
 # TODO: convert > quoting into BBCode
 
     # handle attachments
@@ -201,6 +224,7 @@ class PhpBB3 {
     $user->session_create($userId);
     $auth->acl($user->data);
 
+# FIXME: strip list and forum tag from subject
     $subject = utf8_normalize_nfc($subject);
     $message = utf8_normalize_nfc($message);
 

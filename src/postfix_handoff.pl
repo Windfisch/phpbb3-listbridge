@@ -26,7 +26,7 @@ use HTTP::Request::Common qw(POST);
 local $/;
 my $msg = <STDIN>;
 
-my $url = 'http://www.test2.nomic.net/list_post_receive.php';
+my $url = 'http://localhost/list_post_receive.php';
 
 my $ua = LWP::UserAgent->new;
 my $req = POST $url, [ message => $msg ];

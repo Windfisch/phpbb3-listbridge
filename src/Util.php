@@ -24,16 +24,16 @@ function throw_if_null($arg) {
   if ($arg === null) throw new Exception('argument is null');
 }
 
-function build_message_id($postId, $editId, $time, $forumHost) {
-  return "<$time.$postId.$editId.bridge@$forumHost>";
-}
-
-function is_ascii($string) {
+function is_ascii($str) {
   return !preg_match('/[^[:ascii:]]/', $str);
 }
 
-function utf8_quote($string) {
-  return '=?UTF-8?B?' . base64_encode($string) . '?=';
+function utf8_quote($str) {
+  return '=?UTF-8?B?' . base64_encode($str) . '?=';
+}
+
+function utf8_quote_non_ascii($str) {
+  return is_ascii($str) ? $str : utf8_quote($str);
 }
 
 ?>

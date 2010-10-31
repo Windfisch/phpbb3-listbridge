@@ -41,7 +41,7 @@ class MailmanToPhpBB3 {
     $messageId = $msg->getMessageId();
     $inReplyTo = $msg->getInReplyTo();
     $rererences = $msg->getReferences();
-    $soruce = $msg->getSource();
+    $source = $msg->getSource();
   
     $this->logger->info($messageId . ' received from ' . $source);
 

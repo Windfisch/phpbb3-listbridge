@@ -22,7 +22,7 @@
 
 require_once('PHPUnit/Framework.php');
 
-class PhpBB3Test extends PHPUnit_Framework_TestCase {
+class PhpBB3ImplTest extends PHPUnit_Framework_TestCase {
 
   /**
    * phpBB3 uses many globals; due to the way tests are run, we cannot
@@ -33,7 +33,7 @@ class PhpBB3Test extends PHPUnit_Framework_TestCase {
   protected function exec_kludge($run) {
     $prog = <<<EOF
 try {
-  require_once("src/PhpBB3.php");
+  require_once("src/PhpBB3Impl.php");
   \$phpBB = new PhpBB3();
   \$result = serialize(\$phpBB->$run);
 }

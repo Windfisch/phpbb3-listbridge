@@ -43,13 +43,13 @@ class MailmanToPhpBB3 {
     $rererences = $msg->getReferences();
     $soruce = $msg->getSource();
   
-    $logger->info($messageId . ' received from ' . $source);
+    $this->logger->info($messageId . ' received from ' . $source);
 
     $editId = $this->bridge->registerByMessageId($messageId, $inReplyTo);
 
     if ($editId === false) {
       # This message has already been processed, bail out
-      $logger->info($messageId . ' already seen, skipping');
+      $this->logger->info($messageId . ' already seen, skipping');
       exit;
     }
 
@@ -74,7 +74,7 @@ class MailmanToPhpBB3 {
         $topicId = $ids['topic_id'];
         $postType = 'reply';
 
-        $logger->info($messageId . ' replies to ' . $parentId);
+        $this->logger->info($messageId . ' replies to ' . $parentId);
       }
       else {
         # A message starting a new topic, post to default forum for its source
@@ -85,17 +85,17 @@ class MailmanToPhpBB3 {
 
         $postType = 'post';
 
-        $logger->info($messageId . ' is a new post');
+        $this->logger->info($messageId . ' is a new post');
       }
 
-      $logger->info(
+      $this->logger->info(
       $messageId . ' will be posted to ' . $forumId . ':' . $topicId);
  
       # Post the message to the forum
       $postId = $this->phpbb->postMessage($postType, $forumId, $topicId, $msg);
       $this->bridge->setPostId($messageId, $postId);
 
-      $logger->info($messageId . ' posted as ' . $postId);
+      $this->logger->info($messageId . ' posted as ' . $postId);
     }
     catch (Exception $e) {
       # Bridging failed, unregister message.

@@ -33,11 +33,14 @@ class PhpBB3ToMailman {
 
   protected $bridge;
   protected $phpbb;
+  protected $mailer;
   protected $logger;
 
-  public function __construct(Bridge $bridge, PhpBB3 $phpbb, Log $logger) {
+  public function __construct(Bridge $bridge, PhpBB3 $phpbb,
+                              Mail $mailer, Log $logger) {
     $this->bridge = $bridge;
     $this->phpbb = $phpbb;
+    $this->mailer = $mailer;
     $this->logger = $logger;
   }
 
@@ -147,8 +150,6 @@ class PhpBB3ToMailman {
     # Build the message body
     $body = build_body($headers, $text, $attachments, $footer);
 
-    $mailer = Mail::factory('sendmail');
-
     # Register the message
     $seen = !$this->bridge->registerByEditId($editId, $messageId, $inReplyTo);
     if ($seen) {
@@ -157,7 +158,7 @@ class PhpBB3ToMailman {
 
     try {
       # Send the message
-      $err = $mailer->send($to, $headers, $body);
+      $err = $this->mailer->send($to, $headers, $body);
       if (PEAR::isError($err)) {
         throw new Exception('Mail::send error: ' . $err->toString());
       }

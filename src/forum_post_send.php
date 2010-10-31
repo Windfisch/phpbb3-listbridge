@@ -44,6 +44,8 @@ function send_post_to_lists($config, $user, $mode, $data, $post_data) {
   print '</p>';
 */
 
+  require_once('Mail.php');
+
   require_once(__DIR__ . '/BridgeConf.php');
   require_once(__DIR__ . '/BridgeImpl.php');
   require_once(__DIR__ . '/PhpBB3Conf.php');
@@ -55,7 +57,9 @@ function send_post_to_lists($config, $user, $mode, $data, $post_data) {
 
   $phpbb = new PhpBB3Impl();
 
-  $conduit = new PhpBB3ToMailman($bridge, $phpbb, $logger);
+  $mailer = Mail::factory('sendmail');
+
+  $conduit = new PhpBB3ToMailman($bridge, $phpbb, $mailer, $logger);
   $conduit->process($config, $user, $mode, $data, $post_data);
 }
 

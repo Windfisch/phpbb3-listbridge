@@ -54,39 +54,8 @@ class MailmanToPhpBB3 {
     }
 
     try {
-      $forumId = $topicId = null;
-      $postType = null;
-  
-      if ($inReplyTo) { 
-        # Possibly a reply to an existing topic
-        $parentId = $this->bridge->getPostId($inReplyTo);
-        if ($parentId === false) {
-          throw new Exception('unrecognized Reply-To: ' . $inReplyTo);
-        }
-
-        $ids = $this->phpbb->getTopicAndForumIds($parentId);
-        if ($ids === false) {
-          throw new Exception('unrecognized parent id: ' . $parentId);
-        }
-
-        # Found the parent's forum and topic, post to those
-        $forumId = $ids['forum_id'];
-        $topicId = $ids['topic_id'];
-        $postType = 'reply';
-
-        $this->logger->info($messageId . ' replies to ' . $parentId);
-      }
-      else {
-        # A message starting a new topic, post to default forum for its source
-        $forumId = $this->bridge->getDefaultForumId($source);
-        if ($forumId === false) {
-          throw new Exception('unrecognized source: ' . $source);  
-        }
-
-        $postType = 'post';
-
-        $this->logger->info($messageId . ' is a new post');
-      }
+      list($postType, $forumId, $topicId) =
+        find_destination($source, $inReplyTo, $messageId);
 
       $this->logger->info(
       $messageId . ' will be posted to ' . $forumId . ':' . $topicId);
@@ -102,6 +71,44 @@ class MailmanToPhpBB3 {
       $this->bridge->unregisterMessage($editId);
       throw $e; 
     }
+  }
+
+  protected function find_destination($source, $inReplyTo, $messageId) {
+    $forumId = $topicId = null;
+    $postType = null;
+  
+    if ($inReplyTo) { 
+      # Possibly a reply to an existing topic
+      $parentId = $this->bridge->getPostId($inReplyTo);
+      if ($parentId === false) {
+        throw new Exception('unrecognized Reply-To: ' . $inReplyTo);
+      }
+
+      $ids = $this->phpbb->getTopicAndForumIds($parentId);
+      if ($ids === false) {
+        throw new Exception('unrecognized parent id: ' . $parentId);
+      }
+
+      # Found the parent's forum and topic, post to those
+      $forumId = $ids['forum_id'];
+      $topicId = $ids['topic_id'];
+      $postType = 'reply';
+
+      $this->logger->info($messageId . ' replies to ' . $parentId);
+    }
+    else {
+      # A message starting a new topic, post to default forum for its source
+      $forumId = $this->bridge->getDefaultForumId($source);
+      if ($forumId === false) {
+        throw new Exception('unrecognized source: ' . $source);  
+      }
+
+      $postType = 'post';
+
+      $this->logger->info($messageId . ' is a new post');
+    }
+
+    return array($postType, $forumId, $topicId);
   }
 }
 

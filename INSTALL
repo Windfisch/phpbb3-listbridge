@@ -7,7 +7,7 @@ much a work in progress. Read *everything* before beginning the setup.
 * MySQL
 * a mail server
 * Perl
-* PEAR modules: Mail, Mail_mimeDecode, Mail_RFC882, Log
+* PEAR modules: Mail, Log
 * Perl modules: LWP::UserAgent, HTTP::Request::Common
 
 2. Check out the bridge code from SourceForge:
@@ -97,4 +97,4 @@ Then, subscribe your bridge address to your mailing list.
 
 Joel Uckelman
 uckelman@nomic.net
-29 July 2010
+3 November 2010

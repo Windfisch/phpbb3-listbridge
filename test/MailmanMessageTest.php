@@ -35,7 +35,51 @@ class MailmanMessageTest extends PHPUnit_Framework_TestCase {
         'message_id'  => '<20100302094228.33F0310091@charybdis.ellipsis.cx>',
         'in_reply_to' => '<1267473003.m2f.17543@www.vassalengine.org>',
         'references'  => '<1267171317.m2f.17507@www.vassalengine.org> <1267473003.m2f.17543@www.vassalengine.org>',
-        'body'        => ''
+        'flattened'   => array(
+          file_get_contents(__DIR__ . '/1_flat'),
+          array()
+        )
+      )),
+      array(array(
+        'data'        => file_get_contents(__DIR__ . '/377'),
+        'source'      => 'messages@vassalengine.org',
+        'post_id'     => '',
+        'from'        => 'mkiefte@dal.ca',
+        'subject'     => 'Re: [messages] [Module Design] Cropping and using Transparency',
+        'message_id'  => '<AANLkTi=BzoLFm5L5DwdxHwNr9tkRpHz+3O8Z6akU85HZ@mail.gmail.com>',
+        'in_reply_to' => '<1286462494.20188.1569.bridge@www.vassalengine.org>',
+        'references'  => '<1286462494.20188.1569.bridge@www.vassalengine.org>',
+        'flattened'   => array(
+          file_get_contents(__DIR__ . '/377_flat'),
+          array()
+        )
+      )),
+      array(array(
+        'data'        => file_get_contents(__DIR__ . '/287'),
+        'source'      => 'messages@vassalengine.org',
+        'post_id'     => '',
+        'from'        => 'pgeerkens@hotmail.com',
+        'subject'     => '[messages] Edit: [Developers] Re: Wannabe VASSAL developer has setup question',
+        'message_id'  => '<1285379813.20024.1394.bridge@www.vassalengine.org>',
+        'in_reply_to' => '<1285379627.20024.1393.bridge@www.vassalengine.org>',
+        'references'  => null, 
+        'flattened'   => array(
+          file_get_contents(__DIR__ . '/287_flat'),
+          array(
+            array( 
+              'filename' => 'Eclispse2.PNG',
+              'mimetype' => 'image/png',
+              'comment'  => '',
+              'data'     => file_get_contents(__DIR__ . '/Eclispse2.PNG')
+            ),
+            array( 
+              'filename' => 'Eclipse.PNG',
+              'mimetype' => 'image/png',
+              'comment'  => '',
+              'data'     => file_get_contents(__DIR__ . '/Eclipse.PNG')
+            )
+          )
+        )
       ))
     );
   }
@@ -48,14 +92,16 @@ class MailmanMessageTest extends PHPUnit_Framework_TestCase {
    * @dataProvider provider
    */
   public function testGetSource($expected) {
-    $this->markTestIncomplete();
+    $msg = $this->buildMessage($expected);
+    $this->assertEquals($expected['source'], $msg->getSource());
   }
 
   /**
    * @dataProvider provider
    */
   public function testGetPostId($expected) {
-    $this->markTestIncomplete();
+    $msg = $this->buildMessage($expected);
+    $this->assertEquals($expected['post_id'], $msg->getPostId());
   }
 
   /**
@@ -101,8 +147,9 @@ class MailmanMessageTest extends PHPUnit_Framework_TestCase {
   /**
    * @dataProvider provider
    */
-  public function testGetBody($expected) {
-    $this->markTestIncomplete();
+  public function testGetFlattenedParts($expected) {
+    $msg = $this->buildMessage($expected);
+    $this->assertEquals($expected['flattened'], $msg->getFlattenedParts());
   }
 }
 

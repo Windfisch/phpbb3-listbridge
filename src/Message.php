@@ -34,8 +34,6 @@ interface Message {
   public function getInReplyTo();
 
   public function getReferences();
-
-  public function getParts();
 }
 
 ?>

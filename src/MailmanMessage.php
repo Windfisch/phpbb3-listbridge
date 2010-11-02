@@ -28,9 +28,11 @@ class MailmanMessage extends EmailMessage {
   }
 
   public function getSource() {
-    return self::parse_addr(
-      substr_replace($this->msg->headers['list-post'], '', 1, 7)
-    );
+    # remove 'mailto:'
+    $lp = substr_replace($this->getHeader('list-post'), '', 1, 7);
+
+    $src = mailparse_rfc822_parse_addresses($lp);
+    return $src[0]['address'];
   }
 }
 

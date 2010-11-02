@@ -24,6 +24,10 @@ require_once('PHPUnit/Framework.php');
 
 class PhpBB3ImplTest extends PHPUnit_Framework_TestCase {
 
+  protected function setUp() {
+    $this->markTestSkipped();
+  }
+
   /**
    * phpBB3 uses many globals; due to the way tests are run, we cannot
    * easily get these globals into the right scope so that the methods

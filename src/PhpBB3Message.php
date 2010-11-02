@@ -27,7 +27,7 @@ class PhpBB3Message implements Message {
   protected $user;
   protected $post;
 
-  public function __construct($user, $data) {
+  public function __construct($user, $post) {
     $this->user = $user;
     $this->post = $post;
   }
@@ -58,10 +58,6 @@ class PhpBB3Message implements Message {
   }
 
   public function getReferences() {
-    return null;
-  }
-
-  public function getParts() {
     return null;
   }
 }

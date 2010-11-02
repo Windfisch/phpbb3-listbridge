@@ -1,0 +1,27 @@
+Thus spake "wlk":
+> 
+> uckelman wrote:
+> > How close are you guys to a 3.1-compatble release, BTW? We've had at least
+> > one bug report every day since the release of 3.1.0 about VASL being
+> > incompatible with 3.1...
+> 
+> 
+> Actually, I fixed like 5 bugs now, and there's none left I am aware of, at le
+> ast the ones related to VASL binaries.
+> I'm daily using 5.9 with 3.1.13 and didn't notice anything wrong.
+> We were waiting for 3.1.14 to be released to publish VASL 5.9.
+> 
+
+Oh! I didn't know you were waiting for 3.1.14. I can put together a test
+build tonight, and if people try it out to confirm that it's ok, we can
+release tomorrow.
+ 
+-- 
+J.
+
+_______________________________________________
+Messages mailing list
+Messages@forums.vassalengine.org
+http://forums.vassalengine.org/mailman/listinfo/messages_forums.vassalengine.org
+
+

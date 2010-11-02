@@ -1,0 +1,23 @@
+Go to Layer->Transparency->Add Alpha Channel and then cut the outside.
+
+This is probably not the best place to go for GIMP tips.  You should read
+the official documentation:
+http://docs.gimp.org/2.6/en/
+
+- M.
+
+On 7 October 2010 11:41, Extralean <grahamj@nb.sympatico.ca> wrote:
+
+> After cropping a round image (token/marker) how do you go about making
+> the ouside area of the image transparent?
+> I am using GIMP 2 and my images are saved as a PNG image.
+>
+> Thanks
+>
+>
+
+_______________________________________________
+messages mailing list
+messages@vassalengine.org
+http://www.vassalengine.org/mailman/listinfo/messages
+

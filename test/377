@@ -1,0 +1,119 @@
+Return-Path: <messages-bounces@vassalengine.org>
+X-Original-To: uckelman@nomic.net
+Delivered-To: uckelman@nomic.net
+Received: from one.vassalengine.org (one.vassalengine.org [66.253.49.171])
+	by charybdis.ellipsis.cx (Postfix) with ESMTP id 057D810092
+	for <uckelman@nomic.net>; Thu,  7 Oct 2010 07:47:27 -0700 (MST)
+Received: from one.vassalengine.org (localhost [IPv6:::1])
+	by one.vassalengine.org (Postfix) with ESMTP id 8BF7816E;
+	Thu,  7 Oct 2010 07:47:27 -0700 (MST)
+X-Original-To: messages@vassalengine.org
+Delivered-To: messages@vassalengine.org
+Received: from mail-fx0-f43.google.com (mail-fx0-f43.google.com
+	[209.85.161.43])
+	by one.vassalengine.org (Postfix) with ESMTP id ABCB5166
+	for <messages@vassalengine.org>; Thu,  7 Oct 2010 07:47:24 -0700 (MST)
+Received: by fxm7 with SMTP id 7so570272fxm.2
+	for <messages@vassalengine.org>; Thu, 07 Oct 2010 07:47:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=gamma;
+	h=domainkey-signature:mime-version:received:sender:received
+	:in-reply-to:references:date:x-google-sender-auth:message-id:subject
+	:from:to:content-type;
+	bh=5KzQVBGlSjk9kzHRjx7UpN4NFNiyP5xEh7/Ik8mOyDg=;
+	b=nIx0lmpa/i0DFGNHHIMAf7O/BZmNl1r8hwOyTtOaKgGURxgjU/qWyaeeN0nRx2b1t1
+	XqFdTXOS/ijtToLyQyCG8VAMYLr0qemxwUFohrQyLT0bLR0PF+ao0MIwtG6Pw0u4QiRE
+	iTa+HYwR08kQKC18cp1KVIIpAJINFl46SDMgk=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=gmail.com; s=gamma;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:content-type;
+	b=xeh+8voRVt4t7295YNyXwcflR7gl6e3caD8IYmu/5U8+VR23lm9LezijCr4jC4jUWq
+	X5t/dDkWZd7mdo5Xr2+xDKBM6Ibc1EJHTyr/oWgp72NziM6yLEjeNgIJWHDXmE69WIm/
+	HYMLZYml753OyWhhDLpZ4B4BBtrMKC4f4Qj50=
+MIME-Version: 1.0
+Received: by 10.239.135.137 with SMTP id d9mr34279hbd.153.1286462842380; Thu,
+	07 Oct 2010 07:47:22 -0700 (PDT)
+Received: by 10.239.173.81 with HTTP; Thu, 7 Oct 2010 07:47:22 -0700 (PDT)
+In-Reply-To: <1286462494.20188.1569.bridge@www.vassalengine.org>
+References: <1286462494.20188.1569.bridge@www.vassalengine.org>
+Date: Thu, 7 Oct 2010 11:47:22 -0300
+X-Google-Sender-Auth: VtLt2zhYngPCyhQqfm0AVguDES4
+Message-ID: <AANLkTi=BzoLFm5L5DwdxHwNr9tkRpHz+3O8Z6akU85HZ@mail.gmail.com>
+From: Michael Kiefte <mkiefte@dal.ca>
+To: messages@vassalengine.org
+Subject: Re: [messages] [Module Design] Cropping and using Transparency
+X-BeenThere: messages@vassalengine.org
+X-Mailman-Version: 2.1.12
+Precedence: list
+Reply-To: messages@vassalengine.org
+List-Id: <messages.vassalengine.org>
+List-Unsubscribe: <http://www.vassalengine.org/mailman/options/messages>,
+	<mailto:messages-request@vassalengine.org?subject=unsubscribe>
+List-Archive: <http://www.vassalengine.org/pipermail/messages/>
+List-Post: <mailto:messages@vassalengine.org>
+List-Help: <mailto:messages-request@vassalengine.org?subject=help>
+List-Subscribe: <http://www.vassalengine.org/mailman/listinfo/messages>,
+	<mailto:messages-request@vassalengine.org?subject=subscribe>
+Content-Type: multipart/mixed; boundary="===============8777683648611305616=="
+Sender: messages-bounces@vassalengine.org
+Errors-To: messages-bounces@vassalengine.org
+X-Bogosity: Unsure, tests=bogofilter, spamicity=0.500004, version=1.2.0
+
+--===============8777683648611305616==
+Content-Type: multipart/alternative; boundary=001485f423e4bca356049207f841
+
+--001485f423e4bca356049207f841
+Content-Type: text/plain; charset=ISO-8859-1
+
+Go to Layer->Transparency->Add Alpha Channel and then cut the outside.
+
+This is probably not the best place to go for GIMP tips.  You should read
+the official documentation:
+http://docs.gimp.org/2.6/en/
+
+- M.
+
+On 7 October 2010 11:41, Extralean <grahamj@nb.sympatico.ca> wrote:
+
+> After cropping a round image (token/marker) how do you go about making
+> the ouside area of the image transparent?
+> I am using GIMP 2 and my images are saved as a PNG image.
+>
+> Thanks
+>
+>
+
+--001485f423e4bca356049207f841
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+Go to Layer-&gt;Transparency-&gt;Add Alpha Channel and then cut the outside=
+.=A0 <br><br>This is probably not the best place to go for GIMP tips.=A0 Yo=
+u should read the official documentation:<br><a href=3D"http://docs.gimp.or=
+g/2.6/en/">http://docs.gimp.org/2.6/en/</a><br>
+<br>- M.<br><br><div class=3D"gmail_quote">On 7 October 2010 11:41, Extrale=
+an <span dir=3D"ltr">&lt;<a href=3D"mailto:grahamj@nb.sympatico.ca">grahamj=
+@nb.sympatico.ca</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote"=
+ style=3D"margin: 0pt 0pt 0pt 0.8ex; border-left: 1px solid rgb(204, 204, 2=
+04); padding-left: 1ex;">
+After cropping a round image (token/marker) how do you go about making<br>
+the ouside area of the image transparent?<br>
+I am using GIMP 2 and my images are saved as a PNG image.<br>
+<br>
+Thanks<br><br>
+</blockquote></div>
+
+--001485f423e4bca356049207f841--
+
+--===============8777683648611305616==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+
+_______________________________________________
+messages mailing list
+messages@vassalengine.org
+http://www.vassalengine.org/mailman/listinfo/messages
+
+--===============8777683648611305616==--
+

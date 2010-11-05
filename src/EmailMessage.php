@@ -193,7 +193,6 @@ abstract class EmailMessage implements Message {
       $data = $this->getPartBody($part_data);
       $data = $this->decode($data, $enc);    
 
-echo "$major\n";
       $disp = $part_data['content-disposition'];
       if ($disp == 'attachment' || $disp == 'inline') {
         $attachments[] = array( 

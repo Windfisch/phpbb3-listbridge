@@ -1,0 +1,27 @@
+Thus spake pgeerkens:
+> I believe it is the heap manager causing the problem, not the buffered
+> image itself. I get the following output 
+> 640
+> 240
+> 16
+> from the code below with min/max heap set to 961MB, totalling 896MB of
+> the 961MB available. When I bump the size factor in img3 to 0.2 I run
+> out of heap.
+
+I'm having trouble interpreting your results here. Your program is
+not the same as mine---the first image can't be garbage collected
+yet when you load the second image, and that will affect how much
+heap is still available.
+
+What are the minimum heap sizes you can run at when you use the
+same program and parameters as I used?
+
+
+-- 
+J.
+_______________________________________________
+messages mailing list
+messages@vassalengine.org
+http://www.vassalengine.org/mailman/listinfo/messages
+
+

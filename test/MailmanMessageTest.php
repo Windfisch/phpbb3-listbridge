@@ -80,7 +80,21 @@ class MailmanMessageTest extends PHPUnit_Framework_TestCase {
             )
           )
         )
-      ))
+      )),
+      array(array(
+        'data'        => file_get_contents(__DIR__ . '/372'),
+        'source'      => 'messages@vassalengine.org',
+        'post_id'     => '',
+        'from'        => 'uckelman@nomic.net',
+        'subject'     => 'Re: [messages] [Developers] Re: determining how much heap a BufferedImage uses',
+        'message_id'  => '<20101110174225.587BD100B5@charybdis.ellipsis.cx>',
+        'in_reply_to' => '<1289408163.20521.1933.bridge@www.vassalengine.org>',
+        'references'  => '<1286189102.20134.1513.bridge@www.vassalengine.org> <1289408163.20521.1933.bridge@www.vassalengine.org>',
+        'flattened'   => array(
+          file_get_contents(__DIR__ . '/372_flat'),
+          array()
+        )
+      )),
     );
   }
 

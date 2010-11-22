@@ -75,8 +75,6 @@ class PhpBB3Impl implements PhpBB3 {
   public function getTopicAndForumIds($post_id) {
     throw_if_null($post_id);
 
-    global $db;
-
     $sql = 'SELECT topic_id, forum_id FROM ' . POSTS_TABLE . ' ' .
            'WHERE post_id = ' . $post_id;
 
@@ -113,8 +111,6 @@ class PhpBB3Impl implements PhpBB3 {
   public function topicStatus($topicId) {
     throw_if_null($topicId);
 
-    global $db;
-
     $sql = 'SELECT topic_status FROM ' . TOPICS_TABLE . ' ' .
            'WHERE topic_id = ' . $topicId;
 
@@ -124,8 +120,6 @@ class PhpBB3Impl implements PhpBB3 {
 
   public function getPostTime($postId) {
     throw_if_null($postId);
-
-    global $db;
 
     $sql = 'SELECT post_time FROM ' . POSTS_TABLE . ' ' .
            'WHERE post_id = ' . $postId;
@@ -137,8 +131,6 @@ class PhpBB3Impl implements PhpBB3 {
   public function getAttachmentData($attachId) {
     throw_if_null($attachId);
 
-    global $db;
-  
     $sql = 'SELECT physical_filename, real_filename, ' . 
                   'attach_comment, mimetype ' .
            'FROM ' . ATTACHMENTS_TABLE . ' ' .

@@ -41,8 +41,8 @@ function remove_post($postId) {
   require_once(__DIR__ . '/BridgeConf.php')
   require_once(__DIR__ . '/BridgeImpl.php');
 
-  $db = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB, DB_USER, DB_PASS);
-  $bridge = new BridgeImpl($db);
+  $bdb = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB, DB_USER, DB_PASS);
+  $bridge = new BridgeImpl($bdb);
 
   if ($bridge->removePost($postId)) {
     $logger->info($postId . ' deleted');

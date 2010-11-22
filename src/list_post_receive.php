@@ -30,14 +30,15 @@ try {
 
   require_once(__DIR__ . '/BridgeConf.php');
   require_once(__DIR__ . '/BridgeImpl.php');
+  require_once(__DIR__ . '/MailmanMessage.php');
+  require_once(__DIR__ . '/MailmanToPhpBB3.php');
   require_once(__DIR__ . '/PhpBB3Conf.php');
   require_once(__DIR__ . '/PhpBB3Impl.php');
-  require_once(__DIR__ . '/MailmanToPhpBB3.php');
 
   $msg = new MailmanMessage($_POST['message']);
 
-  $db = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB, DB_USER, DB_PASS);
-  $bridge = new BridgeImpl($db);
+  $bdb = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB, DB_USER, DB_PASS);
+  $bridge = new BridgeImpl($bdb);
 
   $phpbb = new PhpBB3Impl();
 

@@ -52,8 +52,8 @@ function send_post_to_lists($config, $user, $mode, $data, $post_data) {
   require_once(__DIR__ . '/PhpBB3Impl.php');
   require_once(__DIR__ . '/PhpBB3ToMailman.php');
  
-  $db = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB, DB_USER, DB_PASS);
-  $bridge = new BridgeImpl($db);
+  $bdb = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB, DB_USER, DB_PASS);
+  $bridge = new BridgeImpl($bdb);
 
   $phpbb = new PhpBB3Impl();
 

@@ -55,7 +55,7 @@ class MailmanToPhpBB3 {
 
     try {
       list($postType, $forumId, $topicId) =
-        find_destination($source, $inReplyTo, $messageId);
+        $this->find_destination($source, $inReplyTo, $messageId);
 
       $this->logger->info(
       $messageId . ' will be posted to ' . $forumId . ':' . $topicId);

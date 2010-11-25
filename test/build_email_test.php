@@ -34,7 +34,7 @@ http://www.example.com/viewtopic.php?p=42#p42",
 
   public function test_build_from_nonascii() {
     $this->assertEquals(
-      '=?UTF-8?B?SGVpesO2bHLDvGNrc3Rvw59hYmTDpG1wZnVuZw==?= <foo@example.com>';
+      '=?UTF-8?B?SGVpesO2bHLDvGNrc3Rvw59hYmTDpG1wZnVuZw==?= <foo@example.com>',
       build_from('Heizölrückstoßabdämpfung', 'foo@example.com')
     );
   }

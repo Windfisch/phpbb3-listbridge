@@ -21,7 +21,7 @@ class UtilTest extends PHPUnit_Framework_TestCase {
 
   public function rfc822_quote_provider() {
     return array(
-      array('Joel Uckelman', 'Joel Uckelman'),
+      array('Joel Uckelman', '"Joel Uckelman"'),
       array('L.Tankersley',  '"L.Tankersley"'),
       array('"\foo\"',       '"\"\\foo\\\""')
     );

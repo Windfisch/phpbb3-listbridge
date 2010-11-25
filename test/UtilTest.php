@@ -5,6 +5,33 @@ require_once('PHPUnit/Framework.php');
 require_once(__DIR__ . '/../src/Util.php');
 
 class UtilTest extends PHPUnit_Framework_TestCase {
+
+  public function has_rfc822_specials_provider() {
+    return array(
+      array('Joel Uckelman', false),
+      array('L.Tankersley', true),
+      array('()<>@,;:\".[]', true)
+    );
+  }
+
+  /** @dataProvider has_rfc822_specials_provider */
+  public function test_has_rfc822_specials($string, $expected) {
+    $this->assertEquals($expected, has_rfc_822_specials($string));
+  }
+
+  public function rfc822_quote_provider() {
+    return array(
+      array('Joel Uckelman', 'Joel Uckelman'),
+      array('L.Tankersley',  '"L.Tankersley"'),
+      array('"\foo\"',       '"\"\\foo\\\""')
+    );
+  }
+
+  /** @dataProvider rfc822_quote_provider */
+  public function test_rfc822_quote($string, $expected) {
+    $this->assertEquals($expected, rfc_822_quote($string));
+  }
+
   public function is_ascii_provider() {
     return array(
       array('', true),

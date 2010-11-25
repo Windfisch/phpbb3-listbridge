@@ -24,6 +24,17 @@ function throw_if_null($arg) {
   if ($arg === null) throw new Exception('argument is null');
 }
 
+function has_rfc822_specials($str) {
+  // check for RFC822 specials (see section 3.3)
+  return strpbrk($str, '()<>@,;:\".[]') !== false;
+}
+
+function rfc822_quote($str) {
+  // turn \ and " into quoted-pairs, then quote the whole string
+  return '"' . str_replace(array("\\",   "\"",),
+                           array("\\\\", "\\\""), $str) . '"';
+}
+
 function is_ascii($str) {
   return !preg_match('/[^[:ascii:]]/', $str);
 }

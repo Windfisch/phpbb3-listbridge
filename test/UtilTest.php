@@ -29,7 +29,7 @@ class UtilTest extends PHPUnit_Framework_TestCase {
 
   /** @dataProvider rfc822_quote_provider */
   public function test_rfc822_quote($string, $expected) {
-    $this->assertEquals($expected, rfc_822_quote($string));
+    $this->assertEquals($expected, rfc822_quote($string));
   }
 
   public function is_ascii_provider() {

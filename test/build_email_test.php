@@ -32,6 +32,27 @@ http://www.example.com/viewtopic.php?p=42#p42",
     );
   }
 
+  public function test_build_from_nonascii() {
+    $this->assertEquals(
+      '=?UTF-8?B?SGVpesO2bHLDvGNrc3Rvw59hYmTDpG1wZnVuZw==?= <foo@example.com>';
+      build_from('Heizölrückstoßabdämpfung', 'foo@example.com')
+    );
+  }
+
+  public function test_build_from_ascii() {
+    $this->assertEquals(
+      'Joel Uckelman <uckelman@nomic.net>',
+      build_from('Joel Uckelman', 'uckelman@nomic.net')
+    );
+  }
+
+  public function test_build_from_rfc822_specials() {
+    $this->assertEquals(
+      '"L.Tankersley" <leland53@comcast.net>',
+      build_from('L.Tankersley', 'leland53@comcast.net')
+    );
+  }
+
   protected $default_headers = array( 
     'To'          => 'messages@vassalengine.org',
     'From'        => 'Joel Uckelman <uckelman@nomic.net>',

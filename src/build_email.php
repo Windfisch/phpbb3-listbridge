@@ -78,10 +78,29 @@ function build_body(array &$headers, $text, $attachments, $footer) {
   return $body;
 }
 
+function build_from($name, $email) {
+  $qname = ''; 
+
+  if (is_ascii($name)) {
+    if (has_rfc822_specials($name)) {
+      $qname = rfc822_quote($name);
+    }
+    else {
+      $qname = $name;
+    }
+  }
+  else {
+    // base64-encode if we have non-ASCII chars
+    $qname = utf8_quote($name);
+  }
+
+  return sprintf('%s <%s>', $qname, $email);
+}
+
 function build_headers($userName, $userEmail, $to, $sender, $subject, $edit,
                        $time, $messageId, $forumURL, $inReplyTo, $references) {
 
-  $from = sprintf('%s <%s>', utf8_quote_non_ascii($userName), $userEmail);
+  $from = build_from($userName, $userEmail); 
   $subject = utf8_quote_non_ascii($subject);
   $date = date(DATE_RFC2822, $time);
 

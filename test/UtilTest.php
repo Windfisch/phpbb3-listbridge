@@ -23,7 +23,7 @@ class UtilTest extends PHPUnit_Framework_TestCase {
     return array(
       array('Joel Uckelman', '"Joel Uckelman"'),
       array('L.Tankersley',  '"L.Tankersley"'),
-      array('"\foo\"',       "\"\\\"\\\\foo\\\"\"")
+      array('"\foo\"',       "\"\\\"\\\\foo\\\\\\\"\"")
     );
   }
 

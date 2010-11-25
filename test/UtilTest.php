@@ -16,7 +16,7 @@ class UtilTest extends PHPUnit_Framework_TestCase {
 
   /** @dataProvider has_rfc822_specials_provider */
   public function test_has_rfc822_specials($string, $expected) {
-    $this->assertEquals($expected, has_rfc_822_specials($string));
+    $this->assertEquals($expected, has_rfc822_specials($string));
   }
 
   public function rfc822_quote_provider() {

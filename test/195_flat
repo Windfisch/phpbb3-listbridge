@@ -1,0 +1,33 @@
+Joel Uckelman <uckelman@nomic.net> writes:
+
+> Thus spake Wojciech Meyer:
+>> 
+>> All right. I assume you are talking about bugs raised on the forum
+>> and mailing lists? I can help a bit with it. Probably this week. Just let
+>> me know how to proceed.
+>
+> Both things reported here and things already in the tracker.
+>
+> There's not much point in combing the forum for things to fix---I have
+> a giant email archive containing everything that's been reported but
+> nobody has had time to look into. If you're up for it, I could start
+> passing some of that on to you.
+
+OK, that sounds fine to me. Just forward it to my e-mail, let's say two
+or three for the beginning and I will see how much time I will spend on
+analysing and reproducing them and fixing.
+
+>
+>> Also, I might spend actually time on fixing
+>> these as well, which would be a good thing for me to start with. (I will
+>> need also some of your time to review the patches).
+>
+> Will do.
+
+Thanks!
+
+_______________________________________________
+messages mailing list
+messages@vassalengine.org
+http://www.vassalengine.org/mailman/listinfo/messages
+

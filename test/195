@@ -1,0 +1,106 @@
+Return-Path: <messages-bounces@vassalengine.org>
+X-Original-To: uckelman@nomic.net
+Delivered-To: uckelman@nomic.net
+Received: from one.vassalengine.org (one.vassalengine.org [66.253.49.171])
+	by charybdis.ellipsis.cx (Postfix) with ESMTP id 7C0551006E
+	for <uckelman@nomic.net>; Mon, 29 Nov 2010 17:30:40 -0700 (MST)
+Received: from one.vassalengine.org (localhost [IPv6:::1])
+	by one.vassalengine.org (Postfix) with ESMTP id C4BAF95;
+	Mon, 29 Nov 2010 14:50:12 -0700 (MST)
+X-Original-To: messages@vassalengine.org
+Delivered-To: messages@vassalengine.org
+Received: from mail-wy0-f171.google.com (mail-wy0-f171.google.com
+	[74.125.82.171])
+	by one.vassalengine.org (Postfix) with ESMTP id 44C3595
+	for <messages@vassalengine.org>; Mon, 29 Nov 2010 14:50:08 -0700 (MST)
+Received: by wyb38 with SMTP id 38so5412612wyb.2
+	for <messages@vassalengine.org>; Mon, 29 Nov 2010 16:30:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=gamma;
+	h=domainkey-signature:received:received:from:to:subject:references
+	:date:in-reply-to:message-id:user-agent:mime-version:content-type;
+	bh=7W5e8XhZYaBbpHMGWdkN3nVPQviKPQmYQsDdMbOKYX4=;
+	b=tnWlGZz2AmFgB1Waagg8aNdRoeWiLA+lFtF0TIrzkLofmmi9BJInVE2ZDFEZ1msJZx
+	S4YuoctarD4xIxLsnXv/4VssZ5+rCplEDwhHVEA9Ym6JVku96/xhOEKheZLjqZ6D61ot
+	qsut6Kpfx3QmdXCTsUj3NlR+y0x6ee5aiyzG4=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=googlemail.com; s=gamma;
+	h=from:to:subject:references:date:in-reply-to:message-id:user-agent
+	:mime-version:content-type;
+	b=AQP7c6FhNu2XNXk1yR4RBLcXk1mphu95aV/lRDfTWoeJkBB4qVQXaLDkpj2KHMXO8T
+	kE6t1gHdxa2gVYcUWiBt84h9V8Vx43Pc7/M0H5lSukOJl+Z+IPViJUsjSnKR5QPh+FvP
+	pYemvDEOxUiFwJPVnsh6ShXAJ3fFeg14hbjKA=
+Received: by 10.216.49.145 with SMTP id x17mr5756949web.55.1291077027288;
+	Mon, 29 Nov 2010 16:30:27 -0800 (PST)
+Received: from spec-desktop.specuu.com
+	(host81-129-250-84.range81-129.btcentralplus.com [81.129.250.84])
+	by mx.google.com with ESMTPS id x3sm2714724wes.22.2010.11.29.16.30.25
+	(version=TLSv1/SSLv3 cipher=RC4-MD5);
+	Mon, 29 Nov 2010 16:30:26 -0800 (PST)
+From: Wojciech Meyer <wojciech.meyer@googlemail.com>
+To: messages@vassalengine.org
+References: <1291044119.20746.2185.bridge@www.vassalengine.org>
+	<87vd3frios.fsf@gmail.com>
+	<20101129203806.A2B15100CD@charybdis.ellipsis.cx>
+	<87ipzfrgwp.fsf@gmail.com>
+	<20101129210745.5A113100CD@charybdis.ellipsis.cx>
+	<87mxorwv05.fsf@gmail.com>
+	<20101130000631.16061100CD@charybdis.ellipsis.cx>
+Date: Tue, 30 Nov 2010 00:30:23 +0000
+In-Reply-To: <20101130000631.16061100CD@charybdis.ellipsis.cx> (Joel
+	Uckelman's message of "Tue, 30 Nov 2010 01:06:31 +0100")
+Message-ID: <87hbezwt40.fsf@gmail.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/23.1.90
+MIME-Version: 1.0
+Subject: Re: [messages] [Feature Requests] Re: Fix private message windows
+	stealing focus
+X-BeenThere: messages@vassalengine.org
+X-Mailman-Version: 2.1.12
+Precedence: list
+Reply-To: messages@vassalengine.org
+List-Id: <messages.vassalengine.org>
+List-Unsubscribe: <http://www.vassalengine.org/mailman/options/messages>,
+	<mailto:messages-request@vassalengine.org?subject=unsubscribe>
+List-Archive: <http://www.vassalengine.org/pipermail/messages/>
+List-Post: <mailto:messages@vassalengine.org>
+List-Help: <mailto:messages-request@vassalengine.org?subject=help>
+List-Subscribe: <http://www.vassalengine.org/mailman/listinfo/messages>,
+	<mailto:messages-request@vassalengine.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Sender: messages-bounces@vassalengine.org
+Errors-To: messages-bounces@vassalengine.org
+X-Bogosity: Unsure, tests=bogofilter, spamicity=0.500000, version=1.2.0
+
+Joel Uckelman <uckelman@nomic.net> writes:
+
+> Thus spake Wojciech Meyer:
+>> 
+>> All right. I assume you are talking about bugs raised on the forum
+>> and mailing lists? I can help a bit with it. Probably this week. Just let
+>> me know how to proceed.
+>
+> Both things reported here and things already in the tracker.
+>
+> There's not much point in combing the forum for things to fix---I have
+> a giant email archive containing everything that's been reported but
+> nobody has had time to look into. If you're up for it, I could start
+> passing some of that on to you.
+
+OK, that sounds fine to me. Just forward it to my e-mail, let's say two
+or three for the beginning and I will see how much time I will spend on
+analysing and reproducing them and fixing.
+
+>
+>> Also, I might spend actually time on fixing
+>> these as well, which would be a good thing for me to start with. (I will
+>> need also some of your time to review the patches).
+>
+> Will do.
+
+Thanks!
+
+_______________________________________________
+messages mailing list
+messages@vassalengine.org
+http://www.vassalengine.org/mailman/listinfo/messages
+

@@ -81,6 +81,8 @@ class MailmanToPhpBB3 {
       # Possibly a reply to an existing topic
       $parentId = $this->bridge->getPostId($inReplyTo);
       if ($parentId === false) {
+# FIXME: we need to try harder to find where this message goes, instead
+# of dropping it!
         throw new Exception('unrecognized Reply-To: ' . $inReplyTo);
       }
 

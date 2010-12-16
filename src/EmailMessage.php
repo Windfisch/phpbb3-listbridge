@@ -79,7 +79,17 @@ abstract class EmailMessage implements Message {
   }
 
   public function getInReplyTo() {
-    return $this->getHeader('in-reply-to');
+    $irt = $this->getHeader('in-reply-to');
+
+    // Try to get a message id from the In-Reply-To header
+    foreach (mailparse_rfc822_parse_addresses($irt) as $part) {
+      if (isset($part['address']) && strlen($part['address']) > 0) {
+        return '<' . $part['address'] . '>';
+      }
+    }
+  
+    // Ack, no message id, just return the raw header
+    return $irt; 
   }
 
   public function getReferences() {

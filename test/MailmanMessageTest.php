@@ -99,11 +99,11 @@ class MailmanMessageTest extends PHPUnit_Framework_TestCase {
         'data'        => file_get_contents(__DIR__ . '/195'),
         'source'      => 'messages@vassalengine.org',
         'post_id'     => '',
-        'from'        => 'Wojciech Meyer <wojciech.meyer@googlemail.com>',
+        'from'        => 'wojciech.meyer@googlemail.com',
         'subject'     => 'Re: [messages] [Feature Requests] Re: Fix private message windows stealing focus',
         'message_id'  => '<87hbezwt40.fsf@gmail.com>',
         'in_reply_to' => '<20101130000631.16061100CD@charybdis.ellipsis.cx>',
-        'references'  => '<1291044119.20746.2185.bridge@www.vassalengine.org> <87vd3frios.fsf@gmail.com> <20101129203806.A2B15100CD@charybdis.ellipsis.cx> <87ipzfrgwp.fsf@gmail.com> <20101129210745.5A113100CD@charybdis.ellipsis.cx> <87mxorwv05.fsf@gmail.com> <20101130000631.16061100CD@charybdis.ellipsis.cx>'
+        'references'  => '<1291044119.20746.2185.bridge@www.vassalengine.org> <87vd3frios.fsf@gmail.com> <20101129203806.A2B15100CD@charybdis.ellipsis.cx> <87ipzfrgwp.fsf@gmail.com> <20101129210745.5A113100CD@charybdis.ellipsis.cx> <87mxorwv05.fsf@gmail.com> <20101130000631.16061100CD@charybdis.ellipsis.cx>',
         'flattened'   => array(
           file_get_contents(__DIR__ . '/195_flat'),
           array()

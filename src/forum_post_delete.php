@@ -38,7 +38,7 @@ function remove_post($postId) {
   require_once('Log.php');
   $logger = &Log::singleton('file', '/var/log/listbridge', 'one');
 
-  require_once(__DIR__ . '/BridgeConf.php')
+  require_once(__DIR__ . '/BridgeConf.php');
   require_once(__DIR__ . '/BridgeImpl.php');
 
   $bdb = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB, DB_USER, DB_PASS);

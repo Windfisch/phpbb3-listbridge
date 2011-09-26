@@ -144,16 +144,6 @@ class BridgeImpl implements Bridge {
     }
   }
 
-  public function removePost($postId) {
-    throw_if_null($postId);
-
-    $sql = 'DELETE FROM posts WHERE post_id = ' . $postId;
-    
-    $count = $this->db->exec($sql);
-
-    return $count > 0;
-  }
-
   protected function get_exactly_one_row($sql) {
     $result = $this->db->query($sql);
 

@@ -38,8 +38,6 @@ interface Bridge {
   public function registerByMessageId($messageId, $inReplyTo);
 
   public function unregisterMessage($editId);
-
-  public function removePost($postId);
 }
 
 ?>

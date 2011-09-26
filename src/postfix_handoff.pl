@@ -1,8 +1,6 @@
 #!/usr/bin/perl -w
 
 #
-# $Id$
-#
 # forum-list bridge 
 # Copyright (C) 2010 Joel Uckelman
 #

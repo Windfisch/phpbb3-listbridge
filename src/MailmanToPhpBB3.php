@@ -1,8 +1,6 @@
 <?php
 
 #
-# $Id: Bridge.php 7051 2010-07-29 13:23:57Z uckelman $
-#
 # forum-list bridge 
 # Copyright (C) 2010 Joel Uckelman
 #

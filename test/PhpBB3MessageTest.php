@@ -24,6 +24,7 @@ class PhpBB3MessageTest extends PHPUnit_Framework_TestCase {
 
   public function provider() {
     return array(
+      array(null)
 /*
       array(array(
         'data'        => '',
@@ -62,6 +63,7 @@ class PhpBB3MessageTest extends PHPUnit_Framework_TestCase {
    * @dataProvider provider
    */
   public function testGetFrom($expected) {
+    $this->markTestIncomplete();
     $msg = $this->buildMessage($expected);
     $this->assertEquals($expected['from'], $msg->getFrom());
   }
@@ -70,6 +72,7 @@ class PhpBB3MessageTest extends PHPUnit_Framework_TestCase {
    * @dataProvider provider
    */
   public function testGetSubject($expected) {
+    $this->markTestIncomplete();
     $msg = $this->buildMessage($expected);
     $this->assertEquals($expected['subject'], $msg->getSubject());
   }
@@ -78,6 +81,7 @@ class PhpBB3MessageTest extends PHPUnit_Framework_TestCase {
    * @dataProvider provider
    */
   public function testGetMessageId($expected) {
+    $this->markTestIncomplete();
     $msg = $this->buildMessage($expected);
     $this->assertEquals($expected['message_id'], $msg->getMessageId());
   }
@@ -86,6 +90,7 @@ class PhpBB3MessageTest extends PHPUnit_Framework_TestCase {
    * @dataProvider provider
    */
   public function testGetInReplyTo($expected) {
+    $this->markTestIncomplete();
     $msg = $this->buildMessage($expected);
     $this->assertEquals($expected['in_reply_to'], $msg->getInReplyTo());
   }
@@ -94,6 +99,7 @@ class PhpBB3MessageTest extends PHPUnit_Framework_TestCase {
    * @dataProvider provider
    */
   public function testGetReferences($expected) {
+    $this->markTestIncomplete();
     $msg = $this->buildMessage($expected);
     $this->assertEquals($expected['references'], $msg->getReferences());
   }

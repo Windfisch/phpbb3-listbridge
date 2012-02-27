@@ -150,6 +150,7 @@ EOF;
 
   public function providerGetPostTime() {
     return array(
+      array()
     );
   }
 
@@ -166,6 +167,7 @@ EOF;
 
   public function providerGetAttachmentData() {
     return array(
+      array()
     );
   }
 }

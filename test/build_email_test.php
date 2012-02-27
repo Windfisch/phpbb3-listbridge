@@ -84,6 +84,7 @@ http://www.example.com/viewtopic.php?p=42#p42",
   );
 
   protected function call_build_headers(array $headers, array $params) {
+    date_default_timezone_set('America/Phoenix');
     $this->assertEquals(
       $headers,
       build_headers(

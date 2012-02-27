@@ -3,20 +3,17 @@
 require_once(__DIR__ . '/../src/build_email.php');
 
 class build_email_test extends PHPUnit_Framework_TestCase {
-  
-  public function test_build_text_edit() {
-    $this->assertEquals(
-      "[This message has been edited.]
-
-foo bar",
-      build_text('foo bar', true)
-    );
+  /** @dataProvider build_text_data */
+  public function test_build_text($text, $edit, $expected) {
+    $this->assertEquals($expected, build_text($text, $edit));
   }
 
-  public function test_build_text_no_edit() {
-    $this->assertEquals(
-      'foo bar', 
-      build_text('foo bar', false)
+  public function build_text_data() {
+    return array(
+      array('foo bar', false, 'foo bar'),
+      array('foo bar', true, "[This message has been edited.]
+
+foo bar")
     );
   }
  
@@ -30,24 +27,16 @@ http://www.example.com/viewtopic.php?p=42#p42",
     );
   }
 
-  public function test_build_from_nonascii() {
-    $this->assertEquals(
-      '=?UTF-8?B?SGVpesO2bHLDvGNrc3Rvw59hYmTDpG1wZnVuZw==?= <foo@example.com>',
-      build_from('Heizölrückstoßabdämpfung', 'foo@example.com')
-    );
+  /** @dataProvider build_from_data */
+  public function test_build_from($name, $email, $expected) {
+    $this->assertEquals($expected, build_from($name, $email));
   }
 
-  public function test_build_from_ascii() {
-    $this->assertEquals(
-      'Joel Uckelman <uckelman@nomic.net>',
-      build_from('Joel Uckelman', 'uckelman@nomic.net')
-    );
-  }
-
-  public function test_build_from_rfc822_specials() {
-    $this->assertEquals(
-      '"L.Tankersley" <leland53@comcast.net>',
-      build_from('L.Tankersley', 'leland53@comcast.net')
+  public function build_from_data() {
+    return array(
+      array('Heizölrückstoßabdämpfung', 'foo@example.com', '=?UTF-8?B?SGVpesO2bHLDvGNrc3Rvw59hYmTDpG1wZnVuZw==?= <foo@example.com>'),
+      array('Joel Uckelman', 'uckelman@nomic.net', 'Joel Uckelman <uckelman@nomic.net>'),
+      array('L.Tankersley', 'leland53@comcast.net', '"L.Tankersley" <leland53@comcast.net>')
     );
   }
 

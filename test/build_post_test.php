@@ -9,8 +9,8 @@ class build_post_test extends PHPUnit_Framework_TestCase {
   /** @dataProvider buildPostSubjectProvider */
   public function testBuildPostSubject($ltag, $ftag, $subject, $expected) {
     $this->assertEquals(
-      build_post_subject($ltag, $ftag, $subject),
-      $expected
+      $expected,
+      build_post_subject($ltag, $ftag, $subject)
     );
   }
 

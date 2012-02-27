@@ -98,6 +98,15 @@ function build_email_from($name, $email) {
 }
 
 function build_email_subject($forumtag, $subject, $reply, $edit) {
+  if ($reply) {
+    // strip leading sequences of Re-equivalents
+    $re = '/^(?:(?:RE|AW|SV|VS)(?:\\[\\d+\\])?:\\s*)+/i';
+    if (preg_match($re, $subject, $m)) {
+      $subject = substr($subject, strlen($m[0]));
+    }
+  }
+
+  // ensure nonempty subject
   $subject = trim($subject);
   if ($subject == '') {
     $subject = '(no subject)';

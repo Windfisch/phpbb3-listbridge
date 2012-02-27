@@ -21,7 +21,7 @@ function build_post_subject($listtag, $forumtag, $subject) {
     $subj = '(no subject)';
   }
 
-  return $subj; 
+  return $subj;
 }
 
 ?>

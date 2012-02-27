@@ -1,7 +1,5 @@
 <?php
 
-require_once('PHPUnit/Framework.php');
-
 require_once(__DIR__ . '/../src/build_post.php');
 
 class build_post_test extends PHPUnit_Framework_TestCase {

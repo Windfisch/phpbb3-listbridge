@@ -18,7 +18,6 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
-require_once('PHPUnit/Framework.php');
 require_once('src/HTTP_POST_multipart.php');
 
 class HTTP_POST_multipartTest extends PHPUnit_Framework_TestCase {

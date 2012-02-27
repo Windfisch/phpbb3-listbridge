@@ -18,7 +18,6 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
-require_once('PHPUnit/Framework.php');
 require_once('src/PhpBB3Message.php');
 
 class PhpBB3MessageTest extends PHPUnit_Framework_TestCase {

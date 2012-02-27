@@ -1,7 +1,5 @@
 <?php
 
-require_once('PHPUnit/Framework.php');
-
 require_once(__DIR__ . '/../src/Util.php');
 
 class UtilTest extends PHPUnit_Framework_TestCase {

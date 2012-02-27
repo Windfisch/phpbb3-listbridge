@@ -18,8 +18,6 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
-require_once('PHPUnit/Framework.php');
-
 require_once('Log.php');
 
 require_once(__DIR__ . '/../src/Bridge.php');

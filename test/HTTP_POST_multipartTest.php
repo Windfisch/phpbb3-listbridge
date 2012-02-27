@@ -33,7 +33,9 @@ class HTTP_POST_multipartTest extends PHPUnit_Framework_TestCase {
    * @dataProvider providerBuildDataPart
    */
   public function testBuildDataPart($part, $expected, $ex) {
-    if ($ex) $this->setExpectedException($ex);
+    if ($ex) {
+      $this->setExpectedException($ex);
+    }
 
     $this->assertEquals(
       $expected,
@@ -43,7 +45,6 @@ class HTTP_POST_multipartTest extends PHPUnit_Framework_TestCase {
 
   public function providerBuildDataPart() {
     return array(
-      array(null, null, 'Exception'),
       array(
         array('name' => 'foo', 'data' => 1),
         "Content-Disposition: form-data; name=\"foo\"\r\n\r\n1\r\n",
@@ -56,7 +57,9 @@ class HTTP_POST_multipartTest extends PHPUnit_Framework_TestCase {
    * @dataProvider providerBuildFilePart
    */
   public function testBuildFilePart($part, $expected, $ex) {
-    if ($ex) $this->setExpectedException($ex);
+    if ($ex) {
+      $this->setExpectedException($ex);
+    }
 
     $this->assertEquals(
       $expected,
@@ -66,7 +69,6 @@ class HTTP_POST_multipartTest extends PHPUnit_Framework_TestCase {
 
   public function providerBuildFilePart() {
     return array(
-      array(null, null, 'Exception'),
       array(
         array(
           'name'     => 'foo',
@@ -102,6 +104,18 @@ class HTTP_POST_multipartTest extends PHPUnit_Framework_TestCase {
         ),
         "Content-Disposition: form-data; name=\"foo\"; filename=\"somename.png\"\r\nContent-Type: image/png\r\nContent-Transfer-Encoding: base64\r\n\r\nYmxhaCBibGFoIGJsYWgKYmxhaCBibGFoIGJsYWg=\r\n\r\n",
         null
+      ),
+      array(
+        array(
+          'name'     => 'foo',
+          'filename' => 'somename.txt',
+          'mimetype' => 'text/plain',
+          'charset'  => 'utf-8',
+          'encoding' => 'bogus',
+          'data'     => "blah blah blah\nblah blah blah"
+        ),
+        null, 
+        'InvalidArgumentException'
       )
     );
   }
@@ -110,7 +124,9 @@ class HTTP_POST_multipartTest extends PHPUnit_Framework_TestCase {
    * @dataProvider providerBuildPost
    */
   public function testBuildPost($parts, $expected, $ex) {
-    if ($ex) $this->setExpectedException($ex);
+    if ($ex) {
+      $this->setExpectedException($ex);
+    }
 
     list($boundary, $content) =
       self::getMethod('buildPost')->invokeArgs(null, array($parts));
@@ -121,7 +137,6 @@ class HTTP_POST_multipartTest extends PHPUnit_Framework_TestCase {
 
   public function providerBuildPost() {
     return array(
-      array(null, null, 'Exception'),
       array(
         array(
           array(

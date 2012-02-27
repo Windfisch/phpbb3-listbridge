@@ -25,8 +25,12 @@ class HTTP_POST_multipart {
   protected $_parts = array();
 
   public function addData($name, $data) {
-    if ($name === null) throw new Exception('name is null');
-    if ($data === null) throw new Exception('data is null');
+    if ($name === null) {
+      throw new InvalidArgumentException('name is null');
+    }
+    if ($data === null) {
+      throw new InvalidArgumentException('data is null');
+    }
 
     $this->_parts[] = array(
       'name' => $name,
@@ -36,10 +40,18 @@ class HTTP_POST_multipart {
 
   public function addFile($name, $filename, $mimetype,
                           $charset, $encoding, $data) {
-    if ($name     === null) throw new Exception('name is null');
-    if ($filename === null) throw new Exception('filename is null');
-    if ($mimetype === null) throw new Exception('mimetype is null');
-    if ($data     === null) throw new Exception('data is null');
+    if ($name === null) {
+      throw new InvalidArgumentException('name is null');
+    }
+    if ($filename === null) {
+      throw new InvalidArgumentException('filename is null');
+    }
+    if ($mimetype === null) {
+      throw new InvalidArgumentException('mimetype is null');
+    }
+    if ($data === null) {
+      throw new InvalidArgumentException('data is null');
+    }
 
     $this->_parts[] = array(
       'name'     => $name,
@@ -82,7 +94,7 @@ class HTTP_POST_multipart {
         $data = chunk_split(base64_encode($part['data']));
         break;
       default:
-        throw new Exception('unrecognized encoding: ' . $part['encoding']);
+        throw new InvalidArgumentException('unrecognized encoding: ' . $part['encoding']);
       }
     }
     else {

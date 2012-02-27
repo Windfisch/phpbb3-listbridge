@@ -1,7 +1,5 @@
 <?php
 
-require_once('PHPUnit/Framework.php');
-
 require_once(__DIR__ . '/../src/build_email.php');
 
 class build_email_test extends PHPUnit_Framework_TestCase {
@@ -50,6 +48,23 @@ http://www.example.com/viewtopic.php?p=42#p42",
     $this->assertEquals(
       '"L.Tankersley" <leland53@comcast.net>',
       build_from('L.Tankersley', 'leland53@comcast.net')
+    );
+  }
+
+  /** @dataProvider build_email_subject_data */
+  public function test_build_email_subject($ftag, $re, $subject, $expected) {
+    $this->assertEquals(
+      $expected,
+      build_email_subject($ftag, $re, $subject)
+    );
+  }
+
+  public function build_email_subject_data() {
+    return array(
+      array('[f]', false, '', '[f] (no subject)'),
+      array('[f]', true, '', 'Re: [f] (no subject)'),
+      array('[f]', false, 'Subject', '[f] Subject'),
+      array('[f]', true, 'Subject', 'Re: [f] Subject'),
     );
   }
 

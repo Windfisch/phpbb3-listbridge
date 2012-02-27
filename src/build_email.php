@@ -97,6 +97,21 @@ function build_from($name, $email) {
   return sprintf('%s <%s>', $qname, $email);
 }
 
+function build_email_subject($forumtag, $reply, $subject) {
+  $subject = trim($subject);
+  if ($subject == '') {
+    $subject = '(no subject)';
+  }
+
+  $subject = $forumtag . ' ' . $subject;
+
+  if ($reply) {
+    $subject = 'Re: ' . $subject;
+  }
+
+  return utf8_quote_non_ascii($subject);
+}
+
 function build_headers($userName, $userEmail, $to, $sender, $subject, $edit,
                        $time, $messageId, $forumURL, $inReplyTo, $references) {
 

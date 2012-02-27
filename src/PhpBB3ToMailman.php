@@ -104,11 +104,11 @@ class PhpBB3ToMailman {
                     dirname($_SERVER['SCRIPT_NAME']);
 
     $editId = $this->bridge->reserveEditId($postId);
-    $messageId = build_message_id($postId, $editId,
-                                  $time, $_SERVER['SERVER_NAME']);
+    $messageId = build_email_message_id($postId, $editId,
+                                        $time, $_SERVER['SERVER_NAME']);
 
     # Assemble the message headers
-    $headers = build_headers(
+    $headers = build_email_headers(
       $userName,
       $userEmail,
       $to,
@@ -125,10 +125,10 @@ class PhpBB3ToMailman {
     # Build the message body
     $parser = new BBCodeParser();
     $text = $parser->parse($data['message'], $data['bbcode_uid']);
-    $text = build_text($text, $mode == 'edit');
+    $text = build_email_text($text, $mode == 'edit');
 
     # Build the bridge footer
-    $footer = build_footer($postId, $forumURL);
+    $footer = build_email_footer($postId, $forumURL);
 
     $attachments = array();
     foreach ($data['attachment_data'] as $a) {
@@ -146,7 +146,7 @@ class PhpBB3ToMailman {
     }
 
     # Build the message body
-    $body = build_body($headers, $text, $attachments, $footer);
+    $body = build_email_body($headers, $text, $attachments, $footer);
 
     # Register the message
     $seen = !$this->bridge->registerByEditId($editId, $messageId, $inReplyTo);

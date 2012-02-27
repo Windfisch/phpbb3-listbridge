@@ -2,7 +2,7 @@
 
 require_once(__DIR__ . '/Util.php');
 
-function build_text($text, $edit) {
+function build_email_text($text, $edit) {
   if ($edit) {
     $edit_notice = <<<EOF
 [This message has been edited.]
@@ -16,7 +16,7 @@ EOF;
   return $text;
 }
 
-function build_footer($postId, $forumURL) {
+function build_email_footer($postId, $forumURL) {
   $postURL = "$forumURL/viewtopic.php?p=$postId#p$postId";
   $footer = <<<EOF
 
@@ -28,7 +28,7 @@ EOF;
   return $footer;
 }
 
-function build_body(array &$headers, $text, $attachments, $footer) {
+function build_email_body(array &$headers, $text, $attachments, $footer) {
   $body = null;
 
   # Handle attachements, if any
@@ -48,7 +48,7 @@ function build_body(array &$headers, $text, $attachments, $footer) {
     $mime = new Mail_mimePart('', $params);
 
     # Build the main body
-    build_text_part($mime, $text);
+    build_email_text_part($mime, $text);
 
     # Build each attachment
     foreach ($attachments as $a) {
@@ -57,7 +57,7 @@ function build_body(array &$headers, $text, $attachments, $footer) {
         throw new Exception('failed to read file: ' . $a['path']);
       }
 
-      build_attachment(
+      build_email_attachment(
         $mime,
         $adata['mimetype'],
         $adata['real_filename'],
@@ -67,7 +67,7 @@ function build_body(array &$headers, $text, $attachments, $footer) {
     }
 
     # Build footer
-    build_text_part($mime, $footer);
+    build_email_text_part($mime, $footer);
 
     # Encode the message
     $msg = $mime->encode();
@@ -78,7 +78,7 @@ function build_body(array &$headers, $text, $attachments, $footer) {
   return $body;
 }
 
-function build_from($name, $email) {
+function build_email_from($name, $email) {
   $qname = ''; 
 
   if (is_ascii($name)) {
@@ -112,10 +112,11 @@ function build_email_subject($forumtag, $reply, $subject) {
   return utf8_quote_non_ascii($subject);
 }
 
-function build_headers($userName, $userEmail, $to, $sender, $subject, $edit,
-                       $time, $messageId, $forumURL, $inReplyTo, $references) {
-
-  $from = build_from($userName, $userEmail); 
+function build_email_headers(
+  $userName, $userEmail, $to, $sender, $subject, $edit,
+  $time, $messageId, $forumURL, $inReplyTo, $references)
+{
+  $from = build_email_from($userName, $userEmail); 
   $subject = utf8_quote_non_ascii($subject);
   $date = date(DATE_RFC2822, $time);
 
@@ -145,7 +146,7 @@ function build_headers($userName, $userEmail, $to, $sender, $subject, $edit,
   return $headers;
 }
 
-function build_text_part(Mail_mimePart $mime, $text) {
+function build_email_text_part(Mail_mimePart $mime, $text) {
   $params = array(
     'content_type' => 'text/plain',
     'charset'      => 'utf-8',
@@ -155,8 +156,8 @@ function build_text_part(Mail_mimePart $mime, $text) {
   $mime->addSubPart($text, $params);
 }
 
-function build_attachment(Mail_mimePart $mime, $type,
-                          $filename, $descr, $data) {
+function build_email_attachment(Mail_mimePart $mime, $type,
+                                $filename, $descr, $data) {
   $params = array( 
     'content_type' => $type,
     'encoding'     => 'base64',
@@ -167,7 +168,7 @@ function build_attachment(Mail_mimePart $mime, $type,
   $mime->addSubPart($data, $params);
 }
 
-function build_message_id($postId, $editId, $time, $forumHost) {
+function build_email_message_id($postId, $editId, $time, $forumHost) {
   return "<$time.$postId.$editId.bridge@$forumHost>";
 }
 

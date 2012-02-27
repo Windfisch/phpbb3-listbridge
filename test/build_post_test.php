@@ -6,7 +6,7 @@ require_once(__DIR__ . '/../src/build_post.php');
 
 class build_post_test extends PHPUnit_Framework_TestCase {
   
-  /* @dataProvider buildPostSubjectProvider */
+  /** @dataProvider buildPostSubjectProvider */
   public function testBuildPostSubject($ltag, $ftag, $subject, $expected) {
     $this->assertEquals(
       build_post_subject($listtag, $forumtag, $subject),
@@ -14,7 +14,7 @@ class build_post_test extends PHPUnit_Framework_TestCase {
     );
   }
 
-  public function builtPostSubjectProvider() {
+  public function buildPostSubjectProvider() {
     return array(
       array('[l]', '[f]', '', '(no subject)'),
       array('[l]', '[f]', 'Re:', '(no subject)'),

@@ -19,7 +19,8 @@ function build_post_subject($listtag, $forumtag, $subject) {
   }
 
   // ensure nonempty subject
-  if (trim($subject) == '') {
+  $subject = trim($subject);
+  if ($subject == '') {
     $subject = '(no subject)';
   }
 

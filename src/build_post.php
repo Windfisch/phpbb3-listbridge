@@ -1,9 +1,5 @@
 <?php
 
-function build_tag_pattern($tag) {
-  return '/' . preg_quote($tag, '/') . '\\s*/';
-}
-
 function build_post_subject($listtag, $forumtag, $subject) {
   // strip the '[list]' and '[forum]' tags
   $tagpat = '/(' . preg_quote($listtag, '/') .

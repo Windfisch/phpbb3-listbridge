@@ -62,12 +62,24 @@ class PhpBB3ToMailman {
 
     $userName = $user->data['username'];
     $userEmail = $user->data['user_email'];
-  
+
     $sender = 'forum-bridge@vassalengine.org';
-  
-    $subject = html_entity_decode(
-      '[' . $post_data['forum_name'] . '] ' . $post_data['post_subject'],
-      ENT_QUOTES
+
+    # determine if we are a reply
+    $is_reply = $mode == 'reply' || $mode == 'quote';
+    if (!$is_reply) {
+      $firstId = $data['topic_first_post_id'];
+      $firstMessageId = $this->bridge->getMessageId($firstId);
+      if ($firstMessageId) {
+        $is_reply = true;
+      }
+    }
+
+    $subject = build_email_subject(
+      '[' . html_entity_decode($post_data['forum_name'], ENT_QUOTES) . ']',
+      html_entity_decode($post_data['post_subject'], ENT_QUOTES),
+      $is_reply,
+      $mode == 'edit'
     );
 
     $time = null;
@@ -114,7 +126,6 @@ class PhpBB3ToMailman {
       $to,
       $sender,
       $subject,
-      $mode == 'edit',
       $time,
       $messageId,
       $forumURL,

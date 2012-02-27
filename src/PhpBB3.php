@@ -27,6 +27,8 @@ interface PhpBB3 {
 
   public function forumExists($forumId);
 
+  public function getForumName($forumId);
+
   public function topicStatus($topicId);
 
   public function getPostTime($postId);

@@ -20,6 +20,7 @@
 
 require_once(__DIR__ . '/PhpBB3.php');
 require_once(__DIR__ . '/Util.php');
+require_once(__DIR__ . '/build_post.php');
 
 # phpBB setup
 define('IN_PHPBB', true);
@@ -106,6 +107,18 @@ class PhpBB3Impl implements PhpBB3 {
     }
   }
 
+  public function getForumName($forumId) {
+    throw_if_null($forumId);
+
+    global $db;
+
+    $sql = 'SELECT forum_name FROM ' . FORUMS_TABLE . ' ' .
+           'WHERE forum_id = ' . $forumId;
+
+    $row = $this->get_exactly_one_row($sql);
+    return $row ? $row['forum_name'] : false;
+  }
+
   public function topicStatus($topicId) {
     throw_if_null($topicId);
 
@@ -188,7 +201,13 @@ class PhpBB3Impl implements PhpBB3 {
       throw new Exception('unrecognized user id: ' . $userId);
     }
 
-    $subject = $msg->getSubject(); 
+    $subject = $msg->getSubject();
+// FIXME: list tag should not be hard-coded
+    $listTag = '[messages]';
+    $forumName = $this->getForumName($forumId);
+    $forumTag = '[' . html_entity_decode($forumName, ENT_QUOTES) . ']';
+    $subject = build_post_subject($listTag, $forumTag, $subject);
+
     list($message, $attachments) = $msg->getFlattenedParts();
 
 # FIXME: extract the footer pattern into a config file?
@@ -214,7 +233,6 @@ class PhpBB3Impl implements PhpBB3 {
     $user->session_create($userId);
     $auth->acl($user->data);
 
-# FIXME: strip list and forum tag from subject
     $subject = utf8_normalize_nfc($subject);
     $message = utf8_normalize_nfc($message);
 

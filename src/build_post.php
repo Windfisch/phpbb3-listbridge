@@ -6,8 +6,9 @@ function build_post_subject($listtag, $forumtag, $subject) {
              '|' . preg_quote($forumtag, '/') . ')\\s*/';
   $subj = preg_replace($tagpat, '', $subject);
 
-  // strip leading sequences of Re-equivalents
-  if (preg_match('/^(?:(?:RE|AW|SV|VS)(?:\\[\\d+\\])?:\\s*)+/i', $subj, $m)) {
+  // strip leading sequences of Re-equivalents and Edit
+  $re = '/^(?:(?:RE|AW|SV|VS|EDIT)(?:\\[\\d+\\])?:\\s*)+/i';
+  if (preg_match($re, $subj, $m)) {
     $subj = substr($subj, strlen($m[0]));
   }
 

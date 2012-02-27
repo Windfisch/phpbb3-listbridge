@@ -97,7 +97,7 @@ function build_email_from($name, $email) {
   return sprintf('%s <%s>', $qname, $email);
 }
 
-function build_email_subject($forumtag, $reply, $subject) {
+function build_email_subject($forumtag, $subject, $reply, $edit) {
   $subject = trim($subject);
   if ($subject == '') {
     $subject = '(no subject)';
@@ -109,21 +109,20 @@ function build_email_subject($forumtag, $reply, $subject) {
     $subject = 'Re: ' . $subject;
   }
 
+  if ($edit) {
+    $subject = 'Edit: ' . $subject;
+  }
+
   return utf8_quote_non_ascii($subject);
 }
 
 function build_email_headers(
-  $userName, $userEmail, $to, $sender, $subject, $edit,
-  $time, $messageId, $forumURL, $inReplyTo, $references)
+  $userName, $userEmail, $to, $sender, $subject, $time,
+  $messageId, $forumURL, $inReplyTo, $references)
 {
   $from = build_email_from($userName, $userEmail); 
   $subject = utf8_quote_non_ascii($subject);
   $date = date(DATE_RFC2822, $time);
-
-  if ($edit) {
-    $edit_header = 'Edit: ';
-    $subject = $edit_header . $subject;
-  }
 
   $headers = array(
     'To'          => $to,

@@ -206,7 +206,7 @@ class PhpBB3Impl implements PhpBB3 {
     $listTag = '[messages]';
     $forumName = $this->getForumName($forumId);
     $forumTag = '[' . html_entity_decode($forumName, ENT_QUOTES) . ']';
-    $subject = build_post_subject($listTag, $forumTag, $subject);
+    $subject = build_post_subject($listTag, $forumTag, $subject, $postType == 'reply');
 
     list($message, $attachments) = $msg->getFlattenedParts();
 

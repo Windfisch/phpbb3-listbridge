@@ -1,6 +1,6 @@
 <?php
 
-function build_post_subject($listtag, $forumtag, $subject) {
+function build_post_subject($listtag, $forumtag, $subject, $reply) {
   // strip the '[list]' and '[forum]' tags
   $tagpat = '/(' . preg_quote($listtag, '/') .
              '|' . preg_quote($forumtag, '/') . ')\\s*/';
@@ -16,6 +16,10 @@ function build_post_subject($listtag, $forumtag, $subject) {
   $subject = trim($subject);
   if ($subject == '') {
     $subject = '(no subject)';
+  }
+
+  if ($reply) {
+    $subject = 'Re: ' . $subject;
   }
 
   return $subject;

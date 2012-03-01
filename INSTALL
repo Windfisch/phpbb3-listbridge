@@ -3,7 +3,7 @@ much a work in progress. Read *everything* before beginning the setup.
 
 1. Requirements:
 
-* phpBB 3.0.70-PL1
+* phpBB 3.0
 * MySQL
 * a mail server
 * Perl
@@ -12,7 +12,7 @@ much a work in progress. Read *everything* before beginning the setup.
 
 2. Check out the bridge code from SourceForge:
 
-  svn co https://vassalengine.svn.sourceforge.net/svnroot/vassalengine/site-src/trunk/bridge
+  git clone git://vassalengine.git.sourceforge.net/gitroot/vassalengine/listbridge
 
 (Note: The code is in the VASSAL repository at present because it was 
 developed for VASSAL's forum. I will probably move it to its own repo
@@ -40,6 +40,7 @@ Then, subscribe your bridge address to your mailing list.
 5. Bridge database: The bridge keeps a database which maps 
 
 * Create a MySQL database, and populate it using src/schema.sql.
+
 * Create a user for the DB, put the database name, username, and password
   into BridgeConf.php. (BridgeConfg.php.example is given as an example.)
 
@@ -73,11 +74,15 @@ Then, subscribe your bridge address to your mailing list.
 6. Other adjustments:
 
 * Set $php_root_path in PhpBB3Conf.php.
+
 * $sender in forum_post_send.php should match the bridge address.
+
 * The regex which strips the list footer in PhpBB3.php will need to be
   adjusted to match your list footer.
+
 * $attach_dir in attachment_writer.php should match the storage directory
   for post attachments for your forum.
+
 * Possibly some that I'm missing? Let me know.
 
 7. TODO:
@@ -97,4 +102,4 @@ Then, subscribe your bridge address to your mailing list.
 
 Joel Uckelman
 uckelman@nomic.net
-3 November 2010
+1 March 2012

@@ -212,7 +212,7 @@ class PhpBB3Impl implements PhpBB3 {
 
 # FIXME: extract the footer pattern into a config file?
     # strip the list footer
-    $message = preg_replace("/^_______________________________________________\nmessages mailing list\nmessages@vassalengine.org\nhttp:\/\/www.vassalengine.org\/mailman\/listinfo\/messages.*/ms", '', $message);
+    $message = preg_replace("/^_______________________________________________\\r\\nmessages mailing list\\r\\nmessages@vassalengine.org\\r\\nhttp:\/\/www.vassalengine.org\/mailman\/listinfo\/messages.*/ms", '', $message);
 
 # TODO: convert > quoting into BBCode
 

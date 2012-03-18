@@ -1,0 +1,59 @@
+Return-Path: <messages-bounces@vassalengine.org>
+X-Original-To: uckelman@nomic.net
+Delivered-To: uckelman@nomic.net
+Received: from one.vassalengine.org (one.vassalengine.org [68.14.242.202])
+	by charybdis.ellipsis.cx (Postfix) with ESMTP id 7537B360D13
+	for <uckelman@nomic.net>; Mon, 12 Mar 2012 22:39:31 -0700 (MST)
+Received: from one.vassalengine.org (localhost [IPv6:::1])
+	by one.vassalengine.org (Postfix) with ESMTP id 062DA5D;
+	Mon, 12 Mar 2012 22:39:30 -0700 (MST)
+X-Original-To: messages@vassalengine.org
+Delivered-To: messages@vassalengine.org
+Received: from charybdis.ellipsis.cx (charybdis.ellipsis.cx [68.14.242.200])
+ by one.vassalengine.org (Postfix) with ESMTP id 935325B
+ for <messages@vassalengine.org>; Mon, 12 Mar 2012 22:39:28 -0700 (MST)
+Received: by charybdis.ellipsis.cx (Postfix, from userid 1000)
+ id A581E360D1E; Mon, 12 Mar 2012 22:39:27 -0700 (MST)
+To: The mailing list for VASSAL <messages@vassalengine.org>
+In-reply-to: <1331617112.31989.9776.bridge@www.vassalengine.org>
+References: <1331616274.31988.9775.bridge@www.vassalengine.org>
+ <1331617112.31989.9776.bridge@www.vassalengine.org>
+Comments: In-reply-to uckelman <uckelman@nomic.net>
+ message dated "Mon, 12 Mar 2012 22:38:32 -0700."
+Date: Mon, 12 Mar 2012 22:39:27 -0700
+From: Joel Uckelman <uckelman@nomic.net>
+Message-Id: <20120313053927.A581E360D1E@charybdis.ellipsis.cx>
+Subject: Re: [messages] [General Discussion] Upgraded web server
+X-BeenThere: messages@vassalengine.org
+X-Mailman-Version: 2.1.14
+Precedence: list
+Reply-To: The mailing list for VASSAL <messages@vassalengine.org>
+List-Id: The mailing list for VASSAL <messages.vassalengine.org>
+List-Unsubscribe: <http://www.vassalengine.org/mailman/options/messages>,
+ <mailto:messages-request@vassalengine.org?subject=unsubscribe>
+List-Archive: <http://www.vassalengine.org/pipermail/messages/>
+List-Post: <mailto:messages@vassalengine.org>
+List-Help: <mailto:messages-request@vassalengine.org?subject=help>
+List-Subscribe: <http://www.vassalengine.org/mailman/listinfo/messages>,
+ <mailto:messages-request@vassalengine.org?subject=subscribe>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Errors-To: messages-bounces@vassalengine.org
+Sender: messages-bounces@vassalengine.org
+X-Bogosity: Unsure, tests=bogofilter, spamicity=0.500000, version=1.2.2
+
+Thus spake uckelman:
+> The changes appear to have munged SELinux permissions for the list
+> bridge. Trying again...
+> 
+
+And checking that the bridge works in the other direction...
+
+-- 
+J.
+_______________________________________________
+messages mailing list
+messages@vassalengine.org
+http://www.vassalengine.org/mailman/listinfo/messages
+

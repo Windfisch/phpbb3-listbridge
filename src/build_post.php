@@ -25,4 +25,8 @@ function build_post_subject($listtag, $forumtag, $subject, $reply) {
   return $subject;
 }
 
+function strip_list_footer($message, $fpattern) {
+  return preg_replace($fpattern, '', $message);
+}
+
 ?>

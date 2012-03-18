@@ -60,6 +60,41 @@ class build_post_test extends PHPUnit_Framework_TestCase {
       array('[l]', '[f]', 'Edit: Re: Subject [l][f] Subject', true, 'Re: Subject Subject')
     );
   }
+
+  function test_strip_list_footer() {
+    $exp = "Thus spake uckelman:
+> The changes appear to have munged SELinux permissions for the list
+> bridge. Trying again...
+> 
+
+And checking that the bridge works in the other direction...
+
+-- 
+J.
+";
+   
+    $fpat = "/^_______________________________________________\nmessages mailing list\nmessages@vassalengine.org\nhttp:\/\/www.vassalengine.org\/mailman\/listinfo\/messages.*/ms";
+
+    $this->assertEquals($exp, strip_list_footer("Thus spake uckelman:
+> The changes appear to have munged SELinux permissions for the list
+> bridge. Trying again...
+> 
+
+And checking that the bridge works in the other direction...
+
+-- 
+J.
+_______________________________________________
+messages mailing list
+messages@vassalengine.org
+http://www.vassalengine.org/mailman/listinfo/messages
+", $fpat));
+
+    $msg = new MailmanMessage(file_get_contents(__DIR__ . '/326'));
+    list($text, ) = $msg->getFlattenedParts();
+
+    $this->assertEquals($exp, strip_list_footer($text, $fpat));
+  }
 }
 
 ?>

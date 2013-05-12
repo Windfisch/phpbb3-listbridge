@@ -59,9 +59,9 @@ function build_email_body(array &$headers, $text, $attachments, $footer) {
 
       build_email_attachment(
         $mime,
-        $adata['mimetype'],
-        $adata['real_filename'],
-        $adata['attach_comment'],
+        $a['mimetype'],
+        $a['real_filename'],
+        $a['attach_comment'],
         $bytes
       );
     }

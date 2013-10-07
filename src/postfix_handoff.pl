@@ -24,7 +24,7 @@ use HTTP::Request::Common qw(POST);
 local $/;
 my $msg = <STDIN>;
 
-my $url = 'http://localhost/list_post_receive.php';
+my $url = 'http://CONFIG_TODO/list_post_receive.php'; # probably localhost
 
 my $ua = LWP::UserAgent->new;
 my $req = POST $url, [ message => $msg ];

@@ -216,7 +216,7 @@ class PhpBB3Impl implements PhpBB3 {
 
     $subject = $msg->getSubject();
 // FIXME: list tag should not be hard-coded
-    $listTag = '[messages]';
+    $listTag = '[CONFIG_TODO]';
     $forumName = $this->getForumName($forumId);
     $forumTag = '[' . html_entity_decode($forumName, ENT_QUOTES) . ']';
     $subject = build_post_subject($listTag, $forumTag, $subject, $postType == 'reply');
@@ -225,7 +225,8 @@ class PhpBB3Impl implements PhpBB3 {
 
 # FIXME: extract the footer pattern into a config file?
     # strip the list footer
-    $message = strip_list_footer($message, "/^_______________________________________________\\r\\nmessages mailing list\\r\\nmessages@vassalengine.org\\r\\nhttp:\/\/www.vassalengine.org\/mailman\/listinfo\/messages.*/ms");
+    # CONFIG_TODO: don't forget to add \\r\\n as newline and escape / with \/
+    $message = strip_list_footer($message, "/^_______________________________________________\\r\\nTest-list mailing list\\r\\nTest-list@muse-sequencer.org\\r\\nhttp:\/\/muse-sequencer.org\/cgi-bin\/mailman\/listinfo\/test-list.*/ms");
 
 # TODO: convert > quoting into BBCode
 

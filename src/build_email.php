@@ -18,6 +18,7 @@ EOF;
 
 function build_email_footer($postId, $forumURL) {
   $postURL = "$forumURL/viewtopic.php?p=$postId#p$postId";
+  # maybe CONFIG_TODO
   $footer = <<<EOF
 
 _______________________________________________

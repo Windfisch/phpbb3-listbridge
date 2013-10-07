@@ -1,8 +1,8 @@
 <?php
 
 define('DB_HOST', 'localhost');
-define('DB',      'bridge');
-define('DB_USER', 'bridge');
-define('DB_PASS', 'password');
+define('DB',      'phpbb_bridge');
+define('DB_USER', 'phpbb_bridge');
+define('DB_PASS', 'CONFIG_TODO');
 
 ?>

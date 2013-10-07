@@ -329,9 +329,9 @@ class PhpBB3Impl implements PhpBB3 {
     # post the attachment data to our attachment writer shim
     require_once(__DIR__ . '/HTTP_POST_multipart.php');
 
-    $url = 'http://www.vassalengine.org/forum/attachment_writer.php';
+    $url = 'http://CONFIG_TODO/attachment_writer.php';
     $poster = new HTTP_POST_multipart();
-    $poster->addData('password', '5rnudbp7dLkijcwrT@sz');
+    $poster->addData('password', 'CONFIG_TODO: use the same random password here as in attachment_writer.php');
     $poster->addFile(1, $physicalFilename, $mimetype, null, 'binary', $data);
     $result = $poster->post($url);
 

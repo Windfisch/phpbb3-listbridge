@@ -33,7 +33,7 @@ catch (Exception $e) {
 
 function send_post_to_lists($config, $user, $mode, $data, $post_data) {
   require_once('Log.php');
-  $logger = &Log::singleton('file', '/var/log/listbridge', 'one');
+  $logger = &Log::singleton('file', '/var/log/CONFIG_TODO/log', 'one');
 
 /*
   print '<p>';

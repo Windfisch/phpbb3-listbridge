@@ -19,7 +19,7 @@
 #
 
 require_once('Log.php');
-$logger = &Log::singleton('file', '/var/log/listbridge', 'one');
+$logger = &Log::singleton('file', '/var/log/CONFIG_TODO/log', 'one');
 
 try {
   if (!isset($_POST['message'])) {

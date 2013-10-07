@@ -63,7 +63,7 @@ class PhpBB3ToMailman {
     $userName = $user->data['username'];
     $userEmail = $user->data['user_email'];
 
-    $sender = 'forum-bridge@vassalengine.org';
+    $sender = 'forum-bridge@CONFIG_TODO.org';
 
     # determine if we are a reply
     $is_reply = $mode == 'reply' || $mode == 'quote';

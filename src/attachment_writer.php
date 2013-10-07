@@ -18,8 +18,8 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
-$password = '';
-$attach_dir = '/var/www/forum/files';
+$password = 'CONFIG_TODO use the same random password as in PhpBB3Impl.php';
+$attach_dir = '/var/www/CONFIG_TODO/files';
 
 # All requests should be local, since they come from the list post script.
 if ($_SERVER['SERVER_ADDR'] != $_SERVER['REMOTE_ADDR']) {

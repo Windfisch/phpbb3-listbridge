@@ -71,7 +71,7 @@ Then, subscribe your bridge address to your mailing list.
   direct posts in different forums to different lists; I just happen not
   to in my current setup.)
 
-6. Other adjustments:
+6. Configuration
 
 * Set $php_root_path in PhpBB3Conf.php.
 
@@ -82,6 +82,8 @@ Then, subscribe your bridge address to your mailing list.
 
 * $attach_dir in attachment_writer.php should match the storage directory
   for post attachments for your forum.
+
+* grep for CONFIG_TODO, change the things
 
 * Possibly some that I'm missing? Let me know.
 

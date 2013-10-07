@@ -68,6 +68,16 @@ abstract class EmailMessage implements Message {
     return $from[0]['address'];
   }
 
+  public function getFromDisplayName() {
+    $from = mailparse_rfc822_parse_addresses($this->getHeader('from'));
+    if ($from[0]['address'] != $from[0]['display']) {
+      return $from[0]['display'];
+    }
+    else {
+      return '';
+    }
+  }
+
   public function getSubject() {
     return $this->getHeader('subject');
   }

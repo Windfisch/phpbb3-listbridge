@@ -44,6 +44,10 @@ class PhpBB3Message implements Message {
                . $this->user->data['user_email'] . '>';
   }
 
+  public function getFromDisplayName() {
+    return $this->user->data['username'];
+  }
+
   public function getSubject() {
     return $this->post['post_subject']; 
   }

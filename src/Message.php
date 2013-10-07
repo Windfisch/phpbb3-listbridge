@@ -25,6 +25,8 @@ interface Message {
 
   public function getFrom();
 
+  public function getFromDisplayName();
+
   public function getSubject();
   
   public function getMessageId();

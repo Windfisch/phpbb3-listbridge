@@ -193,12 +193,25 @@ class PhpBB3Impl implements PhpBB3 {
 
     $userId = $this->getUserId($msg->getFrom());
     if ($userId === false) {
-      throw new Exception('unrecognized email address: ' . $msg->getFrom());
-    }
+      $userId = ANONYMOUS;
 
-    $userName = $this->getUserName($userId);
-    if ($userName === false) {
-      throw new Exception('unrecognized user id: ' . $userId);
+      $dispname = $msg->getFromDisplayName();
+      if ($dispname === '') {
+        $userName = $msg->getFrom();
+      }
+      else {
+        $userName = $dispname . ' (' . $msg->getFrom() . ')';
+      }
+      if (validate_username($userName, '') !== false) {
+        $userName = 'EMail Poster';
+      }
+    }
+    else
+    {
+	    $userName = $this->getUserName($userId);
+	    if ($userName === false) {
+	      throw new Exception('unrecognized user id: ' . $userId);
+	    }
     }
 
     $subject = $msg->getSubject();

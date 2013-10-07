@@ -221,7 +221,7 @@ class PhpBB3Impl implements PhpBB3 {
 
     foreach ($attachments as $a) {
       $attachment_data[] = $this->addAttachment(
-        $userId, $a['filename'], $a['comment'], $a['mimetype'], $a['data']
+        $userId, $a['filename'], /* $a['comment'] */ 'EMail attachment', $a['mimetype'], $a['data']
       );
     } 
 
